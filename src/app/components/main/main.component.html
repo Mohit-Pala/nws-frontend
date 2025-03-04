@@ -1,1 +1,29 @@
-<p>main works!</p>
+<h1 class="text-blue-400 font-bold text-4xl text-center">Fake News AI Detector</h1>
+<form>
+	<input type="text" placeholder="Enter article title here..." class="bg-gray-200 p-2 h-10 w-150 m-10">
+	<button type="submit" class="bg-blue-400 text-white w-20">Submit</button>
+	<input type="text" placeholder="Enter article text here..." class="bg-gray-200 p-2 h-50 w-200 m-10">
+	<button type="submit" class="bg-blue-400 text-white w-20">Submit</button>
+</form>
+<hr class="my-12 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
+<div class="flex space-x-8 mb-10 flex-wrap justify-center">
+	<div class="flex-1 p-6 border border-gray-300 rounded-lg flex-grow">
+	  <h2 class="text-xl font-semibold text-blue-400 text-center mb-4">Model Output</h2>
+	</div>
+  
+	<div class="w-px bg-gray-300 mx-4"></div>
+  
+	<div class="flex-1 p-6 border border-gray-300 rounded-lg flex-grow">
+	  <h2 class="text-xl font-semibold text-blue-400 text-center mb-4">Gemini Output</h2>
+	  <router-outlet/>
+	</div>
+  
+	<div class="w-px bg-gray-300 mx-4"></div>
+  
+	<div class="flex-1 p-6 border border-gray-300 rounded-lg flex-grow">
+	  <h2 class="text-xl font-semibold text-blue-400 text-center mb-4">GPT Output</h2>
+	</div>
+</div>
+
+<hr class="my-12 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
+<h2 class="text-xl font-semibold text-blue-400 text-center mb-4">Google Search</h2>
