@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { ModelComponent } from "./model/model.component";
 
 @Component({
   selector: 'app-main',
-  imports: [],
+  imports: [ModelComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
