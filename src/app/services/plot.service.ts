@@ -21,10 +21,10 @@ export class PlotService {
   ]
 
   emotionColorScale = [
-    
+
   ]
 
-  plotData(data: KeyValueCustom[], title: string, xAxisLabel: string, yAxisLabel: string, domId: string) {
+  makeBarGraph(data: KeyValueCustom[], title: string, xAxisLabel: string, yAxisLabel: string, domId: string) {
     const trace: Data[] = [{
       x: data.map(e => e.name),
       y: data.map(e => e.value),

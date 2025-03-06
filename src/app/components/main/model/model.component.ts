@@ -51,6 +51,6 @@ export class ModelComponent implements OnInit {
   ]
 
   ngOnInit() {
-    this.plotly.plotData(this.dummy_emotions, 'Bar Graph', 'Categories', 'Values', 'bar-graph')
+    this.plotly.makeBarGraph(this.dummy_emotions, 'Bar Graph', 'Categories', 'Values', 'bar-graph')
   }
 }
