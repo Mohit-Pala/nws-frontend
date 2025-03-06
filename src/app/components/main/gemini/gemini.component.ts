@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { GenAiOutput } from '../../../models/gen-ai-output.model';
 import { CommonModule } from '@angular/common';
+import { VertexAiService } from '../../../services/vertex-ai.service';
 
 @Component({
   selector: 'app-gemini',
@@ -8,22 +9,31 @@ import { CommonModule } from '@angular/common';
   templateUrl: './gemini.component.html',
   styleUrl: './gemini.component.css'
 })
-export class GeminiComponent {
+export class GeminiComponent implements OnInit {
+
+  gemini = inject(VertexAiService)
+
   dummyData: GenAiOutput = {
     facts: [
       'This is a fact',
       'This is another fact',
       'This is a third fact'
     ],
-    sources: [
+    source: [
       'This is a source',
       'This is another source',
       'This is a third source'
     ],
-    keywords: [
+    words: [
       'This is a keyword',
       'This is another keyword',
       'This is a third keyword'
     ]
+  }
+
+  ngOnInit() {
+    this.gemini.testGem().then((parsed) => {
+      this.dummyData = parsed
+    })
   }
 }
