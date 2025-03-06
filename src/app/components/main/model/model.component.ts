@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Emotions } from '../../../models/emotions.model';
 
 import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 
+import * as Plotly from 'plotly.js-dist-min';
+import { Data } from 'plotly.js-dist-min';
+
 @Component({
   selector: 'app-model',
-  imports: [CommonModule, NgxChartsModule],
+  imports: [CommonModule],
   templateUrl: './model.component.html',
   styleUrl: './model.component.css'
 })
-export class ModelComponent {
+export class ModelComponent implements OnInit {
   d2ummy_emotions: Emotions = {
     anger: 0.1,
     disgust: 0.2,
@@ -74,7 +77,23 @@ export class ModelComponent {
   showYAxisLabel = true;
   yAxisLabel = 'Population';
 
-  onSelect(event: any) {
-    console.log(event);
+  ngOnInit() {
+
+    const data: Data[] = [
+      {
+        x: ['Category A', 'Category B', 'Category C'],
+        y: [20, 14, 23],
+        type: 'bar' as const
+      }
+    ];
+
+
+    const layout = {
+      title: 'Bar Graph Example',
+      xaxis: { title: 'Categories' },
+      yaxis: { title: 'Values' }
+    };
+
+    Plotly.newPlot('bar-graph', data, layout);
   }
 }
