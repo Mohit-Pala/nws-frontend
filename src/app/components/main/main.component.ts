@@ -6,11 +6,12 @@ import { VertexAiService } from '../../services/vertex-ai.service';
 import { GptService } from '../../services/gpt.service';
 import { GeminiComponent } from "./gemini/gemini.component";
 import { GptComponent } from "./gpt/gpt.component";
+import { SentimentModelComponent } from './sentiment-model/sentiment-model.component';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [ModelComponent, CommonModule, FormsModule, GeminiComponent, GptComponent],
+  imports: [ModelComponent, CommonModule, FormsModule, GeminiComponent, GptComponent, SentimentModelComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
