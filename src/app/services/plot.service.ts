@@ -11,13 +11,19 @@ export class PlotService {
   constructor() { }
 
   rainbowColorScale = [
-    'rgba(255, 0, 0, 1)',
-    'rgba(255, 165, 0, 1)',
-    'rgba(255, 255, 0, 1)',
-    'rgba(0, 255, 0, 1)',
-    'rgba(0, 0, 255, 1)',
-    'rgba(75, 0, 130, 1)',
-    'rgba(238, 130, 238, 1)'
+    'red',
+    'darkgreen',
+    'purple',
+    'orange',
+    'gray',
+    'blue',
+    'pink'
+  ]
+
+  sentiment_color_map = [
+    '#00FF00',
+    'gray',
+    'red',
   ]
 
   emotionColorScale = [
@@ -38,6 +44,24 @@ export class PlotService {
       title: title,
       xaxis: { title: xAxisLabel },
       yaxis: { title: yAxisLabel }
+    }
+
+    Plotly.newPlot(domId, trace, layout)
+  }
+
+  makePieChart(data: KeyValueCustom[], title: string, domId: string) {
+    const trace: Data[] = [{
+      labels: data.map(e => e.name),
+      values: data.map(e => e.value),
+      type: 'pie',
+      marker: {
+        colors: this.sentiment_color_map
+      }
+    }]
+
+    const layout = {
+      title: title,
+      width: 800
     }
 
     Plotly.newPlot(domId, trace, layout)

@@ -32,7 +32,11 @@ export class GptComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gpt.testFunction().then((parsed) => {
+    
+  }
+
+  generateGPTContent(title: string, article: string) {
+    this.gpt.getGptContent(title).then((parsed) => {
       if(parsed){
         this.dummyData = parsed
       }

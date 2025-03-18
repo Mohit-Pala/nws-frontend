@@ -55,4 +55,11 @@ export class GptService {
     console.log(result)
     return result
   }
+
+  async getGptContent(title: string) {
+    console.log('Generating gpt content ......')
+    const result = await this.generateContent(title)
+    console.log(result)
+    return result
+  }
 }

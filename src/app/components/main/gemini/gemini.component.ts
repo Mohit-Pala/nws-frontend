@@ -32,8 +32,20 @@ export class GeminiComponent implements OnInit {
   }
 
   ngOnInit() {
+
+  }
+
+  onSubmitPressed() {
     this.gemini.testGem().then((parsed) => {
       this.dummyData = parsed
+    })
+  }
+
+  generateGeminiContent(title: string, article: string) {
+    this.gemini.getGeminiContent(title).then((parsed) => {
+      if(parsed){
+        this.dummyData = parsed
+      }
     })
   }
 }

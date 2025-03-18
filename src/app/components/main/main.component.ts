@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ModelComponent } from "./model/model.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -17,13 +17,17 @@ import { SentimentModelComponent } from './sentiment-model/sentiment-model.compo
 })
 
 export class MainComponent {
+  @ViewChild(GptComponent) gptComponent!: GptComponent
+  @ViewChild(GeminiComponent) geminiComponent!: GeminiComponent
 
   title!: string
   article!: string
 
   onSubmit(form: NgForm) {
-
+    console.log(this.title)
+    console.log(this.article)
+    
+    this.gptComponent.generateGPTContent(this.title, this.article)
+    this.geminiComponent.generateGeminiContent(this.title, this.article)
   }
-
-
 }

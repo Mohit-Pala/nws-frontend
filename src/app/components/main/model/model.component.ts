@@ -50,7 +50,23 @@ export class ModelComponent implements OnInit {
     }
   ]
 
+  sentimentData = [
+    {
+      name: 'Positive',
+      value: 0.9
+    },
+    {
+      name: 'Neutral',
+      value: 0.05
+    },
+    {
+      name: 'Negative',
+      value: 0.05
+    }
+  ]
+
   ngOnInit() {
     this.plotly.makeBarGraph(this.dummy_emotions, 'Bar Graph', 'Categories', 'Values', 'bar-graph')
+    this.plotly.makePieChart(this.sentimentData, 'Sentiment Analysis', 'sentiment-pie')
   }
 }
