@@ -1,6 +1,5 @@
 import * as Plotly from 'plotly.js-dist-min';
 import { Component, OnInit } from '@angular/core';
-import { tickFormat } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-sentiment-model',
@@ -11,34 +10,31 @@ export class SentimentModelComponent implements OnInit {
 
   ngOnInit() {
     const sentimentData = [
-      { label: 'positive', score: 0.9 },
+      { label: 'Positive', score: 0.9 },
+      { label: 'Neutral', score: 0.05 },
+      { label: 'Negative', score: 0.05 }
     ];
 
     const color_map = {
-      'negative': 'red',
-      'neutral': 'gray',
-      'positive': '#00FF00'
+      'Negative': 'red',
+      'Neutral': 'gray',
+      'Positive': '#00FF00'
     };
 
-    const data = sentimentData.map(item => ({
-      x: [item.label],
-      y: [item.score],
-      type: 'bar' as const,
-      name: item.label,
+    const data: Partial<Plotly.PieData>[] = [{
+      labels: sentimentData.map(item => item.label),
+      values: sentimentData.map(item => item.score),
+      type: 'pie' as const, 
       marker: {
-        color: color_map[item.label as keyof typeof color_map]
+        colors: sentimentData.map(item => color_map[item.label as keyof typeof color_map])
       }
-    }));
+    }];
 
     const layout = {
       title: 'Sentiment Analysis',
-      xaxis: { title: 'Sentiment' },
-      yaxis: { title: 'Score',
-		   range: [0, 1],
-		   tickformat: '.0%'
-	   },
-	   width: 800
+      width: 800
     };
+
     Plotly.newPlot('sentiment-graph', data, layout);
   }
 }
