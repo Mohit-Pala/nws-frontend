@@ -19,6 +19,9 @@ export class AuthService {
   createAccount(email: string, password: string) {
     createUserWithEmailAndPassword(this.auth, email, password).then(() => {
       console.log('Created user')
+      console.log('signing in')
+      console.log(this.user)
+      this.signIn(email, password)
     }).catch((error) => {
       console.error(error)
     })
