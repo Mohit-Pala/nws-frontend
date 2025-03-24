@@ -1,35 +1,52 @@
-<section>
-    <div>
-        About
+<div class="px-24 space-y-8">
+
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-bold mb-2">{{projectName}}</h1>
+    <p class="text-gray-600">Version {{version}}</p>
+    <a [href]="githubPage" class="text-blue-600 hover:underline">GitHub Repository</a>
+  </div>
+
+  <div class="bg-gray-50 p-6 rounded-lg">
+    <h2 class="text-xl font-semibold mb-4">Project Details</h2>
+    <p class="mb-2">{{devDetails.madeFor}}</p>
+    <p class="mb-2">Made by: {{devDetails.madeBy}}</p>
+    <p>Duration: {{devDetails.startDate}} - {{devDetails.endDate}}</p>
+  </div>
+
+  <div class="bg-gray-50 p-6 rounded-lg">
+    <h2 class="text-xl font-semibold mb-4">Contributors</h2>
+    <div class="space-y-2">
+      <div *ngFor="let contributor of contributors" class="flex items-center space-x-4">
+        <span>{{contributor.name}}</span>
+        <a [href]="contributor.github" class="text-blue-600 hover:underline">{{contributor.github}}</a>
+      </div>
     </div>
-    <div>
-        This is a project that uses a variety of machine learning models to analyze news articles. The models used are:
-        <ul>
-            <li></li>
-            <li>Sentiment Model</li>
-            <li>Positive/neutral/negative Model</li>
-            <li>Gemini</li>
-            <li>GPT</li>
-        </ul>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-gray-50 p-6 rounded-lg">
+      <h2 class="text-xl font-semibold mb-4">Frontend Technologies</h2>
+      <ul class="list-disc list-inside space-y-2">
+        <li *ngFor="let tech of frontend">
+          <a [href]="tech.link" class="text-blue-600 hover:underline">{{tech.name}}</a>
+        </li>
+      </ul>
     </div>
-    <div>
-        The project also uses the Google Search API to search for news articles.
+
+    <div class="bg-gray-50 p-6 rounded-lg">
+      <h2 class="text-xl font-semibold mb-4">Backend Technologies</h2>
+      <ul class="list-disc list-inside space-y-2">
+        <li *ngFor="let tech of backend">
+          <a [href]="tech.link" class="text-blue-600 hover:underline">{{tech.name}}</a>
+        </li>
+      </ul>
     </div>
-    <div>
-        The project is built using Angular and Tailwind CSS.
-    </div>
-    <div>
-        The project is hosted on Firebase and uses Firestore as a databas
-    </div>
-    <div>
-        The project is built by:
-        <ul>
-            <li>Mohit Pala</li>
-            <li>Rachel</li>
-        </ul>
-    </div>
-    <div>
-        <!-- versioning system based on weeks i guesss -->
-        Current version: 0.7.1
-    </div>
-</section>
+  </div>
+
+  <div class="bg-gray-50 p-6 rounded-lg">
+    <h2 class="text-xl font-semibold mb-4">Models Used</h2>
+    <ul class="list-disc list-inside grid grid-cols-2 gap-2">
+      <li *ngFor="let model of modelsUsed">{{model}}</li>
+    </ul>
+  </div>
+</div>
