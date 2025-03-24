@@ -1,0 +1,26 @@
+<section>
+    <!-- Create account -->
+    <div *ngIf="createAccountShown">
+        <form #createAccForm="ngForm" (ngSubmit)="createAccount()">
+            <label for="crAccEmail">Email: </label>
+            <input id="crAccEmail" name="crAccEmail" type="email" required [(ngModel)]="createAccountDetails.email">
+
+            <label for="crAccPass">Pass: </label>
+            <input id="crAccPass" name="crAccPass" type="password" required [(ngModel)]="createAccountDetails.password">
+            <a (click)="createAccountShown = !createAccountShown; createAccForm.reset()">Login</a>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Login -->
+    <div *ngIf="!createAccountShown">
+        <form #loginForm="ngForm" (ngSubmit)="signIn()">
+            <label for="loginEmail">Email: </label>
+            <input id="loginEmail" name="loginEmail" type="email" required [(ngModel)]="loginDetails.email">
+
+            <label for="loginPass">Pass: </label>
+            <input id="loginPass" name="loginPass" type="password" required [(ngModel)]="loginDetails.password">
+            <a (click)="createAccountShown = !createAccountShown; loginForm.reset()">Create Account</a>
+        </form>
+    </div>
+</section>
