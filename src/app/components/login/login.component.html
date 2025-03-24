@@ -1,26 +1,63 @@
-<section>
+<section class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
+  <div class="w-256 space-y-8 bg-white p-8 rounded-lg shadow-md">
     <!-- Create account -->
     <div *ngIf="createAccountShown">
-        <form #createAccForm="ngForm" (ngSubmit)="createAccount()">
-            <label for="crAccEmail">Email: </label>
-            <input id="crAccEmail" name="crAccEmail" type="email" required [(ngModel)]="createAccountDetails.email">
-
-            <label for="crAccPass">Pass: </label>
-            <input id="crAccPass" name="crAccPass" type="password" required [(ngModel)]="createAccountDetails.password">
-            <a (click)="createAccountShown = !createAccountShown; createAccForm.reset()">Login</a>
-            <button type="submit">Submit</button>
-        </form>
+      <h2 class="mt-6 text-center text-3xl font-extrabold">Create Account</h2>
+      <form #createAccForm="ngForm" (ngSubmit)="createAccount()" class="mt-8 space-y-6">
+        <div class="rounded-md shadow-sm space-y-4">
+          <div>
+            <label for="crAccEmail" class="block text-sm font-medium ">Email</label>
+            <input id="crAccEmail" name="crAccEmail" type="email" required [(ngModel)]="createAccountDetails.email"
+              class="mt-1 relative block w-full px-3 py-2 border rounded-md">
+          </div>
+          <div>
+            <label for="crAccPass" class="block text-sm font-medium ">Password</label>
+            <input id="crAccPass" name="crAccPass" type="password" required [(ngModel)]="createAccountDetails.password"
+              class="mt-1 relative block w-full px-3 py-2 border rounded-md">
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <button type="submit"
+            class="bg-blue-500 cursor-pointer group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md">
+            Create Account
+          </button>
+        </div>
+        <div class="text-center">
+          <a (click)="createAccountShown = !createAccountShown; createAccForm.reset()" class="text-sm cursor-pointer">
+            Already have an account? Login
+          </a>
+        </div>
+      </form>
     </div>
 
     <!-- Login -->
     <div *ngIf="!createAccountShown">
-        <form #loginForm="ngForm" (ngSubmit)="signIn()">
-            <label for="loginEmail">Email: </label>
-            <input id="loginEmail" name="loginEmail" type="email" required [(ngModel)]="loginDetails.email">
-
-            <label for="loginPass">Pass: </label>
-            <input id="loginPass" name="loginPass" type="password" required [(ngModel)]="loginDetails.password">
-            <a (click)="createAccountShown = !createAccountShown; loginForm.reset()">Create Account</a>
-        </form>
+      <h2 class="mt-6 text-center text-3xl font-extrabold">Sign in to your account</h2>
+      <form #loginForm="ngForm" (ngSubmit)="signIn()" class="mt-8 space-y-6">
+        <div class="rounded-md shadow-sm space-y-4">
+          <div>
+            <label for="loginEmail" class="block text-sm font-medium">Email</label>
+            <input id="loginEmail" name="loginEmail" type="email" required [(ngModel)]="loginDetails.email"
+              class="mt-1 appearance-none relative block w-full px-3 py-2 border rounded-md">
+          </div>
+          <div>
+            <label for="loginPass" class="block text-sm font-medium ">Password</label>
+            <input id="loginPass" name="loginPass" type="password" required [(ngModel)]="loginDetails.password"
+              class="mt-1 appearance-none relative block w-full px-3 py-2 border rounded-md">
+          </div>
+        </div>
+        <div>
+          <button type="submit"
+            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md bg-blue-500 cursor-pointer">
+            Sign in
+          </button>
+        </div>
+        <div class="text-center">
+          <a (click)="createAccountShown = !createAccountShown; loginForm.reset()"
+            class="text-sm cursor-pointer">
+            Dont have an account? Sign Up
+          </a>
+        </div>
+      </form>
     </div>
-</section>
+  </div>
