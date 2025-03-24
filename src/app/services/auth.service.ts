@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+
 
 
 @Injectable({
@@ -7,4 +10,24 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   constructor() { }
+
+  router = inject(Router)
+  auth = inject(Auth);
+
+  createAccount(email: string, password: string) {
+    createUserWithEmailAndPassword(this.auth, email, password).then(() => {
+      console.log('Created user')
+    }).catch((error) => {
+      console.error(error)
+    })
+  }
+
+  signIn(email: string, password: string) {
+    signInWithEmailAndPassword(this.auth, email, password).then(() => {
+      console.log('Signed in')
+      this.router.navigate(['/search'])
+    }).catch((error) => {
+      console.error(error)
+    })
+  }
 }
