@@ -65,8 +65,20 @@ export class ModelComponent implements OnInit {
     }
   ]
 
+  similarityData = [
+    { name: 'Cosine Similarity', value: 0.85 }, // higher is better
+    { name: 'TF-IDF Similarity', value: 0.72 }, // higher is better
+    { name: 'Jaccard (Words)', value: 0.45 }, // higher is better
+    { name: 'Jaccard (Bigrams)', value: 0.32 }, // higher is better
+    { name: 'Normalized Edit Distance', value: 0.28 } // lower is better
+  ]
+
+  guageSimilarity: number = 0.85
+
   ngOnInit() {
     this.plotly.makeBarGraph(this.dummy_emotions, 'Bar Graph', 'Categories', 'Values', 'bar-graph')
     this.plotly.makePieChart(this.sentimentData, 'Sentiment Analysis', 'sentiment-pie')
+    this.plotly.makeRadarChart(this.similarityData, 'Similarity Analysis', 'similarity-radar')
+    this.plotly.makeGaugeChart(this.guageSimilarity, 'Text Similarity', 'Cosine Similarity', 'similarity-gauge')
   }
 }
