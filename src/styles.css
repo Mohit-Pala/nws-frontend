@@ -1,2 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+@tailwind utilities;
+
+@theme {
+
+    /* gruvbox */
+    /* dark */
+    --color-gruvBoxDarkBg: #282828;
+    --color-gruvBoxDarkFg: #ebdbb2;
+    --color-gruvBoxDarkBtn: #3c3836;
+    --color-gruvBoxDarkSubText: #fbf1c7;
+    /* light */
+    --color-gruvBoxLightBg: #fbf1c7;
+    --color-gruvBoxLightFg: #282828;
+    --color-gruvBoxLightBtn: #d5c4a1;
+    --color-gruvBoxLightSubText: #3c3836;
+    /* colors */
+    --color-gruvBoxRed: #cc241d;
+    --color-gruvBoxGreen: #98971a;
+    --color-gruvBoxYellow: #d79921;
+    --color-gruvBoxBlue: #458588;
+    --color-gruvBoxPurple: #b16286;
+    --color-gruvBoxAqua: #689d6a;
+    --color-gruvBoxOrange: #d65d0e;
+
+
+    
+}
