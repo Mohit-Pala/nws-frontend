@@ -26,5 +26,16 @@
     --color-gruvBoxOrange: #d65d0e;
 
 
+    /*  */
+    --color-rosepineDawnBg: #faf4ed;                                /*Backgorund*/
+    --color-rosepineDawnSurface: #fffaf3;                           /*Surface, Cards*/
+    --color-rosepineDawnOverlay: #f2e9e1;                           /*Buttons*/           
+    --color-rosepineDawnText: #575279;                              /*Text*/
+    --color-rosepineDawnSubtle: #797593;                            /*Subtext*/             
+    --color-rosepineDawnMuted: #9893a5;                             /*Sub - Sub Text and disabled elements*/     
+    --color--rosepineDawnHighlightHigh: #cecacd;                    /*Border*/ 
+    --color--rosepineDawnHighlightMed: #dfdad9;                     /*selection bg + text fg*/
+    --color--rosepineDawnHighlightLow: #f4ede8;                     /*Hover bg*/ 
+    --color-rosepineDawnIris: #907aa9;                              /*HTTP*/
     
-}
+}  

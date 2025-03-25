@@ -56,6 +56,11 @@ export class AboutComponent {
     endDate: 'April 2025',
   }
 
+  theme = {
+    light: 'Rosepine Dawn',
+    dark: 'Rosepine'
+  }
+
   // aboutThisProject = [
   //   'This project is a news analyzer that uses machine learning models to analyze news articles and provide insights on the sentiment and emotions of the article.',
   //   'The project uses a variety of machine learning models to analyze the news articles, including a sentiment analysis model, an emotion analysis and LLMs like GPT-3 and Gemini.',
