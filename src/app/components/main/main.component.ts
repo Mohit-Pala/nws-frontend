@@ -1,9 +1,10 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, OnInit } from '@angular/core';
 import { ModelComponent } from "./model/model.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { VertexAiService } from '../../services/vertex-ai.service';
 import { GptService } from '../../services/gpt.service';
+import { FirestoreService } from '../../services/firestore.service';
 import { GeminiComponent } from "./gemini/gemini.component";
 import { GptComponent } from "./gpt/gpt.component";
 import { SentimentModelComponent } from './sentiment-model/sentiment-model.component';
@@ -17,11 +18,13 @@ import { SentimentModelComponent } from './sentiment-model/sentiment-model.compo
 })
 
 export class MainComponent {
+  firestoreService = inject(FirestoreService)
   @ViewChild(GptComponent) gptComponent!: GptComponent
   @ViewChild(GeminiComponent) geminiComponent!: GeminiComponent
 
   title!: string
   article!: string
+
 
   onSubmit(form: NgForm) {
     console.log(this.title)
