@@ -37,5 +37,16 @@
     --color--rosepineDawnHighlightMed: #dfdad9;                     /*selection bg + text fg*/
     --color--rosepineDawnHighlightLow: #f4ede8;                     /*Hover bg*/ 
     --color-rosepineDawnIris: #907aa9;                              /*HTTP*/
-    
+
+
+    --color-rosepineBg: #191724;
+    --color-rosepineSurface: #1f1d2e;
+    --color-rosepineOverlay: #26233a;
+    --color-rosepineText: #e0def4;
+    --color-rosepineSubtle: #908caa;
+    --color-rosepineMuted: #6e6a86;
+    --color--rosepineHighlightHigh: #524f67;                    /*Border*/ 
+    --color--rosepineHighlightMed: #403d52;                     /*selection bg + text fg*/
+    --color--rosepineHighlightLow: #21202e;                     /*Hover bg*/ 
+    --color-rosepineIris: #c4a7e7;                              /*HTTP*/
 }  
