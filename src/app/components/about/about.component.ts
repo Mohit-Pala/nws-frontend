@@ -19,7 +19,7 @@ export class AboutComponent {
 
   contributors = [
     { name: 'Mohit Pala', github: 'https://github.com/mohit-pala' },
-    { name: 'Rachel', github: 'https://github.com/rachelking12' },
+    { name: 'Rachel King', github: 'https://github.com/rachelking12' },
   ]
 
   frontend = [

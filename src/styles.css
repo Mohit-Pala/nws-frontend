@@ -65,15 +65,35 @@
     --color-draculaRed: #ff5555;
     --color-draculaYellow: #f1fa8c;
 
-    /* background: &BACKGROUND "#282A36"
-    foreground: &FOREGROUND "#F8F8F2" # 07
-    selection: &SELECTION "#44475A"
-    comment: &COMMENT "#6272A4"
-    cyan: &CYAN "#8BE9FD" # 06
-    green: &GREEN "#50FA7B" # 02
-    orange: &ORANGE "#FFB86C"
-    pink: &PINK "#FF79C6"
-    purple: &PURPLE "#BD93F9"
-    red: &RED "#F55" # 01
-    yellow: &YELLOW "#F1FA8C" # 03 */
+    --color-catppuccinMacchiatoBg: #24273a;
+    --color-catppuccinMacchiatoSurface: #363a4f;
+    --color-catppuccinMacchiatoSurface1: #494d64;
+    --color-catppuccinMacchiatoText: #cad3f5;
+    --color-catppuccinMacchiatoSubtext: #b8c0e0;
+    --color-catppuccinMacchiatoSubtext1: #939ab7;
+    
+    --color-catppuccinMacchiatoBlue: #8aadf4;             /*url*/
+    --color-catppuccinMacchiatoFlamingo: #f0c6c6;       /*border*/
+
+
+    --color-catppuccinLatteBg: #eff1f5;
+    --color-catppuccinLatteSurface: #ccd0da;
+    --color-catppuccinLatteSurface1: #bcc0cc;
+    --color-catppuccinLatteText: #4c4f69;
+    --color-catppuccinLatteSubtext: #5c5f77;
+    --color-catppuccinLatteSubtext1: #6c6f85;
+    
+    --color-catppuccinLatteBlue: #1e66f5;             /*url*/
+    --color-catppuccinLatteFlamingo: #dd7878;       /*border*/
+
+
+    --color-catppuccinMochaBg: #1e1e2e;
+    --color-catppuccinMochaSurface: #313244;
+    --color-catppuccinMochaSurface1: #45475a;
+    --color-catppuccinMochaText: #cdd6f4;
+    --color-catppuccinMochaSubtext: #bac2de;
+    --color-catppuccinMochaSubtext1: #a6adc8;
+    
+    --color-catppuccinMochaBlue: #89b4fa;             /*url*/
+    --color-catppuccinMochaFlamingo: #f2cdcd;       /*border*/
 }  
