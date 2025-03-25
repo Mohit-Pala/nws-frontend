@@ -7,6 +7,7 @@ import { GptService } from '../../services/gpt.service';
 import { GeminiComponent } from "./gemini/gemini.component";
 import { GptComponent } from "./gpt/gpt.component";
 import { SentimentModelComponent } from './sentiment-model/sentiment-model.component';
+import { RestApiService } from '../../services/rest-api.service';
 
 @Component({
   selector: 'app-main',
@@ -17,6 +18,10 @@ import { SentimentModelComponent } from './sentiment-model/sentiment-model.compo
 })
 
 export class MainComponent {
+
+  restApi = inject(RestApiService)
+  tmpReturn = ''
+
   @ViewChild(GptComponent) gptComponent!: GptComponent
   @ViewChild(GeminiComponent) geminiComponent!: GeminiComponent
 
@@ -26,8 +31,15 @@ export class MainComponent {
   onSubmit(form: NgForm) {
     console.log(this.title)
     console.log(this.article)
-    
-    this.gptComponent.generateGPTContent(this.title, this.article)
-    this.geminiComponent.generateGeminiContent(this.title, this.article)
+
+    // this.gptComponent.generateGPTContent(this.title, this.article)
+    // this.geminiComponent.generateGeminiContent(this.title, this.article)
+
+    this.restApi.getOutput(this.title, this.article).then((response) => {
+      this.tmpReturn = response
+      console.log(response)
+    }).catch((error) => {
+      console.log(error)
+    })
   }
 }
