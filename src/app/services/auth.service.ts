@@ -8,35 +8,28 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+  private auth: Auth = inject(Auth)
+  private router: Router = inject(Router)
 
-  constructor() { }
-
-  router = inject(Router)
-  auth = inject(Auth)
-
-  user = this.auth.currentUser
-
-  createAccount(email: string, password: string) {
-    createUserWithEmailAndPassword(this.auth, email, password).then(() => {
-      console.log('Created user')
-      console.log('signing in')
-      console.log(this.user)
-      this.signIn(email, password)
-    }).catch((error) => {
-      console.error(error)
-    })
+  async createAccount(email: string, password: string) {
+    return await createUserWithEmailAndPassword(this.auth, email, password)
   }
 
-  signIn(email: string, password: string) {
-    signInWithEmailAndPassword(this.auth, email, password).then(() => {
-      console.log('Signed in')
-      this.router.navigate(['/search'])
-    }).catch((error) => {
-      console.error(error)
-    })
+  async login(email: string, password: string) {
+    return await signInWithEmailAndPassword(this.auth, email, password)
   }
 
-  logout() {
-    signOut(this.auth)
+  async logout() {
+    signOut(this.auth).then(() => {
+      this.router.navigate(['/'])
+    })
+  }
+  async getCurrentUser() {
+    return this.auth.currentUser
+  }
+
+  // Check if user is logged in
+  async isLoggedIn() {
+    return this.auth.currentUser !== null
   }
 }

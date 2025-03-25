@@ -13,7 +13,10 @@ export class SearchListComponent implements OnInit {
   signedIn = false
 
   ngOnInit() {
-    console.log(this.auth.user)
+    this.auth.isLoggedIn().then((loggedIn) => {
+      console.log(this.signedIn)
+      this.signedIn = loggedIn
+    })
   }
 
   signOut() {
