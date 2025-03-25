@@ -20,8 +20,8 @@ export class SearchListComponent implements OnInit {
       this.signedIn = loggedIn
     })
 
-    this.restApi.getItems().then((items) => {
-      console.log(items)
+    this.restApi.getOutput('sus', 'amogus').then((output) => {
+      console.log(output)
     })
   }
 

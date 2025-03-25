@@ -8,11 +8,11 @@ export class RestApiService {
   constructor() { }
 
   async getOutput(title: string, article: string) {
-    const getRequest = 'https://localhost:5001/submit'
+    const getRequest = 'http://127.0.0.1:5001/submit'
     const response = await fetch(getRequest, {
       method: 'POST',
       headers: {
-
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         title: title,
