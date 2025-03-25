@@ -8,7 +8,7 @@ export class RestApiService {
   constructor() { }
 
   async getOutput(title: string, article: string) {
-    const getRequest = 'https://api.susamongus.com'
+    const getRequest = 'https://localhost:5001/submit'
     const response = await fetch(getRequest, {
       method: 'POST',
       headers: {
