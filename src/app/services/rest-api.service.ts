@@ -26,4 +26,17 @@ export class RestApiService {
 
     return await response.json()
   }
+
+  async getItems() {
+    const getRequest = 'http://127.0.0.1:5000/api/items'
+    const response = await fetch(getRequest, {
+      method: 'GET',
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to get items from the backend')
+    }
+
+    return await response.json()
+  }
 }
