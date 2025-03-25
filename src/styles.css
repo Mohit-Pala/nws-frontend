@@ -9,12 +9,12 @@
     /* dark */
     --color-gruvBoxDarkBg: #282828;
     --color-gruvBoxDarkFg: #ebdbb2;
-    --color-gruvBoxDarkBtn: #3c3836;
+    --color-gruvBoxDarkSurface: #3c3836;
     --color-gruvBoxDarkSubText: #fbf1c7;
     /* light */
     --color-gruvBoxLightBg: #fbf1c7;
     --color-gruvBoxLightFg: #282828;
-    --color-gruvBoxLightBtn: #d5c4a1;
+    --color-gruvBoxLightSurface: #d5c4a1;
     --color-gruvBoxLightSubText: #3c3836;
     /* colors */
     --color-gruvBoxRed: #cc241d;
@@ -49,4 +49,31 @@
     --color--rosepineHighlightMed: #403d52;                     /*selection bg + text fg*/
     --color--rosepineHighlightLow: #21202e;                     /*Hover bg*/ 
     --color-rosepineIris: #c4a7e7;                              /*HTTP*/
+
+
+
+
+    --color-draculaBg: #282a36;
+    --color-draculaSurface: #44475a;
+    --color-draculaText: #f8f8f2;
+    --color-draculaSubtext: #6272a4;
+    --color-draculaCyan: #8be9fd;
+    --color-draculaGreen: #50fa7b;
+    --color-draculaOrange: #ffb86c;
+    --color-draculaPink: #ff79c6;
+    --color-draculaPurple: #bd93f9;
+    --color-draculaRed: #ff5555;
+    --color-draculaYellow: #f1fa8c;
+
+    /* background: &BACKGROUND "#282A36"
+    foreground: &FOREGROUND "#F8F8F2" # 07
+    selection: &SELECTION "#44475A"
+    comment: &COMMENT "#6272A4"
+    cyan: &CYAN "#8BE9FD" # 06
+    green: &GREEN "#50FA7B" # 02
+    orange: &ORANGE "#FFB86C"
+    pink: &PINK "#FF79C6"
+    purple: &PURPLE "#BD93F9"
+    red: &RED "#F55" # 01
+    yellow: &YELLOW "#F1FA8C" # 03 */
 }  
