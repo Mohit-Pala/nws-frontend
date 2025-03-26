@@ -15,7 +15,7 @@ export class FirestoreService {
   }
 
   async getDocument(): Promise<any> {
-    const docRef = doc(this.firestore, 'data', 'Y0IoZlc9JCnPWttW46XD')
+    const docRef = doc(this.firestore, 'data', 'FaRAWzrey1rOOSjewJtH')
     const docSnap = await getDoc(docRef)
     
     if (docSnap.exists()) {

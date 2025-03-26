@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { FirestoreService } from '../../services/firestore.service';
 
 @Component({
   selector: 'app-search-list',
@@ -10,12 +11,14 @@ import { CommonModule } from '@angular/common';
 })
 export class SearchListComponent implements OnInit {
   auth = inject(AuthService)
+  firestore = inject(FirestoreService)
   signedIn = false
 
   ngOnInit() {
-    this.auth.isLoggedIn().then((loggedIn) => {
-      console.log(this.signedIn)
-      this.signedIn = loggedIn
+    this.firestore.getDocument().then((doc) => {
+      console.log(doc)
+    }).catch((err) => {
+      console.error(err)
     })
   }
 
