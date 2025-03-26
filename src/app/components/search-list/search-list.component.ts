@@ -12,14 +12,10 @@ import { FirestoreService } from '../../services/firestore.service';
 export class SearchListComponent implements OnInit {
   auth = inject(AuthService)
   firestore = inject(FirestoreService)
-  signedIn = false
+  signedIn = true
 
   ngOnInit() {
-    this.firestore.getDocument().then((doc) => {
-      console.log(doc)
-    }).catch((err) => {
-      console.error(err)
-    })
+
   }
 
   signOut() {
