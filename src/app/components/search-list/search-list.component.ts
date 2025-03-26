@@ -15,7 +15,7 @@ export class SearchListComponent implements OnInit {
   signedIn = true
 
   ngOnInit() {
-
+    this.firestore.searchTitleSubstring("title")
   }
 
   signOut() {

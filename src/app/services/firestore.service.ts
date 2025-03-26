@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { Firestore, getFirestore, doc, getDoc, collection, addDoc } from 'firebase/firestore';
+import { Firestore, getFirestore, doc, getDoc, getDocs, collection, addDoc, query, where } from 'firebase/firestore';
 import { firebaseConfig } from '../../../api_key';
 
 @Injectable({
@@ -41,7 +41,7 @@ export class FirestoreService {
       tfIdfSim: 0.72
     },
 
-    title: "Smaple title NuMbEr 3",
+    title: ['this', 'is', 'a', 'sample', 'title']
   }
 
   async putSampleData() {
@@ -51,5 +51,34 @@ export class FirestoreService {
     }).catch((error) => {
       console.log("Error adding document", error)
     })
+  }
+
+  // Search for a document by title
+  // Exact match
+  async searchByTitle(searchTerm: string) {
+    const collectionRef = collection(this.firestore, "data")
+    const querySnapshot = await getDoc(doc(collectionRef, searchTerm))
+    if (querySnapshot.exists()) {
+      console.log("Document data:", querySnapshot.data())
+    }
+    else {
+      console.log("No such document!")
+    }
+  }
+
+  // Search for a document by title
+  // search term is a word of the title
+  async searchTitleSubstring(searchTerm: string) {
+    const collectionRef = collection(this.firestore, "data")
+    const q = query(collectionRef, where("title", "array-contains", searchTerm))
+    const querySnapshot = await getDocs(q)
+    if(querySnapshot.empty) {
+      console.log("No documents found!")
+      return false
+    }
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data())
+    })
+    return true
   }
 }
