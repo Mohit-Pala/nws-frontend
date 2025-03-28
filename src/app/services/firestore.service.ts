@@ -72,13 +72,16 @@ export class FirestoreService {
     const collectionRef = collection(this.firestore, "data")
     const q = query(collectionRef, where("title", "array-contains", searchTerm))
     const querySnapshot = await getDocs(q)
-    if(querySnapshot.empty) {
+    if (querySnapshot.empty) {
       console.log("No documents found!")
       return false
     }
+
+    let data: any[] = []
+
     querySnapshot.forEach((doc) => {
-      console.log(doc.data())
+      data.push(doc.data())
     })
-    return true
+    return data
   }
 }

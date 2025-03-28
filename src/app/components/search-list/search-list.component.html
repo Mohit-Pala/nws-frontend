@@ -1,7 +1,10 @@
-<section>
-    <div *ngIf="!signedIn">
-        <p>
-            please sign in to use the search feature
-        </p>
+<main>
+    <div class="search-list">
+        <h2>Search List</h2>
+        <ul>
+            <li *ngFor="let item of items">
+                {{ item.title }}
+            </li>
+        </ul>
     </div>
-</section>
+</main>

@@ -14,8 +14,16 @@ export class SearchListComponent implements OnInit {
   firestore = inject(FirestoreService)
   signedIn = true
 
+  items: any[] = []
+
   ngOnInit() {
-    this.firestore.searchTitleSubstring("title")
+    this.firestore.searchTitleSubstring("title").then((res) => {
+      console.log(res)
+      if(!res) {
+        return
+      }
+      this.items = res
+    })
   }
 
   signOut() {
