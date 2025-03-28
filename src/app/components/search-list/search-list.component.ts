@@ -2,10 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FirestoreService } from '../../services/firestore.service';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Search } from '../../models/search.model';
 
 @Component({
   selector: 'app-search-list',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './search-list.component.html',
   styleUrl: './search-list.component.css'
 })
@@ -14,7 +16,7 @@ export class SearchListComponent implements OnInit {
   firestore = inject(FirestoreService)
   signedIn = true
 
-  items: any[] = []
+  items: Search[] = []
 
   ngOnInit() {
     this.firestore.searchTitleSubstring("title").then((res) => {
@@ -28,5 +30,9 @@ export class SearchListComponent implements OnInit {
 
   signOut() {
     this.auth.logout()
+  }
+
+  onSubmit(form: NgForm) {
+    console.log('submit')
   }
 }

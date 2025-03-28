@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { Firestore, getFirestore, doc, getDoc, getDocs, collection, addDoc, query, where } from 'firebase/firestore';
 import { firebaseConfig } from '../../../api_key';
+import { Search } from '../models/search.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,7 @@ export class FirestoreService {
       tfIdfSim: 0.72
     },
 
-    title: ['this', 'is', 'a', 'sample', 'title']
+    title: ['this', 'is', 'a', 'sample', 'title'],
   }
 
   async putSampleData() {
@@ -74,13 +75,13 @@ export class FirestoreService {
     const querySnapshot = await getDocs(q)
     if (querySnapshot.empty) {
       console.log("No documents found!")
-      return false
+      return []
     }
 
-    let data: any[] = []
+    let data: Search[] = []
 
     querySnapshot.forEach((doc) => {
-      data.push(doc.data())
+      data.push(doc.data() as Search)
     })
     return data
   }
