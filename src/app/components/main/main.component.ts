@@ -1,9 +1,7 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { ModelComponent } from "./model/model.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { VertexAiService } from '../../services/vertex-ai.service';
-import { GptService } from '../../services/gpt.service';
 import { GeminiComponent } from "./gemini/gemini.component";
 import { GptComponent } from "./gpt/gpt.component";
 import { SentimentModelComponent } from './sentiment-model/sentiment-model.component';
@@ -16,30 +14,33 @@ import { RestApiService } from '../../services/rest-api.service';
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
-
 export class MainComponent {
+  restApi = inject(RestApiService);
+  apiData: any; // Data to be passed to ModelComponent
+  showSentimentModel: boolean = false; // Add this line
 
-  restApi = inject(RestApiService)
-  tmpReturn = ''
+  @ViewChild(GptComponent) gptComponent!: GptComponent;
+  @ViewChild(GeminiComponent) geminiComponent!: GeminiComponent;
 
-  @ViewChild(GptComponent) gptComponent!: GptComponent
-  @ViewChild(GeminiComponent) geminiComponent!: GeminiComponent
-
-  title!: string
-  article!: string
+  title!: string;
+  article!: string;
 
   onSubmit(form: NgForm) {
-    console.log(this.title)
-    console.log(this.article)
+    if (!this.title || !this.article) {
+      console.log("Title and article are required!");
+      return;
+    }
 
-    // this.gptComponent.generateGPTContent(this.title, this.article)
-    // this.geminiComponent.generateGeminiContent(this.title, this.article)
+    console.log("Submitting data:", { title: this.title, article: this.article }); // Log the data being sent
 
-    this.restApi.getOutput(this.title, this.article).then((response) => {
-      this.tmpReturn = response
-      console.log(response)
-    }).catch((error) => {
-      console.log(error)
-    })
+    this.restApi.getOutput(this.title, this.article)
+      .then((response: any) => {
+        this.apiData = response; // Assign the response to apiData
+        console.log("Response received:", response); // Log the response
+        console.log("apiData updated:", this.apiData); // Log apiData after update
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 }

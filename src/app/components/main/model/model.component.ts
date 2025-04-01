@@ -1,84 +1,89 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Emotions } from '../../../models/emotions.model';
-
-import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
-
-import * as Plotly from 'plotly.js-dist-min';
-import { Data } from 'plotly.js-dist-min';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { PlotService } from '../../../services/plot.service';
-import { KeyValueCustom } from '../../../models/key-value-custom.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-model',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './model.component.html',
   styleUrl: './model.component.css'
 })
-export class ModelComponent implements OnInit {
+export class ModelComponent implements OnChanges {
+  @Input() apiData: any;
 
-  plotly = inject(PlotService)
+  plotly = inject(PlotService);
+  emotions: any[] = [];
+  sentimentData: any[] = [];
 
-  dummy_emotions = [
-    {
-      name: "anger",
-      value: 0.1
-    },
-    {
-      name: "disgust",
-      value: 0.2
-    },
-    {
-      name: "fear",
-      value: 0.1
-    },
-    {
-      name: "joy",
-      value: 0.2
-    },
-    {
-      name: "sadness",
-      value: 0.1
-    },
-    {
-      name: "surprise",
-      value: 0.1
-    },
-    {
-      name: "neutral",
-      value: 0.2
+  constructor() { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['apiData']) {
+      console.log("apiData in ModelComponent changed:", this.apiData);
+      this.updateCharts();
     }
-  ]
+  }
 
-  sentimentData = [
-    {
-      name: 'Positive',
-      value: 0.9
-    },
-    {
-      name: 'Neutral',
-      value: 0.05
-    },
-    {
-      name: 'Negative',
-      value: 0.05
+  updateCharts() {
+    if (!this.apiData) {
+      console.warn('No data to update charts.');
+      return;
     }
-  ]
 
-  similarityData = [
-    { name: 'Cosine Similarity', value: 0.85 }, // higher is better
-    { name: 'TF-IDF Similarity', value: 0.72 }, // higher is better
-    { name: 'Jaccard (Words)', value: 0.45 }, // higher is better
-    { name: 'Jaccard (Bigrams)', value: 0.32 }, // higher is better
-    { name: 'Normalized Edit Distance', value: 0.28 } // lower is better
-  ]
+    this.emotions = this.apiData.emotions || [];
+    console.log("Emotions data:", this.emotions);
 
-  guageSimilarity: number = 0.85
+    // Handle the single sentiment label and confidence
+    this.sentimentData = this.processSentimentData(this.apiData.sentiment);
+    console.log("Sentiment data:", this.sentimentData);
 
-  ngOnInit() {
-    this.plotly.makeBarGraph(this.dummy_emotions, 'Bar Graph', 'Categories', 'Values', 'bar-graph')
-    this.plotly.makePieChart(this.sentimentData, 'Sentiment Analysis', 'sentiment-pie')
-    this.plotly.makeRadarChart(this.similarityData, 'Similarity Analysis', 'similarity-radar')
-    this.plotly.makeGaugeChart(this.guageSimilarity, 'Text Similarity', 'Cosine Similarity', 'similarity-gauge')
+    if (this.emotions.length > 0) {
+      this.plotly.makeBarGraph(this.emotions, 'Emotional Analysis', 'Emotion', 'Score', 'bar-graph');
+    } else {
+      console.warn("No emotion data to display");
+    }
+
+    if (this.sentimentData.length > 0) {
+      this.plotly.makePieChart(this.sentimentData, 'Sentiment Analysis', 'sentiment-pie');
+    } else {
+      console.warn("No sentiment data to display");
+    }
+  }
+
+  
+
+  processSentimentData(sentiment: any): any[] {
+    if (!sentiment || !sentiment.sentiment || !sentiment.score) {
+      console.warn("Invalid sentiment data:", sentiment);
+      return [];
+    }
+
+    const { sentiment: label, score: confidence } = sentiment; // Updated destructuring
+    const otherConfidence = ((1 - confidence) / 2);
+
+    switch (label) {
+      case 'positive':
+        return [
+          { name: 'Positive', value: confidence },
+          { name: 'Neutral', value: otherConfidence },
+          { name: 'Negative', value: otherConfidence }
+        ];
+      case 'neutral':
+        return [
+          { name: 'Positive', value: otherConfidence },
+          { name: 'Neutral', value: confidence },
+          { name: 'Negative', value: otherConfidence }
+        ];
+      case 'negative':
+        return [
+          { name: 'Positive', value: otherConfidence },
+          { name: 'Neutral', value: otherConfidence },
+          { name: 'Negative', value: confidence }
+        ];
+      default:
+        console.warn("Unknown sentiment label:", label);
+        return [];
+    }
   }
 }
