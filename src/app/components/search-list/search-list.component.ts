@@ -1,9 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+
+import { RestApiService } from '../../services/rest-api.service';
+
 import { FirestoreService } from '../../services/firestore.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Search } from '../../models/search.model';
+
 
 @Component({
   selector: 'app-search-list',
@@ -13,10 +17,14 @@ import { Search } from '../../models/search.model';
 })
 export class SearchListComponent implements OnInit {
   auth = inject(AuthService)
+
+  restApi = inject(RestApiService)
+
   firestore = inject(FirestoreService)
-  signedIn = true
 
   items: Search[] = []
+  signedIn = true
+
 
   ngOnInit() {
     this.firestore.searchTitleSubstring("title").then((res) => {
@@ -25,6 +33,10 @@ export class SearchListComponent implements OnInit {
         return
       }
       this.items = res
+    })
+
+    this.restApi.getOutput('sus', 'amogus').then((output) => {
+      console.log(output)
     })
   }
 
