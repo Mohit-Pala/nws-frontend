@@ -87,7 +87,6 @@ export class FirestoreService {
   }
 
   async searchByNewsSource(source: string) {
-    const collectionRef = collection(this.firestore, "data")
-    
+    const collectionRef = collection(this.firestore, "data")    
   }
 }
