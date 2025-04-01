@@ -1,7 +1,10 @@
-import { Component, ViewChild, inject } from '@angular/core';
 import { ModelComponent } from "./model/model.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Component, inject, ViewChild, OnInit } from '@angular/core';
+import { VertexAiService } from '../../services/vertex-ai.service';
+import { GptService } from '../../services/gpt.service';
+import { FirestoreService } from '../../services/firestore.service';
 import { GeminiComponent } from "./gemini/gemini.component";
 import { GptComponent } from "./gpt/gpt.component";
 import { SentimentModelComponent } from './sentiment-model/sentiment-model.component';
@@ -19,11 +22,15 @@ export class MainComponent {
   apiData: any; // Data to be passed to ModelComponent
   showSentimentModel: boolean = false; // Add this line
 
-  @ViewChild(GptComponent) gptComponent!: GptComponent;
-  @ViewChild(GeminiComponent) geminiComponent!: GeminiComponent;
+
+  firestoreService = inject(FirestoreService)
+  @ViewChild(GptComponent) gptComponent!: GptComponent
+  @ViewChild(GeminiComponent) geminiComponent!: GeminiComponent
+
 
   title!: string;
   article!: string;
+
 
   onSubmit(form: NgForm) {
     if (!this.title || !this.article) {
