@@ -5,11 +5,13 @@ import { CommonModule } from '@angular/common';
 import { RestApiService } from '../../services/rest-api.service';
 
 import { FirestoreService } from '../../services/firestore.service';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Search } from '../../models/search.model';
 
 
 @Component({
   selector: 'app-search-list',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './search-list.component.html',
   styleUrl: './search-list.component.css'
 })
@@ -20,13 +22,17 @@ export class SearchListComponent implements OnInit {
 
   firestore = inject(FirestoreService)
 
-  signedIn = false
+  items: Search[] = []
+  signedIn = true
+
 
   ngOnInit() {
-    this.firestore.getDocument().then((doc) => {
-      console.log(doc)
-    }).catch((err) => {
-      console.error(err)
+    this.firestore.searchTitleSubstring("title").then((res) => {
+      console.log(res)
+      if(!res) {
+        return
+      }
+      this.items = res
     })
 
     this.restApi.getOutput('sus', 'amogus').then((output) => {
@@ -36,5 +42,9 @@ export class SearchListComponent implements OnInit {
 
   signOut() {
     this.auth.logout()
+  }
+
+  onSubmit(form: NgForm) {
+    console.log('submit')
   }
 }
