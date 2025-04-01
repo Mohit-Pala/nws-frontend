@@ -85,4 +85,9 @@ export class FirestoreService {
     })
     return data
   }
+
+  async searchByNewsSource(source: string) {
+    const collectionRef = collection(this.firestore, "data")
+    
+  }
 }
