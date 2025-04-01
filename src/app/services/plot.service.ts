@@ -221,4 +221,6 @@ export class PlotService {
 
     Plotly.newPlot(domId, trace, layout)
   }
+
+  
 }
