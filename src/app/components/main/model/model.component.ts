@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, inject, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { PlotService } from '../../../services/plot.service';
 import { CommonModule } from '@angular/common';
 import { KeyValueCustom } from '../../../models/key-value-custom.model';
@@ -10,31 +10,21 @@ import { KeyValueCustom } from '../../../models/key-value-custom.model';
   templateUrl: './model.component.html',
   styleUrl: './model.component.css'
 })
-export class ModelComponent implements OnChanges, OnInit {
+export class ModelComponent implements OnChanges {
   @Input() apiData: any;
 
   plotly = inject(PlotService);
   emotions: any[] = [];
   sentimentData: any[] = [];
-  guageSimilarity: number = 0;
-  similarityData: KeyValueCustom[] = [
-    { name: 'Cosine Similarity', value: 0.85 }, // higher is better
-    { name: 'TF-IDF Similarity', value: 0.72 }, // higher is better
-    { name: 'Jaccard (Words)', value: 0.45 }, // higher is better
-    { name: 'Jaccard (Bigrams)', value: 0.32 }, // higher is better
-    { name: 'Normalized Edit Distance', value: 0.28 } // lower is better
-  ];
+  similarityData: KeyValueCustom[] = [];
 
   constructor() { }
-
-  ngOnInit(): void {
-    this.plotly.makeRadarChart(this.similarityData, 'Similarity Analysis', 'similarity-radar');
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['apiData']) {
       console.log("apiData in ModelComponent changed:", this.apiData);
       this.updateCharts();
+      this.plotly.makeRadarChart(this.similarityData, 'Similarity Analysis', 'similarity-radar');
     }
   }
 
@@ -43,30 +33,42 @@ export class ModelComponent implements OnChanges, OnInit {
       console.warn('No data to update charts.');
       return;
     }
+    this.updateEmotionChart();
+    this.updateSentimentChart();
+    this.updateSimilarityCharts();
+  }
 
+  updateEmotionChart() {
     this.emotions = this.apiData.emotions || [];
     console.log("Emotions data:", this.emotions);
-
-    // Handle the single sentiment label and confidence
-    this.sentimentData = this.processSentimentData(this.apiData.sentiment);
-    console.log("Sentiment data:", this.sentimentData);
-
-    // Handle the similarity data
-    this.guageSimilarity = this.apiData.guageSimilarity || 0;
-    console.log("Gauge data:", this.guageSimilarity)
-
     if (this.emotions.length > 0) {
       this.plotly.makeBarGraph(this.emotions, 'Emotional Analysis', 'Emotion', 'Score', 'bar-graph');
     } else {
       console.warn("No emotion data to display");
     }
+  }
 
+  updateSentimentChart() {
+    this.sentimentData = this.processSentimentData(this.apiData.sentiment);
+    console.log("Sentiment data:", this.sentimentData);
     if (this.sentimentData.length > 0) {
       this.plotly.makePieChart(this.sentimentData, 'Sentiment Analysis', 'sentiment-pie');
     } else {
       console.warn("No sentiment data to display");
     }
-    this.plotly.makeGaugeChart(this.guageSimilarity, 'Text Similarity', 'Cosine Similarity', 'similarity-gauge');
+  }
+
+  updateSimilarityCharts() {
+    this.similarityData = [
+      { name: 'Cosine Similarity', value: this.apiData['cosine-similarity'], id: 'gauge-cosine-similarity' } as KeyValueCustom,
+      { name: 'TF-IDF Similarity', value: this.apiData['tfidf-similarity'], id: 'gauge-tfidf-similarity' } as KeyValueCustom,
+      { name: 'Jaccard (Words)', value: this.apiData['jaccard-words'], id: 'gauge-jaccard-words' } as KeyValueCustom,
+      { name: 'Jaccard (Bigrams)', value: this.apiData['jaccard-bigrams'], id: 'gauge-jaccard-bigrams' } as KeyValueCustom,
+      { name: 'Normalized Edit Distance', value: this.apiData['edit-distance'], id: 'gauge-edit-distance' } as KeyValueCustom
+    ];
+    this.similarityData.forEach(metric => {
+      this.plotly.makeGaugeChart(metric.value, metric.name, metric.name, metric.id);
+    });
   }
 
   processSentimentData(sentiment: any): any[] {
