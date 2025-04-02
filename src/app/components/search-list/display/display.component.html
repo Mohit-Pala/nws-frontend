@@ -1,1 +1,13 @@
-<p>display works!</p>
+<main>
+
+    <div id="loading" [hidden]="!dataRetrived">
+        <h1>{{retrivedSearch.title.join(' ')}}</h1>
+
+        Emotion Breakdown
+        <div id="emotions"></div>
+
+    </div>
+
+    <button (click)="updateData()">get Data</button>
+
+</main>
