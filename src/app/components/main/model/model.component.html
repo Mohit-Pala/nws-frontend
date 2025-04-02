@@ -1,27 +1,45 @@
-<!-- <p>model works!</p>
-<ngx-charts-bar-vertical
-  [view]="view"
-  [scheme]="colorScheme"
-  [results]="dummy_emotions"
-  [gradient]="gradient"
-  [xAxis]="showXAxis"
-  [yAxis]="showYAxis"
-  [legend]="showLegend"
-  [showXAxisLabel]="showXAxisLabel"
-  [showYAxisLabel]="showYAxisLabel"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel"
-  (select)="onSelect($event)">
-</ngx-charts-bar-vertical> -->
-<div id="bar-graph"></div>
-<div id="sentiment-pie"></div>
-<div id="similarity-radar"></div>
-<div id="gauge-cosine-similarity"></div>
-<div id="gauge-tfidf-similarity"></div>
-<div id="gauge-jaccard-words"></div>
-<div id="gauge-jaccard-bigrams"></div>
-<div id="gauge-edit-distance"></div>
-<div *ngIf="!apiData" class="text-center">
+<main>
+  <div id="bar-graph"></div>
+  <div id="sentiment-pie"></div>
+  <div id="similarity-radar"></div>
+  <div id="gauge-cosine-similarity"></div>
+  <div id="gauge-tfidf-similarity"></div>
+  <div id="gauge-jaccard-words"></div>
+  <div id="gauge-jaccard-bigrams"></div>
+  <div id="gauge-edit-distance"></div>
+  <div *ngIf="!apiData" class="text-center">
     <p>No data available yet.</p>
-</div>
+  </div>
 
+
+  <div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            Metric
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Your News Article
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Baseline
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let metric of comparision_metrics"  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{metric.name}}
+          </th>
+          <td class="px-6 py-4">
+            {{metric.your | percent}}
+          </td>
+          <td class="px-6 py-4">
+            {{metric.baseline | percent}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

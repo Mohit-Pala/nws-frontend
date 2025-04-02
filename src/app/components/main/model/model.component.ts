@@ -10,6 +10,7 @@ import { KeyValueCustom } from '../../../models/key-value-custom.model';
   templateUrl: './model.component.html',
   styleUrl: './model.component.css'
 })
+
 export class ModelComponent implements OnChanges {
   @Input() apiData: any;
 
@@ -17,6 +18,10 @@ export class ModelComponent implements OnChanges {
   emotions: any[] = [];
   sentimentData: any[] = [];
   similarityData: KeyValueCustom[] = [];
+
+  comparision_metrics = [
+    {name: 'Cosine Similarity', your: 0.34, baseline: 0.75},
+  ]
 
   constructor() { }
 
@@ -104,4 +109,7 @@ export class ModelComponent implements OnChanges {
         return [];
     }
   }
+
+
+
 }
