@@ -62,10 +62,12 @@ def similarity(title, text, model):
     return torch.nn.functional.cosine_similarity(title_embedding, article_embedding)
 
 def get_ngrams(text, n):
+    text = text.lower()
     if n <= 0:
-        return set() 
+        return set()
     words = text.split()
-    return set(zip(*[words[i:] for i in range(n)]))
+    return set([" ".join(ngram) for ngram in zip(*[words[i:] for i in range(n)])])
+
 
 def jaccard_similarity(set1, set2):
     intersection = len(set1 & set2)
@@ -90,29 +92,26 @@ def predict():
             print("Missing title or article")
             return jsonify({'error': 'Title and article are required'}), 400
 
+        print("Calculating... ")
         # Cosine similarity
-        print("Calculating cosine similarity") 
         inputs_title = tokenizer(title, return_tensors="pt", truncation=True, max_length=512)
         inputs_article = tokenizer(article, return_tensors="pt", truncation=True, max_length=512)
         similarity_score = similarity(inputs_title, inputs_article, model).item()
         print("Cosine similarity calculated:", similarity_score) 
 
         # Jaccard words
-        print("Calculating Jaccard words")
         title_words = set(title.split())
         article_words = set(article.split())
         jaccard_words = jaccard_similarity(title_words, article_words)
-        print("Jaccard words calculated:", jaccard_words) 
+        print("Jaccard words calculated:", jaccard_words)
 
         # Jaccard bigrams
-        print("Calculating Jaccard bigrams")
         title_bigrams = get_ngrams(title, 2)
         article_bigrams = get_ngrams(article, 2)
         jaccard_bigrams = jaccard_similarity(title_bigrams, article_bigrams)
         print("Jaccard bigrams calculated:", jaccard_bigrams)
 
         # TF-IDF Vectorizer
-        print("Calculating TF-IDF similarity")
         corpus = [title, article]
         vectorizer = TfidfVectorizer()
         tfidf_matrix = vectorizer.fit_transform(corpus)
@@ -120,7 +119,6 @@ def predict():
         print("TF-IDF similarity calculated:", tfidf_similarity)
 
         # Edit distance
-        print("Calculating edit distance")
         edit_distance = Levenshtein.distance(title, article)
         max_possible_edit_distance = max(len(title), len(article))
         normalized_edit_distance = 1 - (edit_distance / max_possible_edit_distance)
