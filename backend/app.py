@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from models import process_article
 from transformers import pipeline, AutoTokenizer, AutoModel
 import torch
 import nltk
@@ -12,6 +11,7 @@ brown_ic = wordnet_ic.ic('ic-brown.dat')
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import Levenshtein
+import numpy as np
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
@@ -47,12 +47,9 @@ def analyze_sentiment(text):
 
 def analyze_emotions(text):
     emotions = emotion_classifier(text)[0]
-    emotion_results = []
+    emotion_results = {}
     for emotion in emotions:
-        emotion_results.append({
-            'label': emotion['label'],
-            'score': emotion['score']
-        })
+        emotion_results[emotion['label']] = emotion['score']
     return emotion_results
 
 def similarity(title, text, model):
@@ -124,15 +121,23 @@ def predict():
         normalized_edit_distance = 1 - (edit_distance / max_possible_edit_distance)
         print("Edit distance calculated:", normalized_edit_distance)
 
+        # Length difference and ratio
+        len_diff = abs(len(title) - len(article))
+        len_ratio = len(title) / len(article) if len(article) != 0 else float('inf')
+
         result = {
                 'title': title,
                 'article': article,
                 'message': 'Data received successfully',
-                'cosine-similarity': similarity_score,
-                'jaccard-words': jaccard_words,
-                'jaccard-bigrams': jaccard_bigrams,
-                'tfidf-similarity': tfidf_similarity,
-                'edit-distance': normalized_edit_distance
+                'metrics': {
+                    'cosineSim': similarity_score,
+                    'jaccardWords': jaccard_words,
+                    'jaccardBigrams': jaccard_bigrams,
+                    'tfIdfSim': tfidf_similarity,
+                    'normEditDist': normalized_edit_distance,
+                    'lenDif': len_diff,
+                    'lenRatio': len_ratio
+                }
             }
         print("Returning result:", result) 
         return jsonify(result)
@@ -159,16 +164,41 @@ def submit_data():
         emotion_result = analyze_emotions(full_text)
 
         # Convert emotions to frontend-compatible format
-        emotion_plot_data = [{'name': e['label'], 'value': e['score']} for e in emotion_result]
+        emotion_plot_data = {}
+        emotion_plot_data['anger'] = emotion_result.get('anger', 0)
+        emotion_plot_data['disgust'] = emotion_result.get('disgust', 0)
+        emotion_plot_data['fear'] = emotion_result.get('fear', 0)
+        emotion_plot_data['joy'] = emotion_result.get('joy', 0)
+        emotion_plot_data['sadness'] = emotion_result.get('sadness', 0)
+        emotion_plot_data['surprise'] = emotion_result.get('surprise', 0)
+        emotion_plot_data['neutral'] = emotion_result.get('neutral', 0)
+
+        sentiment_plot_data = {}
+        sentiment_plot_data['positive'] = 0
+        sentiment_plot_data['negative'] = 0
+        sentiment_plot_data['neutral'] = 0
+
+        if sentiment_result['sentiment'] == 'positive':
+            sentiment_plot_data['positive'] = sentiment_result['score']
+            sentiment_plot_data['negative'] = (1 - sentiment_result['score']) / 2
+            sentiment_plot_data['neutral'] = (1 - sentiment_result['score']) / 2
+        elif sentiment_result['sentiment'] == 'negative':
+            sentiment_plot_data['negative'] = sentiment_result['score']
+            sentiment_plot_data['positive'] = (1 - sentiment_result['score']) / 2
+            sentiment_plot_data['neutral'] = (1 - sentiment_result['score']) / 2
+        elif sentiment_result['sentiment'] == 'neutral':
+            sentiment_plot_data['neutral'] = sentiment_result['score']
+            sentiment_plot_data['positive'] = (1 - sentiment_result['score']) / 2
+            sentiment_plot_data['negative'] = (1 - sentiment_result['score']) / 2
 
         result = {
             'title': title,
             'article': article,
             'message': 'Data received successfully',
-            'sentiment': sentiment_result,
-            'emotions': emotion_plot_data
+            'emotion': emotion_plot_data,
+            'sentiment': sentiment_plot_data
         }
-
+        print("Result being returned:", result) # Print the result
         return jsonify(result)
     except Exception as e:
         print(f"Error in /submit: {e}")
