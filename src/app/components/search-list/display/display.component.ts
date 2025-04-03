@@ -29,9 +29,9 @@ export class DisplayComponent {
       neutral: 0.7
     },
     sentiment: {
-      positive: 0.8,
-      negative: 0.9,
-      neutral: 1.0
+      positive: 0.1,
+      negative: 0.8,
+      neutral: 0.1
     },
     model: {
       cosineSim: 0.95,
@@ -65,11 +65,12 @@ export class DisplayComponent {
   ]
 
   updateData() {
-    
+
   }
 
 
   test() {
     console.log(this.converter.searchToKeyEmotion(this.retrivedSearch))
+    console.log(this.converter.searchToKeySentiment(this.retrivedSearch))
   }
 }

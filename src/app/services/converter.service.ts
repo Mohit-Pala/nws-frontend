@@ -14,4 +14,11 @@ export class ConverterService {
     })
     return keyEmotion
   }
+
+  searchToKeySentiment(search: Search) {
+    const keySentiment = Object.entries(search.sentiment).map(([name, value]) => {
+      return { key: name, value: value }
+    })
+    return keySentiment
+  }
 }
