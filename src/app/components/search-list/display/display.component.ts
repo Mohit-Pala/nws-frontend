@@ -3,6 +3,7 @@ import { Search } from '../../../models/search.model';
 import { CommonModule } from '@angular/common';
 import { PlotService } from '../../../services/plot.service';
 import { KeyValueCustom } from '../../../models/key-value-custom.model';
+import { ConverterService } from '../../../services/converter.service';
 
 @Component({
   selector: 'app-display',
@@ -13,13 +14,14 @@ import { KeyValueCustom } from '../../../models/key-value-custom.model';
 export class DisplayComponent {
 
   plotly = inject(PlotService)
+  converter = inject(ConverterService)
 
   dataRetrived = false
   retrivedSearch: Search = {
     title: ['Sample Title'],
     emotion: {
       anger: 0.1,
-      disgust: 0.2,
+      disgust: 0.3,
       fear: 0.3,
       joy: 0.4,
       sadness: 0.5,
@@ -52,31 +54,22 @@ export class DisplayComponent {
     }
   }
 
-
+  comparisionMetris = [
+    { name: 'Cosine Similarity', your: this.retrivedSearch.model.cosineSim, baseline: 0.9 },
+    { name: 'Jaccard Bigrams', your: this.retrivedSearch.model.jaccardBigrams, baseline: 0.8 },
+    { name: 'Jaccard Words', your: this.retrivedSearch.model.jaccardWords, baseline: 0.7 },
+    { name: 'Length Difference', your: this.retrivedSearch.model.lenDif, baseline: 10 },
+    { name: 'Length Ratio', your: this.retrivedSearch.model.lenRatio, baseline: 1.5 },
+    { name: 'Normalized Edit Distance', your: this.retrivedSearch.model.normEditDist, baseline: 2 },
+    { name: 'TF-IDF Similarity', your: this.retrivedSearch.model.tfIdfSim, baseline: 0.9 }
+  ]
 
   updateData() {
-    this.retrivedSearch.emotion = {
-      anger: 0.1,
-      disgust: 0.1,
-      fear: 0.1,
-      joy: 0.1,
-      sadness: 0.1,
-      surprise: 0.1,
-      neutral: 0.4
-    }
-
-    const emotions: KeyValueCustom[] = [
-      {name: 'Anger', value: this.retrivedSearch.emotion.anger},
-      {name: 'Disgust', value: this.retrivedSearch.emotion.disgust},
-      {name: 'Fear', value: this.retrivedSearch.emotion.fear},
-      {name: 'Joy', value: this.retrivedSearch.emotion.joy},
-      {name: 'Sadness', value: this.retrivedSearch.emotion.sadness},
-      {name: 'Surprise', value: this.retrivedSearch.emotion.surprise},
-      {name: 'Neutral', value: this.retrivedSearch.emotion.neutral}
-    ]
-    this.plotly.makeBarGraph(emotions, 'Emotion Analysis', 'Emotion', 'Value', 'emotions')
-    this.dataRetrived = true
+    
   }
 
 
+  test() {
+    console.log(this.converter.searchToKeyEmotion(this.retrivedSearch))
+  }
 }
