@@ -1,17 +1,1 @@
-{
-    "hosting": {
-        "site": "fake-news-capstone",
-        "public": "dist/news-frontend/browser",
-        "ignore": [
-            "firebase.json",
-            "**/.*",
-            "**/node_modules/**"
-        ],
-        "rewrites": [
-            {
-                "source": "**",
-                "destination": "/index.html"
-            }
-        ]
-    }
-}
+{}

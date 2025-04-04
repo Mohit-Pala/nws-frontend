@@ -1,59 +1,45 @@
-<h1 class="text-blue-400 font-bold text-4xl text-center mb-8">News Analyzer</h1>
+<main class="rounded-4xl bg-catppuccinLatteBg p-2 mt-2">
+  <h1 class="text-blue-400 font-bold text-4xl text-center mb-8">News Analyzer</h1>
 
-<form #newsForm="ngForm" (ngSubmit)="onSubmit(newsForm)" class="flex flex-col items-center">
-  <div class="w-full max-w-2xl space-y-6">
-    <div class="flex flex-col">
-      <input type="text" name="title" placeholder="Enter article title here..." required="required"
-        class="w-full px-4 py-2 rounded-lg bg-gray-100 border border-gray-300 focus:border-blue-400 focus:outline-none"
-        [(ngModel)]="title">
+  <form #newsForm="ngForm" (ngSubmit)="onSubmit(newsForm)" class="flex flex-col items-center">
+    <div class="w-full max-w-2xl space-y-6">
+      <div class="flex flex-col">
+        <label for="title" class="mb-1">Article Title</label>
+        <input type="text" id="title" name="title" placeholder="Enter article title here..." required="required"
+          class="w-full px-4 py-2 rounded-lg bg-gray-100 border border-gray-300 focus:border-blue-400 focus:outline-none"
+          [(ngModel)]="title">
+      </div>
+
+      <div class="flex flex-col">
+        <label for="article" class="mb-1">Article Text</label>
+        <textarea id="article" name="article" placeholder="Enter article text here..." rows="6"
+          class="w-full px-4 py-2 rounded-lg bg-gray-100 border border-gray-300 focus:border-blue-400 focus:outline-none resize-none"
+          [(ngModel)]="article"></textarea>
+      </div>
+
+      <button type="submit"
+        class="w-full md:w-1/3 py-2 px-4 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-colors mx-auto">
+        Submit
+      </button>
     </div>
+  </form>
 
-    <div class="flex flex-col">
-      <textarea name="article" placeholder="Enter article text here..." rows="6"
-        class="w-full px-4 py-2 rounded-lg bg-gray-100 border border-gray-300 focus:border-blue-400 focus:outline-none resize-none"
-        [(ngModel)]="article"></textarea>
-    </div>
-
-    <button type="submit"
-      class="w-full md:w-1/3 py-2 px-4 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-colors mx-auto">
-      Submit
-    </button>
+  <div class="mt-8">
+    <h2 class="text-xl font-semibold text-blue-400 text-center mb-4">Model Output</h2>
+    <div *ngIf="!apiData" class="text-center">No data available yet. Please submit an article.</div>
   </div>
-</form>
 
+  <hr
+    class="my-12 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
 
-<hr
-  class="my-12 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
+  <app-model [apiData]="apiData"></app-model>
 
+  <app-sentiment-model *ngIf="showSentimentModel" class="px-10 py-10"></app-sentiment-model>
 
-<app-model class="px-10 py-10"></app-model>
+  <app-gemini class="px-10 py-10"></app-gemini>
 
-<app-gemini class="px-10 py-10"></app-gemini>
+  <app-gpt class="px-10 py-10"></app-gpt>
 
-<app-gpt class="px-10 py-10"></app-gpt>
+  <a href="/about">About Page</a>
 
-<a href="/about">About Page</a>
-
-
-
-<!-- 
-<div class="flex space-x-8 mb-10 flex-wrap justify-center">
-	<div class="flex-1 p-6 border border-gray-300 rounded-lg flex-grow">
-	  <h2 class="text-xl font-semibold text-blue-400 text-center mb-4">Model Output</h2>
-	</div>
-  
-	<div class="w-px bg-gray-300 mx-4"></div>
-  
-	<div class="flex-1 p-6 border border-gray-300 rounded-lg flex-grow">
-	  <h2 class="text-xl font-semibold text-blue-400 text-center mb-4">Gemini Output</h2>
-	</div>
-  
-	<div class="w-px bg-gray-300 mx-4"></div>
-  
-	<div class="flex-1 p-6 border border-gray-300 rounded-lg flex-grow">
-	  <h2 class="text-xl font-semibold text-blue-400 text-center mb-4">GPT Output</h2>
-	</div>
-</div>
-
-<hr class="my-12 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
-<h2 class="text-xl font-semibold text-blue-400 text-center mb-4">Google Search</h2> -->
+</main>
