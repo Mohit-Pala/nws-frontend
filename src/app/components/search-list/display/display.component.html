@@ -1,6 +1,6 @@
-<!-- <main>
+<main>
 
-    <div id="loading" [hidden]="!dataRetrived">
+    <div id="loading">
         <h1>{{retrivedSearch.title.join(' ')}}</h1>
 
         Emotion Breakdown
@@ -45,16 +45,61 @@
         </div>
 
 
+        Gemini Ouptput
+
+        <ul class="space-y-4 text-gray-500 list-disc list-inside dark:text-gray-400">
+            <li>
+                Facts
+                <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside"
+                    *ngFor="let fact of retrivedSearch.gemini.facts">
+                    <li>{{fact}}</li>
+                </ol>
+            </li>
+            <li>
+                Sources
+                <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside"
+                    *ngFor="let source of retrivedSearch.gemini.source">
+                    <li>{{source}}</li>
+                </ul>
+            </li>
+            <li>
+                Keywords
+                <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside"
+                    *ngFor="let keyword of retrivedSearch.gemini.words">
+                    <li>{{keyword}}</li>
+                </ul>
+            </li>
+        </ul>
+
+
+        GPT Ouptput
+
+        <ul class="space-y-4 text-gray-500 list-disc list-inside dark:text-gray-400">
+            <li>
+                Facts
+                <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside" *ngFor="let fact of retrivedSearch.gpt.facts">
+                    <li>{{fact}}</li>
+                </ol>
+            </li>
+            <li>
+                Sources
+                <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside"
+                    *ngFor="let source of retrivedSearch.gpt.source">
+                    <li>{{source}}</li>
+                </ul>
+            </li>
+            <li>
+                Keywords
+                <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside"
+                    *ngFor="let keyword of retrivedSearch.gpt.words">
+                    <li>{{keyword}}</li>
+                </ul>
+            </li>
+        </ul>
+
     </div>
 
-    <div id="loading" [hidden]="dataRetrived">
-        <h1>Loading...</h1>
-        <div class="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600"></div>
-    </div>
-
-    <button (click)="updateData()">get Data</button>
-
-</main> -->
+</main>
 
 
 
