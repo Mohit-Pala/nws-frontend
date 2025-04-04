@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "webapp-7fad1"
+  },
+  "targets": {
+    "webapp-7fad1": {
+      "hosting": {
+        "fake-news-capstone": [
+          "webapp-7fad1"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
