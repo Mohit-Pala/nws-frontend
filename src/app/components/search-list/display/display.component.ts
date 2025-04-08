@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PlotService } from '../../../services/plot.service';
 import { KeyValueCustom } from '../../../models/key-value-custom.model';
 import { ConverterService } from '../../../services/converter.service';
+import { HelpService } from '../../../services/help.service';
 
 @Component({
   selector: 'app-display',
@@ -15,6 +16,7 @@ export class DisplayComponent {
 
   plotly = inject(PlotService)
   converter = inject(ConverterService)
+  help = inject(HelpService)
 
   dataRetrived = false
   retrivedSearch: Search = {
@@ -55,13 +57,13 @@ export class DisplayComponent {
   }
 
   comparisionMetris = [
-    { name: 'Cosine Similarity', your: this.retrivedSearch.model.cosineSim, baseline: 0.9 },
-    { name: 'Jaccard Bigrams', your: this.retrivedSearch.model.jaccardBigrams, baseline: 0.8 },
-    { name: 'Jaccard Words', your: this.retrivedSearch.model.jaccardWords, baseline: 0.7 },
-    { name: 'Length Difference', your: this.retrivedSearch.model.lenDif, baseline: 10 },
-    { name: 'Length Ratio', your: this.retrivedSearch.model.lenRatio, baseline: 1.5 },
-    { name: 'Normalized Edit Distance', your: this.retrivedSearch.model.normEditDist, baseline: 2 },
-    { name: 'TF-IDF Similarity', your: this.retrivedSearch.model.tfIdfSim, baseline: 0.9 }
+    { name: 'Cosine Similarity', your: this.retrivedSearch.model.cosineSim, baseline: 0.9, explanation: this.help.getCosineSimilarity()  },
+    { name: 'Jaccard Bigrams', your: this.retrivedSearch.model.jaccardBigrams, baseline: 0.8, explanation: this.help.getJaccardSimilarityBigrams() },
+    { name: 'Jaccard Words', your: this.retrivedSearch.model.jaccardWords, baseline: 0.7, explanation: this.help.getJaccardSimilarity() },
+    { name: 'Length Difference', your: this.retrivedSearch.model.lenDif, baseline: 10, explanation: this.help.getLengthDifference() },
+    { name: 'Length Ratio', your: this.retrivedSearch.model.lenRatio, baseline: 1.5, explanation: this.help.getLengthRatio() },
+    { name: 'Normalized Edit Distance', your: this.retrivedSearch.model.normEditDist, baseline: 2, explanation: this.help.getNormalizedEditDistance() },
+    { name: 'TF-IDF Similarity', your: this.retrivedSearch.model.tfIdfSim, baseline: 0.9, explanation: this.help.getTFIDFSimilarity() }
   ]
 
   updateData() {
@@ -72,5 +74,9 @@ export class DisplayComponent {
   test() {
     console.log(this.converter.searchToKeyEmotion(this.retrivedSearch))
     console.log(this.converter.searchToKeySentiment(this.retrivedSearch))
+  }
+
+  show(stuff: string) {
+    alert(stuff)
   }
 }
