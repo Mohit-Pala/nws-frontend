@@ -34,7 +34,7 @@
                     <tbody>
                         <tr *ngFor="let metric of comparisionMetris"
                             class="border-b border-catppuccinLatteFlamingo">
-                            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
+                            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer" (click)="show(metric.explanation)">
                                 {{metric.name}}
                             </th>
                             <td class="px-6 py-4">
