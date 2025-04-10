@@ -24,9 +24,9 @@
       <li *ngFor="let item of items" class="border rounded-lg shadow-md hover:shadow-lg transition-shadow p-4">
         <section>
           <h1 class="text-xl font-semibold text-gray-900 mb-2">
-            {{ item.title.join(' ') }}
+            {{ item.item.title.join(' ') }}
           </h1>
-          <a href="/" class="text-blue-600 hover:text-blue-800 font-medium">More info →</a>
+          <a (click)="navToId(item.ids)" class="text-blue-600 hover:text-blue-800 font-medium">More info →</a>
         </section>
       </li>
     </ul>

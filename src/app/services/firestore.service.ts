@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { Firestore, getFirestore, doc, getDoc, getDocs, collection, addDoc, query, where } from 'firebase/firestore';
 import { firebaseConfig } from '../../../api_key';
 import { Search } from '../models/search.model';
+import { FsSearch } from '../models/fs-search.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,29 @@ export class FirestoreService {
     })
   }
 
+
+  async getAllData(): Promise<FsSearch[] | null> {
+    const collectionRef = collection(this.firestore, "data")
+    const querySnapshot = await getDocs(collectionRef)
+    if (querySnapshot.empty) {
+      console.log("No documents found!")
+      return null
+    }
+
+    let out: FsSearch[] = []
+
+
+    querySnapshot.forEach((doc) => {
+      const tmpFsSearch: FsSearch = {
+        item: doc.data() as Search,
+        ids: doc.id
+      }
+      out.push(tmpFsSearch)
+    })
+
+    return out
+  }
+
   // Search for a document by title
   // Exact match
   async searchByTitle(searchTerm: string) {
@@ -79,14 +103,28 @@ export class FirestoreService {
     }
 
     let data: Search[] = []
+    let ids: string[] = []
 
     querySnapshot.forEach((doc) => {
       data.push(doc.data() as Search)
+      ids.push(doc.id)
     })
-    return data
+    return {data, ids}
   }
 
-  async searchByNewsSource(source: string) {
-    const collectionRef = collection(this.firestore, "data")    
+  async getDataById(id: string) {
+    const docRef = doc(this.firestore, "data", id)
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data())
+      console.log("Document id:", docSnap.id)
+      return docSnap.data()
+    } else {
+      console.log("No such document!")
+      return null
+    }
   }
+
+  
 }
