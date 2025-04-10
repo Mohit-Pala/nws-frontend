@@ -44,11 +44,72 @@ export class FirestoreService {
     },
 
     title: ['this', 'is', 'a', 'sample', 'title'],
+
+    
+  }
+
+  newSampleData: Search = {
+    title: ['Apple', 'iPhone', '14', 'Pro', 'Max'],
+    emotion: {
+      anger: 0.1,
+      disgust: 0.1,
+      fear: 0.1,
+      joy: 0.2,
+      sadness: 0.1,
+      surprise: 0.3,
+      neutral: 0.1
+    },
+    sentiment: {
+      positive: 0.85,
+      negative: 0.05,
+      neutral: 0.1
+    },
+    model: {
+      cosineSim: 0.8,
+      jaccardBigrams: 0.5,
+      jaccardWords: 0.6,
+      lenDif: 30,
+      lenRatio: 0.3,
+      normEditDist: 0.2,
+      // normEditDist: 0.2,
+      tfIdfSim: 0.1
+    },
+    gemini: {
+      facts: [
+        'Apple released the iphone 14 pro max',
+        'Sucessor to iphone 13 pro max',
+      ],
+      source: [
+        'Apple',
+        'Wikipedia',
+        'Google',
+      ],
+      words: [
+        'Apple',
+        'iPhone',
+        '14',
+      ]
+    },
+    gpt: {
+      facts: [
+        'Apple made this phone',
+        'Not samsung',
+      ],
+      source: [
+        'Apple',
+        'Not Samsung'
+      ],
+      words: [
+        'Apple',
+        'iPhone',
+        'samsung'
+      ]
+    }
   }
 
   async putSampleData() {
     const collectionRef = collection(this.firestore, "data")
-    await addDoc(collectionRef, this.sampleData).then((res) => {
+    await addDoc(collectionRef, this.newSampleData).then((res) => {
       console.log("Document written", res)
     }).catch((error) => {
       console.log("Error adding document", error)
@@ -125,6 +186,4 @@ export class FirestoreService {
       return null
     }
   }
-
-  
 }

@@ -50,4 +50,8 @@ export class SearchListComponent implements OnInit {
   navToId(id: string) {
     this.router.navigate(['/search', id])
   } 
+
+  uploadNewData() {
+    this.firestore.putSampleData()
+  }
 }
