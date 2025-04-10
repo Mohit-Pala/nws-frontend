@@ -180,7 +180,7 @@ export class FirestoreService {
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data())
       console.log("Document id:", docSnap.id)
-      return docSnap.data()
+      return docSnap.data() as Search
     } else {
       console.log("No such document!")
       return null
