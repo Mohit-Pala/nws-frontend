@@ -49,7 +49,7 @@ export class FirestoreService {
   }
 
   newSampleData: Search = {
-    title: ['Apple', 'iPhone', '14', 'Pro', 'Max'],
+    title: ['Bpple', 'iPhone', '14', 'Pro', 'Max'],
     emotion: {
       anger: 0.1,
       disgust: 0.1,
@@ -163,14 +163,17 @@ export class FirestoreService {
       return []
     }
 
-    let data: Search[] = []
-    let ids: string[] = []
+    let out: FsSearch[] = []
 
     querySnapshot.forEach((doc) => {
-      data.push(doc.data() as Search)
-      ids.push(doc.id)
+      const tmpFsSearch: FsSearch = {
+        item: doc.data() as Search,
+        ids: doc.id
+      }
+      out.push(tmpFsSearch)
     })
-    return {data, ids}
+
+    return out
   }
 
   async getDataById(id: string) {

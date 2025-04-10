@@ -24,12 +24,16 @@ export class SearchListComponent implements OnInit {
   restApi = inject(RestApiService)
 
   firestore = inject(FirestoreService)
-
+  searchTerm = ''
   items: FsSearch[] = []
   signedIn = true
 
 
   ngOnInit() {
+    this.getAllData()
+  }
+
+  getAllData() {
     this.firestore.getAllData().then((res) => {
       console.log(res)
       if(!res) {
@@ -43,15 +47,34 @@ export class SearchListComponent implements OnInit {
     this.auth.logout()
   }
 
-  onSubmit(form: NgForm) {
-    this.items = []
-  }
-
   navToId(id: string) {
     this.router.navigate(['/search', id])
   } 
 
   uploadNewData() {
     this.firestore.putSampleData()
+  }
+
+  reset() {
+    this.searchTerm = ''
+    this.items = []
+    this.getAllData()
+  }
+
+  searchByKeyword() {
+    this.firestore.searchTitleSubstring(this.searchTerm).then((res) => {
+      if(!res) {
+        return
+      }
+      if(res.length == 0) {
+        alert('No results found')
+        this.getAllData()
+        return
+      }
+      this.items = res
+    }).catch((err) => {
+      alert(err)
+      this.getAllData()
+    })
   }
 }
