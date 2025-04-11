@@ -1,40 +1,5 @@
-<main class="flex flex-col p-6  mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-white border-b pb-2">
-        Gemini output
-    </h1>
-
-    <section class="mb-6">
-        <h2 class="text-xl font-semibold mb-3 text-gray-700 dark:text-gray-200">
-            Facts
-        </h2>
-        <div *ngFor="let item of dummyData.facts" class="mb-2 text-gray-600 dark:text-gray-300 pl-4 border-l-2 border-blue-500">
-            {{item}}
-        </div>
-    </section>
-
-    <section class="mb-6">
-        <h2 class="text-xl font-semibold mb-3 text-gray-700 dark:text-gray-200">
-            Sources
-        </h2>
-        <div *ngFor="let item of dummyData.source" class="mb-2 text-gray-600 dark:text-gray-300 pl-4 border-l-2 border-green-500">
-            {{item}}
-        </div>
-    </section>
-
-    <section class="mb-6">
-        <h2 class="text-xl font-semibold mb-3 text-gray-700 dark:text-gray-200">
-            Keywords
-        </h2>
-        <div *ngFor="let item of dummyData.words" class="mb-2 text-gray-600 dark:text-gray-300 pl-4 border-l-2 border-purple-500">
-            {{item}}
-        </div>
-    </section>
-</main>
-
-
-
-
-<div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+<main>
+  <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
     <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Gemini Output</h2>
     <ul class="space-y-4 list-disc list-inside">
       <li class="text-catppuccinLatteText">
@@ -45,17 +10,16 @@
       </li>
       <li class="text-catppuccinLatteText">
         <span class="font-semibold">Sources</span>
-        <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside"
-          *ngFor="let source of dummyData.source">
+        <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside" *ngFor="let source of dummyData.source">
           <li>{{source}}</li>
         </ul>
       </li>
       <li class="text-catppuccinLatteText">
         <span class="font-semibold">Keywords</span>
-        <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside"
-          *ngFor="let keyword of dummyData.words">
+        <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside" *ngFor="let keyword of dummyData.words">
           <li>{{keyword}}</li>
         </ul>
       </li>
     </ul>
   </div>
+</main>

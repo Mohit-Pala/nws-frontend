@@ -1,31 +1,72 @@
-<main>
-  <div id="bar-graph"></div>
-  <div id="sentiment-pie"></div>
-  <div id="similarity-radar"></div>
-  <div id="gauge-cosine-similarity"></div>
-  <div id="gauge-tfidf-similarity"></div>
-  <div id="gauge-jaccard-words"></div>
-  <div id="gauge-jaccard-bigrams"></div>
-  <div id="gauge-edit-distance"></div>
+<main class="px-24 space-y-8 bg-catppuccinLatteBg text-catppuccinLatteText">
+  <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Emotion Breakdown</h2>
+    <div id="bar-graph"></div>
+  </div>
 
+  <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Sentiment Analysis</h2>
+    <div id="sentiment-pie"></div>
+  </div>
 
-  <div class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          <th scope="col" class="px-6 py-3">
-            Metric
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Your News Article
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Baseline
-          </th>
-        </tr>
-      </thead>
-    </table>
+  <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Similarity Analysis</h2>
+    <div id="similarity-radar"></div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-8">
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Cosine Similarity</h2>
+      <div id="gauge-cosine-similarity"></div>
+    </div>
+
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">TF-IDF Similarity</h2>
+      <div id="gauge-tfidf-similarity"></div>
+    </div>
+
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Jaccard Words</h2>
+      <div id="gauge-jaccard-words"></div>
+    </div>
+
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Jaccard Bigrams</h2>
+      <div id="gauge-jaccard-bigrams"></div>
+    </div>
+
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Edit Distance</h2>
+      <div id="gauge-edit-distance"></div>
+    </div>
+  </div>
+
+  <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Metric Comparison</h2>
+    <div class="relative overflow-x-auto">
+      <table class="w-full text-sm text-left rtl:text-right">
+        <thead class="text-xs uppercase bg-catppuccinLatteSurface1">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
+              Metric
+            </th>
+            <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
+              Your News Article
+            </th>
+            <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
+              Baseline
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <button 
+      (click)="onSubmit('sus', 'amongus')"
+      class="bg-catppuccinLatteSurface1 text-catppuccinLatteText px-4 py-2 rounded hover:bg-catppuccinLatteSurface transition-colors">
+      Submit
+    </button>
   </div>
 </main>
-
-<button (click)="onSubmit('sus', 'amongus')">Sus amongus</button>
