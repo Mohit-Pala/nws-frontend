@@ -30,3 +30,32 @@
         </div>
     </section>
 </main>
+
+
+
+
+<div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Gemini Output</h2>
+    <ul class="space-y-4 list-disc list-inside">
+      <li class="text-catppuccinLatteText">
+        <span class="font-semibold">Facts</span>
+        <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside" *ngFor="let fact of dummyData.facts">
+          <li>{{fact}}</li>
+        </ol>
+      </li>
+      <li class="text-catppuccinLatteText">
+        <span class="font-semibold">Sources</span>
+        <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside"
+          *ngFor="let source of dummyData.source">
+          <li>{{source}}</li>
+        </ul>
+      </li>
+      <li class="text-catppuccinLatteText">
+        <span class="font-semibold">Keywords</span>
+        <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside"
+          *ngFor="let keyword of dummyData.words">
+          <li>{{keyword}}</li>
+        </ul>
+      </li>
+    </ul>
+  </div>

@@ -2,7 +2,9 @@ import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/cor
 import { PlotService } from '../../../services/plot.service';
 import { CommonModule } from '@angular/common';
 import { KeyValueCustom } from '../../../models/key-value-custom.model';
-import { BackendOutput } from '../../../services/rest-api.service';
+import { RestApiService } from '../../../services/rest-api.service';
+import { ConverterService } from '../../../services/converter.service';
+import { BackendOutput } from '../../../models/backedn-output.model';
 
 @Component({
   selector: 'app-model',
@@ -15,13 +17,10 @@ export class ModelComponent implements OnChanges {
   @Input() apiData: BackendOutput | null = null;
 
   plotly = inject(PlotService);
+
   emotions: any[] = [];
   sentimentData: any[] = [];
   similarityData: KeyValueCustom[] = [];
-
-  comparision_metrics = [
-    { name: 'Cosine Similarity', your: 0.34, baseline: 0.75 },
-  ];
 
   constructor() { }
 
@@ -80,7 +79,7 @@ export class ModelComponent implements OnChanges {
         { name: 'Normalized Edit Distance', value: this.apiData.metrics.normEditDist, id: 'gauge-edit-distance' } as KeyValueCustom
       ];
       this.similarityData.forEach(metric => {
-        if(!metric.id) {
+        if (!metric.id) {
           return
         }
         this.plotly.makeRadarChart(this.similarityData, 'Similarity Analysis', 'similarity-radar');
@@ -89,5 +88,55 @@ export class ModelComponent implements OnChanges {
     } else {
       console.warn("apiData or apiData.metrics is null");
     }
+  }
+
+  // New with stricter types for error handling
+  retrivedOutput: BackendOutput = {
+    title: '',
+    article: '',
+    message: '',
+    emotion: {
+      anger: 0,
+      disgust: 0,
+      fear: 0,
+      joy: 0,
+      sadness: 0,
+      surprise: 0,
+      neutral: 0
+    },
+    sentiment: {
+      positive: 0,
+      negative: 0,
+      neutral: 0
+    },
+    metrics: {
+      cosineSim: 0,
+      jaccardBigrams: 0,
+      jaccardWords: 0,
+      lenDif: 0,
+      lenRatio: 0,
+      normEditDist: 0,
+      tfIdfSim: 0
+    }
+  }
+
+  converter = inject(ConverterService)
+  restApi = inject(RestApiService)
+
+  async onSubmit(title: string, article: string) {
+    // emotion and sentiment
+    await this.restApi.getOutput(title, article).then((res) => {
+      this.retrivedOutput.emotion = res.emotion
+      this.retrivedOutput.sentiment = res.sentiment
+    }).catch((err) => {
+      console.error("Error fetching output:", err)
+    })
+
+    // metrics
+    await this.restApi.predictNew(title, article).then((res) => {
+      this.retrivedOutput.metrics = res.metrics
+    })
+
+    console.log("retrivedOutput:", this.retrivedOutput)
   }
 }
