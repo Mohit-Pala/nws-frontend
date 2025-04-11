@@ -5,7 +5,7 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { GeminiComponent } from "./gemini/gemini.component";
 import { GptComponent } from "./gpt/gpt.component";
 import { SentimentModelComponent } from './sentiment-model/sentiment-model.component';
-import { RestApiService, PredictResponse } from '../../services/rest-api.service';
+import { RestApiService, BackendOutput } from '../../services/rest-api.service';
 
 @Component({
   selector: 'app-main',
@@ -16,7 +16,7 @@ import { RestApiService, PredictResponse } from '../../services/rest-api.service
 })
 export class MainComponent {
   restApi = inject(RestApiService);
-  apiData: any; // Data to be passed to ModelComponent
+  apiData: BackendOutput | null = null; // Data to be passed to ModelComponent
   showSentimentModel: boolean = false;
 
   @ViewChild(GptComponent) gptComponent!: GptComponent
@@ -35,12 +35,12 @@ export class MainComponent {
 
     // Call /submit to get sentiment and emotion data
     this.restApi.getOutput(this.title, this.article)
-      .then((submitResponse: any) => {
+      .then((submitResponse: BackendOutput) => {
         console.log("Submit Response received:", submitResponse);
 
         // Call /predict to get similarity data
         this.restApi.predict(this.title, this.article).subscribe({
-          next: (predictResponse: PredictResponse) => {
+          next: (predictResponse: any) => {
             console.log("Predict Response received:", predictResponse);
             // Combine the data from both responses
             this.apiData = { ...submitResponse, ...predictResponse };

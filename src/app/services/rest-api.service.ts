@@ -1,24 +1,38 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
-// Define an interface for the data you expect to receive from the /predict endpoint
-export interface PredictResponse {
-	emotions: any[]; // Replace 'any' with a more specific type if you know the structure
-	sentiment: {
-	  sentiment: string;
-	  score: number;
-	};
-	'cosine-similarity': number;
-	'tfidf-similarity': number;
-	'jaccard-words': number;
-	'jaccard-bigrams': number;
-	'edit-distance': number;
-  }
+export interface BackendOutput {
+  title: string;
+  article: string;
+  message: string;
+  emotion: {
+    anger: number;
+    disgust: number;
+    fear: number;
+    joy: number;
+    sadness: number;
+    surprise: number;
+    neutral: number;
+  };
+  sentiment: {
+    positive: number;
+    negative: number;
+    neutral: number;
+  };
+  metrics: {
+    cosineSim: number;
+    jaccardBigrams: number;
+    jaccardWords: number;
+    lenDif: number;
+    lenRatio: number;
+    normEditDist: number;
+    tfIdfSim: number;
+  };
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RestApiService {
   private apiUrl = 'http://127.0.0.1:5001/submit';
@@ -26,7 +40,7 @@ export class RestApiService {
 
   constructor(private http: HttpClient) {}
 
-  predict(title: string, text: string): Observable<PredictResponse> {
+  predict(title: string, text: string): Observable<any> {
     const url = `${this.baseUrl}/predict`;
     const body = { title: title, article: text };
     const httpOptions = {
@@ -34,10 +48,10 @@ export class RestApiService {
         'Content-Type': 'application/json',
       }),
     };
-    return this.http.post<PredictResponse>(url, body, httpOptions);
+    return this.http.post<any>(url, body, httpOptions);
   }
 
-  async getOutput(title: string, article: string): Promise<any> {
-    return firstValueFrom(this.http.post<any>(this.apiUrl, { title, article }));
+  async getOutput(title: string, article: string): Promise<BackendOutput> {
+    return firstValueFrom(this.http.post<BackendOutput>(this.apiUrl, { title, article }));
   }
 }
