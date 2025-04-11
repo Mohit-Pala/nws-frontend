@@ -5,6 +5,7 @@ import { KeyValueCustom } from '../../../models/key-value-custom.model';
 import { RestApiService } from '../../../services/rest-api.service';
 import { ConverterService } from '../../../services/converter.service';
 import { BackendOutput } from '../../../models/backedn-output.model';
+import { HelpService } from '../../../services/help.service';
 
 @Component({
   selector: 'app-model',
@@ -91,6 +92,12 @@ export class ModelComponent implements OnChanges {
   }
 
   // New with stricter types for error handling
+
+  converter = inject(ConverterService)
+  restApi = inject(RestApiService)
+  help = inject(HelpService)
+
+  dataRetrived: boolean = false
   retrivedOutput: BackendOutput = {
     title: '',
     article: '',
@@ -120,14 +127,26 @@ export class ModelComponent implements OnChanges {
     }
   }
 
-  converter = inject(ConverterService)
-  restApi = inject(RestApiService)
+  comparisionMetris = [
+    { name: 'Cosine Similarity', your: this.retrivedOutput.metrics.cosineSim, baseline: 0.9, explanation: this.help.getCosineSimilarity() },
+    { name: 'Jaccard Bigrams', your: this.retrivedOutput.metrics.jaccardBigrams, baseline: 0.8, explanation: this.help.getJaccardSimilarityBigrams() },
+    { name: 'Jaccard Words', your: this.retrivedOutput.metrics.jaccardWords, baseline: 0.7, explanation: this.help.getJaccardSimilarity() },
+    { name: 'Length Difference', your: this.retrivedOutput.metrics.lenDif, baseline: 10, explanation: this.help.getLengthDifference() },
+    { name: 'Length Ratio', your: this.retrivedOutput.metrics.lenRatio, baseline: 1.5, explanation: this.help.getLengthRatio() },
+    { name: 'Normalized Edit Distance', your: this.retrivedOutput.metrics.normEditDist, baseline: 2, explanation: this.help.getNormalizedEditDistance() },
+    { name: 'TF-IDF Similarity', your: this.retrivedOutput.metrics.tfIdfSim, baseline: 0.9, explanation: this.help.getTFIDFSimilarity() }
+  ]
+
+  show(message: string) {
+    alert(message)
+  }
 
   async onSubmit(title: string, article: string) {
     // emotion and sentiment
     await this.restApi.getOutput(title, article).then((res) => {
       this.retrivedOutput.emotion = res.emotion
       this.retrivedOutput.sentiment = res.sentiment
+      this.dataRetrived = true
     }).catch((err) => {
       console.error("Error fetching output:", err)
     })
@@ -138,5 +157,15 @@ export class ModelComponent implements OnChanges {
     })
 
     console.log("retrivedOutput:", this.retrivedOutput)
+
+    this.comparisionMetris = [
+      { name: 'Cosine Similarity', your: this.retrivedOutput.metrics.cosineSim, baseline: 0.9, explanation: this.help.getCosineSimilarity() },
+      { name: 'Jaccard Bigrams', your: this.retrivedOutput.metrics.jaccardBigrams, baseline: 0.8, explanation: this.help.getJaccardSimilarityBigrams() },
+      { name: 'Jaccard Words', your: this.retrivedOutput.metrics.jaccardWords, baseline: 0.7, explanation: this.help.getJaccardSimilarity() },
+      { name: 'Length Difference', your: this.retrivedOutput.metrics.lenDif, baseline: 10, explanation: this.help.getLengthDifference() },
+      { name: 'Length Ratio', your: this.retrivedOutput.metrics.lenRatio, baseline: 1.5, explanation: this.help.getLengthRatio() },
+      { name: 'Normalized Edit Distance', your: this.retrivedOutput.metrics.normEditDist, baseline: 2, explanation: this.help.getNormalizedEditDistance() },
+      { name: 'TF-IDF Similarity', your: this.retrivedOutput.metrics.tfIdfSim, baseline: 0.9, explanation: this.help.getTFIDFSimilarity() }
+    ]
   }
 }

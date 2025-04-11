@@ -58,13 +58,26 @@
             </th>
           </tr>
         </thead>
+        <tbody>
+          <tr *ngFor="let metric of comparisionMetris" class="border-b border-catppuccinLatteFlamingo">
+            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer"
+              (click)="show(metric.explanation)">
+              {{metric.name}}
+            </th>
+            <td class="px-6 py-4">
+              {{metric.your | percent}}
+            </td>
+            <td class="px-6 py-4">
+              {{metric.baseline | percent}}
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
 
   <div class="text-center mt-4">
-    <button 
-      (click)="onSubmit('sus', 'amongus')"
+    <button (click)="onSubmit('sus', 'amongus')"
       class="bg-catppuccinLatteSurface1 text-catppuccinLatteText px-4 py-2 rounded hover:bg-catppuccinLatteSurface transition-colors">
       Submit
     </button>
