@@ -5,7 +5,8 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { GeminiComponent } from "./gemini/gemini.component";
 import { GptComponent } from "./gpt/gpt.component";
 import { SentimentModelComponent } from './sentiment-model/sentiment-model.component';
-import { RestApiService, BackendOutput } from '../../services/rest-api.service';
+import { RestApiService } from '../../services/rest-api.service';
+import { BackendOutput } from "../../models/backedn-output.model";
 
 @Component({
   selector: 'app-main',

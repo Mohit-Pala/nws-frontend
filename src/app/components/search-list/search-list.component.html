@@ -1,34 +1,38 @@
-<main class="container mx-auto p-6">` ````` 
+<main class="container mx-auto p-6 bg-[#eff1f5]">
 
-  <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm)" class="mb-8 max-w-lg">
+  <form #searchForm="ngForm" (ngSubmit)="searchByKeyword()" class="mb-8 max-w-lg">
     <div class="flex flex-col mb-4">
-      <label for="search" class="text-gray-700 text-sm font-bold mb-2">Search:</label>
-      <input type="text" id="search" name="search" ngModel required
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      <label for="search" class="text-[#4c4f69] text-sm font-bold mb-2">Word Search:</label>
+      <input type="text" id="search" name="search" [(ngModel)]="searchTerm" required
+        class="bg-[#ccd0da] border-2 border-[#dd7878] rounded w-full py-2 px-3 text-[#4c4f69] leading-tight focus:outline-none focus:border-[#1e66f5] focus:ring-2 focus:ring-[#1e66f5] focus:ring-opacity-20 transition-all duration-200">
     </div>
     <div class="flex space-x-4">
       <button type="submit" [disabled]="searchForm.invalid"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50 disabled:cursor-not-allowed">
+        class="bg-[#1e66f5] hover:bg-transparent hover:text-[#1e66f5] border-2 border-transparent hover:border-[#1e66f5] text-white font-bold py-2 px-4 rounded transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#1e66f5] disabled:hover:text-white disabled:hover:border-transparent">
         Search
       </button>
-      <button type="reset"
-        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+      <button type="reset" (click)="reset()"
+        class="bg-[#ccd0da] hover:bg-[#bcc0cc] text-[#4c4f69] font-bold py-2 px-4 rounded transition-all duration-200">
         Reset
       </button>
     </div>
   </form>
 
   <div>
-    <h2 class="text-3xl font-bold mb-6 text-gray-800">Search Results</h2>
+    <h2 class="text-3xl font-bold mb-6 text-[#4c4f69]">Search Results</h2>
     <ul class="space-y-4">
-      <li *ngFor="let item of items" class="border rounded-lg shadow-md hover:shadow-lg transition-shadow p-4">
+      <li *ngFor="let item of items" class="bg-[#ccd0da] border border-[#dd7878] rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 p-4">
         <section>
-          <h1 class="text-xl font-semibold text-gray-900 mb-2">
-            {{ item.title.join(' ') }}
+          <h1 class="text-xl font-semibold text-[#4c4f69] mb-2">
+            {{ item.item.title.join(' ') }}
           </h1>
-          <a href="/" class="text-blue-600 hover:text-blue-800 font-medium">More info →</a>
+          <a (click)="navToId(item.ids)" class="text-[#1e66f5] hover:text-[#1e66f5]/80 font-medium cursor-pointer">More info →</a>
         </section>
       </li>
     </ul>
   </div>
 </main>
+
+
+<!-- testing -->
+<button (click)="uploadNewData()">add sample data</button>

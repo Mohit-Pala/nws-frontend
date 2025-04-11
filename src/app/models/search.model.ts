@@ -24,6 +24,14 @@ export interface Search {
         tfIdfSim: number
     }
     gemini: {
-        
+        facts: string[]
+        source: string[]
+        words: string[]
+    }
+
+    gpt: {
+        facts: string[]
+        source: string[]
+        words: string[]
     }
 }
