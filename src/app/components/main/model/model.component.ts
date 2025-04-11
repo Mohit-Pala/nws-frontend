@@ -80,7 +80,10 @@ export class ModelComponent implements OnChanges {
         { name: 'Normalized Edit Distance', value: this.apiData.metrics.normEditDist, id: 'gauge-edit-distance' } as KeyValueCustom
       ];
       this.similarityData.forEach(metric => {
-		this.plotly.makeRadarChart(this.similarityData, 'Similarity Analysis', 'similarity-radar');
+        if(!metric.id) {
+          return
+        }
+        this.plotly.makeRadarChart(this.similarityData, 'Similarity Analysis', 'similarity-radar');
         this.plotly.makeGaugeChart(metric.value, metric.name, metric.name, metric.id);
       });
     } else {
