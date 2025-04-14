@@ -55,5 +55,8 @@ export class MainComponent {
       .catch((error) => {
         console.error("Submit Error:", error);
       });
+
+    this.geminiComponent.generateGeminiContent(this.title, this.article)
+    this.gptComponent.generateGPTContent(this.title, this.article)
   }
 }
