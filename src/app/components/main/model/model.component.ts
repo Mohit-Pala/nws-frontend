@@ -37,38 +37,38 @@ export class ModelComponent implements OnChanges {
       console.warn('No data to update charts.');
       return;
     }
-    this.updateEmotionChart();
-    this.updateSentimentChart();
+    // this.updateEmotionChart();
+    // this.updateSentimentChart();
     this.updateSimilarityCharts();
   }
 
-  updateEmotionChart() {
-    if (this.apiData && this.apiData.emotion) {
-      this.emotions = Object.entries(this.apiData.emotion).map(([name, value]) => ({ name, value }));
-      console.log("Emotions data:", this.emotions);
-      if (this.emotions.length > 0) {
-        this.plotly.makeBarGraph(this.emotions, 'Emotional Analysis', 'Emotion', 'Score', 'bar-graph');
-      } else {
-        console.warn("No emotion data to display");
-      }
-    } else {
-      console.warn("apiData or apiData.emotion is null");
-    }
-  }
+  // updateEmotionChart() {
+  //   if (this.apiData && this.apiData.emotion) {
+  //     this.emotions = Object.entries(this.apiData.emotion).map(([name, value]) => ({ name, value }));
+  //     console.log("Emotions data:", this.emotions);
+  //     if (this.emotions.length > 0) {
+  //       this.plotly.makeBarGraph(this.emotions, 'Emotional Analysis', 'Emotion', 'Score', 'bar-graph');
+  //     } else {
+  //       console.warn("No emotion data to display");
+  //     }
+  //   } else {
+  //     console.warn("apiData or apiData.emotion is null");
+  //   }
+  // }
 
-  updateSentimentChart() {
-    if (this.apiData && this.apiData.sentiment) {
-      this.sentimentData = Object.entries(this.apiData.sentiment).map(([name, value]) => ({ name, value }));
-      console.log("Sentiment data:", this.sentimentData);
-      if (this.sentimentData.length > 0) {
-        this.plotly.makePieChart(this.sentimentData, 'Sentiment Analysis', 'sentiment-pie');
-      } else {
-        console.warn("No sentiment data to display");
-      }
-    } else {
-      console.warn("apiData or apiData.sentiment is null");
-    }
-  }
+  // updateSentimentChart() {
+  //   if (this.apiData && this.apiData.sentiment) {
+  //     this.sentimentData = Object.entries(this.apiData.sentiment).map(([name, value]) => ({ name, value }));
+  //     console.log("Sentiment data:", this.sentimentData);
+  //     if (this.sentimentData.length > 0) {
+  //       this.plotly.makePieChart(this.sentimentData, 'Sentiment Analysis', 'sentiment-pie');
+  //     } else {
+  //       console.warn("No sentiment data to display");
+  //     }
+  //   } else {
+  //     console.warn("apiData or apiData.sentiment is null");
+  //   }
+  // }
 
   updateSimilarityCharts() {
     if (this.apiData && this.apiData.metrics) {
@@ -142,6 +142,7 @@ export class ModelComponent implements OnChanges {
   }
 
   async onSubmit(title: string, article: string) {
+    console.log('submitted')
     // emotion and sentiment
     await this.restApi.getOutput(title, article).then((res) => {
       this.retrivedOutput.emotion = res.emotion
@@ -167,5 +168,17 @@ export class ModelComponent implements OnChanges {
       { name: 'Normalized Edit Distance', your: this.retrivedOutput.metrics.normEditDist, baseline: 2, explanation: this.help.getNormalizedEditDistance() },
       { name: 'TF-IDF Similarity', your: this.retrivedOutput.metrics.tfIdfSim, baseline: 0.9, explanation: this.help.getTFIDFSimilarity() }
     ]
+
+    this.plotGraphs()
+  }
+
+  plotGraphs() {
+    const emotionData = this.converter.backendToKeyEmotion(this.retrivedOutput)
+    const formattedData = emotionData.map(item => ({ name: item.key, value: item.value }))
+    this.plotly.makeBarGraph(formattedData, 'Emotion Analysis', 'Emotion', 'Score', 'bar-graph')
+
+    const sentiment = this.converter.backendToKeySentiment(this.retrivedOutput)
+    const ssentimentFormatted = sentiment.map(item => ({ name: item.key, value: item.value }))
+    this.plotly.makePieChart(ssentimentFormatted, 'Emotion Analysis', 'sentiment-pie')
   }
 }

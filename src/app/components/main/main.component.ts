@@ -22,40 +22,41 @@ export class MainComponent {
 
   @ViewChild(GptComponent) gptComponent!: GptComponent
   @ViewChild(GeminiComponent) geminiComponent!: GeminiComponent
+  @ViewChild(ModelComponent) modelComponent!: ModelComponent
 
   title!: string;
   article!: string;
 
   onSubmit(form: NgForm) {
-    if (!this.title || !this.article) {
-      console.log("Title and article are required!");
-      return;
-    }
+    // if (!this.title || !this.article) {
+    //   console.log("Title and article are required!");
+    //   return;
+    // }
 
-    console.log("Submitting data:", { title: this.title, article: this.article });
+    // console.log("Submitting data:", { title: this.title, article: this.article });
 
     // Call /submit to get sentiment and emotion data
-    this.restApi.getOutput(this.title, this.article)
-      .then((submitResponse: BackendOutput) => {
-        console.log("Submit Response received:", submitResponse);
+    // this.restApi.getOutput(this.title, this.article)
+    //   .then((submitResponse: BackendOutput) => {
+    //     console.log("Submit Response received:", submitResponse);
 
-        // Call /predict to get similarity data
-        this.restApi.predict(this.title, this.article).subscribe({
-          next: (predictResponse: any) => {
-            console.log("Predict Response received:", predictResponse);
-            // Combine the data from both responses
-            this.apiData = { ...submitResponse, ...predictResponse };
-            console.log("apiData updated:", this.apiData);
-          },
-          error: (error) => {
-            console.error("Predict Error:", error);
-          }
-        });
-      })
-      .catch((error) => {
-        console.error("Submit Error:", error);
-      });
-
+    //     // Call /predict to get similarity data
+    //     this.restApi.predict(this.title, this.article).subscribe({
+    //       next: (predictResponse: any) => {
+    //         console.log("Predict Response received:", predictResponse);
+    //         // Combine the data from both responses
+    //         this.apiData = { ...submitResponse, ...predictResponse };
+    //         console.log("apiData updated:", this.apiData);
+    //       },
+    //       error: (error) => {
+    //         console.error("Predict Error:", error);
+    //       }
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error("Submit Error:", error);
+    //   });
+    this.modelComponent.onSubmit(this.title, this.article)
     this.geminiComponent.generateGeminiContent(this.title, this.article)
     this.gptComponent.generateGPTContent(this.title, this.article)
   }
