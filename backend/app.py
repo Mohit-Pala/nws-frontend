@@ -12,7 +12,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 import Levenshtein
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:4200", "https://fake-news-capstone.web.app/"]}})
+
 
 # Load the sentiment analysis model
 sentiment_model_name = "cardiffnlp/twitter-roberta-base-sentiment"
