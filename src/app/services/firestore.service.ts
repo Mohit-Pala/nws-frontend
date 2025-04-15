@@ -45,7 +45,7 @@ export class FirestoreService {
 
     title: ['this', 'is', 'a', 'sample', 'title'],
 
-    
+
   }
 
   newSampleData: Search = {
@@ -188,5 +188,14 @@ export class FirestoreService {
       console.log("No such document!")
       return null
     }
+  }
+
+  async putData(data: Search) {
+    const collectionRef = collection(this.firestore, "data")
+    await addDoc(collectionRef, data).then((res) => {
+      console.log("Document written", res)
+    }).catch((error) => {
+      console.log("Error adding document", error)
+    })
   }
 }

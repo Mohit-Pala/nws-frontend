@@ -77,8 +77,12 @@ export class ModelComponent {
   }
 
   removePunctuation(text: string): string {
-    return text
-      .replace(/[^\w\s]|_/g, "");
+    const cleanedText = text.replace(/[^\w\s]|_/g, "");
+    
+    const words = cleanedText.split(/\s+/);
+    const first500Words = words.slice(0, 500);
+    
+    return first500Words.join(' ');
   }
 
   async onSubmit(title: string, article: string) {

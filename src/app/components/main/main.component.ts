@@ -8,6 +8,7 @@ import { SentimentModelComponent } from './sentiment-model/sentiment-model.compo
 import { RestApiService } from '../../services/rest-api.service';
 import { BackendOutput } from "../../models/backedn-output.model";
 import { Search } from "../../models/search.model";
+import { FirestoreService } from "../../services/firestore.service";
 
 @Component({
   selector: 'app-main',
@@ -20,6 +21,7 @@ export class MainComponent {
   restApi = inject(RestApiService);
   apiData: BackendOutput | null = null; // Data to be passed to ModelComponent
   showSentimentModel: boolean = false;
+  firestoreService = inject(FirestoreService)
 
   @ViewChild(GptComponent) gptComponent!: GptComponent
   @ViewChild(ModelComponent) modelComponent!: ModelComponent
@@ -80,5 +82,13 @@ export class MainComponent {
     this.sendToDb.model = this.modelComponent.retrivedOutput.metrics
     this.sendToDb.gpt = this.gptComponent.dummyData
     console.log(this.sendToDb)
+  }
+
+  putInDatabase() {
+    this.firestoreService.putData(this.sendToDb).then(() => {
+      console.log('Data sent to Firestore')
+    }).catch(() => {
+      console.error()
+    })
   }
 }
