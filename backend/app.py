@@ -4,14 +4,12 @@ from transformers import pipeline, AutoTokenizer, AutoModel
 import torch
 import nltk
 from nltk.translate.bleu_score import sentence_bleu
-from rouge_score import rouge_scorer
 from nltk.corpus import wordnet as wn
 from nltk.corpus import wordnet_ic
 brown_ic = wordnet_ic.ic('ic-brown.dat')
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import Levenshtein
-import numpy as np
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
