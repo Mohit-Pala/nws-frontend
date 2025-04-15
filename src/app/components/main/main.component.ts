@@ -7,6 +7,7 @@ import { GptComponent } from "./gpt/gpt.component";
 import { SentimentModelComponent } from './sentiment-model/sentiment-model.component';
 import { RestApiService } from '../../services/rest-api.service';
 import { BackendOutput } from "../../models/backedn-output.model";
+import { Search } from "../../models/search.model";
 
 @Component({
   selector: 'app-main',
@@ -27,7 +28,44 @@ export class MainComponent {
   title!: string;
   article!: string;
 
-  onSubmit(form: NgForm) {
+  sendToDb: Search = {
+    title: [],
+    emotion: {
+      anger: 0,
+      disgust: 0,
+      fear: 0,
+      joy: 0,
+      sadness: 0,
+      surprise: 0,
+      neutral: 0
+    },
+    sentiment: {
+      positive: 0,
+      negative: 0,
+      neutral: 0
+    },
+    model: {
+      cosineSim: 0,
+      jaccardBigrams: 0,
+      jaccardWords: 0,
+      lenDif: 0,
+      lenRatio: 0,
+      normEditDist: 0,
+      tfIdfSim: 0
+    },
+    gemini: {
+      facts: [],
+      source: [],
+      words: []
+    },
+    gpt: {
+      facts: [],
+      source: [],
+      words: []
+    }
+  }
+
+  async onSubmit(form: NgForm) {
     // if (!this.title || !this.article) {
     //   console.log("Title and article are required!");
     //   return;
@@ -56,8 +94,10 @@ export class MainComponent {
     //   .catch((error) => {
     //     console.error("Submit Error:", error);
     //   });
-    this.modelComponent.onSubmit(this.title, this.article)
-    this.geminiComponent.generateGeminiContent(this.title, this.article)
-    this.gptComponent.generateGPTContent(this.title, this.article)
+    await this.modelComponent.onSubmit(this.title, this.article)
+    await this.geminiComponent.generateGeminiContent(this.title, this.article).then(() => {}).catch(() => {})
+    await this.gptComponent.generateGPTContent(this.title, this.article)
+
+    console.log('after everything, hopefully')
   }
 }
