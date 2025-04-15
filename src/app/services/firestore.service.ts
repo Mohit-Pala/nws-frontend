@@ -74,22 +74,22 @@ export class FirestoreService {
       // normEditDist: 0.2,
       tfIdfSim: 0.1
     },
-    gemini: {
-      facts: [
-        'Apple released the iphone 14 pro max',
-        'Sucessor to iphone 13 pro max',
-      ],
-      source: [
-        'Apple',
-        'Wikipedia',
-        'Google',
-      ],
-      words: [
-        'Apple',
-        'iPhone',
-        '14',
-      ]
-    },
+    // gemini: {
+    //   facts: [
+    //     'Apple released the iphone 14 pro max',
+    //     'Sucessor to iphone 13 pro max',
+    //   ],
+    //   source: [
+    //     'Apple',
+    //     'Wikipedia',
+    //     'Google',
+    //   ],
+    //   words: [
+    //     'Apple',
+    //     'iPhone',
+    //     '14',
+    //   ]
+    // },
     gpt: {
       facts: [
         'Apple made this phone',

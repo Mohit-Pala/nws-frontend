@@ -23,11 +23,6 @@ export interface Search {
         normEditDist: number
         tfIdfSim: number
     }
-    gemini: {
-        facts: string[]
-        source: string[]
-        words: string[]
-    }
 
     gpt: {
         facts: string[]

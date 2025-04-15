@@ -49,11 +49,6 @@ export class DisplayComponent implements OnInit {
       normEditDist: 2,
       tfIdfSim: 0.9
     },
-    gemini: {
-      facts: ['Fact1', 'Fact2'],
-      source: ['Source1', 'Source2'],
-      words: ['Word1', 'Word2']
-    },
     gpt: {
       facts: ['Fact3', 'Fact4'],
       source: ['Source3', 'Source4'],
