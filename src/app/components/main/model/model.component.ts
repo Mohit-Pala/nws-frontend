@@ -76,10 +76,19 @@ export class ModelComponent {
     alert(message)
   }
 
+  removePunctuation(text: string): string {
+    return text
+      .replace(/[^\w\s]|_/g, "");
+  }
+
   async onSubmit(title: string, article: string) {
     console.log('submitted')
-    // emotion and sentiment
-    await this.restApi.getOutput(title, article).then((res) => {
+    
+    const cleanedTitle = this.removePunctuation(title)
+    const cleanedArticle = this.removePunctuation(article)
+
+
+    await this.restApi.getOutput(cleanedTitle, cleanedArticle).then((res) => {
       this.retrivedOutput.emotion = res.emotion
       this.retrivedOutput.sentiment = res.sentiment
       this.dataRetrived = true
@@ -88,7 +97,7 @@ export class ModelComponent {
     })
 
     // metrics
-    await this.restApi.predictNew(title, article).then((res) => {
+    await this.restApi.predictNew(cleanedTitle, cleanedArticle).then((res) => {
       this.retrivedOutput.metrics = res.metrics
     })
 
@@ -116,7 +125,7 @@ export class ModelComponent {
     const ssentimentFormatted = sentiment.map(item => ({ name: item.key, value: item.value }))
     this.plotly.makePieChart(ssentimentFormatted, 'Emotion Analysis', 'sentiment-pie')
 
-    this.plotly.makeBubbleChart(this.comparisionMetris, 'Metrics Analysis', 'metrics-bubble')
-    this.plotly.makeBoxPlot(this.comparisionMetris, 'Metrics Distribution', 'metrics-box')
+    // this.plotly.makeBubbleChart(this.comparisionMetris, 'Metrics Analysis', 'metrics-bubble')
+    // this.plotly.makeBoxPlot(this.comparisionMetris, 'Metrics Distribution', 'metrics-box')
   }
 }
