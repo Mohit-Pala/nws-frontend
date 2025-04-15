@@ -27,6 +27,7 @@
     "plotly.js-dist-min": "^3.0.1",
     "postcss": "^8.5.3",
     "rxjs": "~7.8.0",
+    "stopword": "^3.1.4",
     "tailwindcss": "^4.0.15",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

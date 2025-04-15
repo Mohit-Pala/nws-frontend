@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/cor
 import { PlotService } from '../../../services/plot.service';
 import { CommonModule } from '@angular/common';
 import { KeyValueCustom } from '../../../models/key-value-custom.model';
+import { ComparisonMetric } from '../../../models/comparison-metric.model';
 import { RestApiService } from '../../../services/rest-api.service';
 import { ConverterService } from '../../../services/converter.service';
 import { BackendOutput } from '../../../models/backedn-output.model';
@@ -61,7 +62,7 @@ export class ModelComponent {
     }
   }
 
-  comparisionMetris = [
+  comparisionMetris: ComparisonMetric[] = [
     { name: 'Cosine Similarity', your: this.retrivedOutput.metrics.cosineSim, baseline: 0.9, explanation: this.help.getCosineSimilarity() },
     { name: 'Jaccard Bigrams', your: this.retrivedOutput.metrics.jaccardBigrams, baseline: 0.8, explanation: this.help.getJaccardSimilarityBigrams() },
     { name: 'Jaccard Words', your: this.retrivedOutput.metrics.jaccardWords, baseline: 0.7, explanation: this.help.getJaccardSimilarity() },
@@ -114,5 +115,8 @@ export class ModelComponent {
     const sentiment = this.converter.backendToKeySentiment(this.retrivedOutput)
     const ssentimentFormatted = sentiment.map(item => ({ name: item.key, value: item.value }))
     this.plotly.makePieChart(ssentimentFormatted, 'Emotion Analysis', 'sentiment-pie')
+
+    this.plotly.makeBubbleChart(this.comparisionMetris, 'Metrics Analysis', 'metrics-bubble')
+    this.plotly.makeBoxPlot(this.comparisionMetris, 'Metrics Distribution', 'metrics-box')
   }
 }

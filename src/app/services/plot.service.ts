@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as Plotly from 'plotly.js-dist-min';
 import { Data } from 'plotly.js-dist-min';
 import { KeyValueCustom } from '../models/key-value-custom.model';
+import { ComparisonMetric } from '../models/comparison-metric.model';
 
 @Injectable({
   providedIn: 'root'
@@ -222,5 +223,61 @@ export class PlotService {
     Plotly.newPlot(domId, trace, layout)
   }
 
-  
+  makeBubbleChart(data: ComparisonMetric[], title: string, domId: string) {
+    const trace: Data[] = [{
+      x: data.map(e => e.name),
+      y: data.map(e => e.your),
+      mode: 'markers',
+      marker: {
+        size: data.map(e => e.baseline * 20), 
+        colorscale: 'Viridis',
+        showscale: true
+      },
+      type: 'scatter',
+      text: data.map(e => `Baseline: ${e.baseline}<br>Your Score: ${e.your}`),
+      hoverinfo: 'text'
+    }];
+
+    const layout = {
+      title: title,
+      xaxis: { title: 'Metrics' },
+      yaxis: { title: 'Your Score' },
+      width: 800,
+      height: 600
+    };
+
+    Plotly.newPlot(domId, trace, layout);
+  }
+
+  makeBoxPlot(data: ComparisonMetric[], title: string, domId: string) {
+    const traces: Data[] = [];
+    
+    traces.push({
+      y: data.map(e => e.your),
+      type: 'box',
+      name: 'Your Scores',
+      boxpoints: 'all',
+      jitter: 0.3,
+      pointpos: -1.8
+    });
+
+    traces.push({
+      y: data.map(e => e.baseline),
+      type: 'box',
+      name: 'Baselines',
+      boxpoints: 'all',
+      jitter: 0.3,
+      pointpos: -1.8
+    });
+
+    const layout = {
+      title: title,
+      yaxis: { title: 'Score' },
+      width: 800,
+      height: 600,
+      boxmode: 'group' as const
+    };
+
+    Plotly.newPlot(domId, traces, layout);
+  }
 }
