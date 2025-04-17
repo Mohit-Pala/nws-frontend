@@ -62,6 +62,8 @@ export class MainComponent {
   }
 
   async onSubmit(form: NgForm) {
+	const searchbox = document.getElementById('gsc-i-id1') as HTMLInputElement
+	searchbox.value = this.title
     await this.modelComponent.onSubmit(this.title, this.article).then(() => {
       console.log('Model content generated')
     }).catch((err) => {
