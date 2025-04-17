@@ -1,4 +1,10 @@
-<p>help works!</p>
+<h1>Understanding Your News Article</h1>
+<p>
+	Our news article analysis tool uses a variety of metrics to help you understand how well a news article's title reflects its content. 
+	By examining these metrics together, you can gain insights into the relationship between the title and the article, potentially identifying clickbait or misleading headlines.
+	We are looking for patterns, such as if the topic-level metrics agree with the wording metrics, if the title is an appropriate length, etc.
+	By gaining these insights from our metrics you can make a well-informed judgement about the quality and accuracy of the article.
+</p>
 <h1>Cosine Similarity</h1>
 <p> Cosine Similarity is a way to measure the angle between the title's vector and the article's vector.
 	These vectors represent the text in a high dimensional space. The similarity of two vectors is measured by the cosine of the angle between them. 
@@ -54,3 +60,4 @@
     Each word gets a TF-IDF score that is calculated by multiplying its TF score by its IDF score. This gives you a measure of how important a word is to the title and article.
     To calculate the similarity, we transform both the title and the article into TF-IDF vectors. Then, we calculate the cosine similarity between these vectors. A higher score (closer to 100%) indicates that the title and article share many important words. A score closer to 0% means they share fewer important words.
 </p>
+
