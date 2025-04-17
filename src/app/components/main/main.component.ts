@@ -2,13 +2,13 @@ import { ModelComponent } from "./model/model.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Component, inject, ViewChild } from '@angular/core';
-import { GeminiComponent } from "./gemini/gemini.component";
 import { GptComponent } from "./gpt/gpt.component";
 import { SentimentModelComponent } from './sentiment-model/sentiment-model.component';
 import { RestApiService } from '../../services/rest-api.service';
 import { BackendOutput } from "../../models/backedn-output.model";
 import { Search } from "../../models/search.model";
 import { FirestoreService } from "../../services/firestore.service";
+import { removeStopwords } from "stopword";
 
 @Component({
   selector: 'app-main',
@@ -23,11 +23,14 @@ export class MainComponent {
   showSentimentModel: boolean = false;
   firestoreService = inject(FirestoreService)
 
+
   @ViewChild(GptComponent) gptComponent!: GptComponent
   @ViewChild(ModelComponent) modelComponent!: ModelComponent
 
   title!: string;
   article!: string;
+
+  wordCloudSource = `https://quickchart.io/wordcloud?text=${this.article}`
 
   sendToDb: Search = {
     title: [],
@@ -61,9 +64,18 @@ export class MainComponent {
     }
   }
 
+
   async onSubmit(form: NgForm) {
-	const searchbox = document.getElementById('gsc-i-id1') as HTMLInputElement
-	searchbox.value = this.title
+
+    const newArticle = removeStopwords(this.article.split(' ')).join(' ')
+    console.log(newArticle)
+
+    this.wordCloudSource = `https://quickchart.io/wordcloud?text=${newArticle}`
+
+
+    const searchbox = document.getElementById('gsc-i-id1') as HTMLInputElement
+
+    searchbox.value = this.title
     await this.modelComponent.onSubmit(this.title, this.article).then(() => {
       console.log('Model content generated')
     }).catch((err) => {

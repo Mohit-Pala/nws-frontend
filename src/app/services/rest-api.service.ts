@@ -31,4 +31,9 @@ export class RestApiService {
   async predictNew(title: string, article: string): Promise<BackendOutput> {
     return firstValueFrom(this.http.post<BackendOutput>('http://127.0.0.1:5001/predict', { title, article }));
   }
+
+  async getWordCloud(title: string, article: string) {
+    const url = `https://quickchart.io/wordcloud?text=${article}`
+    return firstValueFrom(this.http.get(url))
+  }
 }
