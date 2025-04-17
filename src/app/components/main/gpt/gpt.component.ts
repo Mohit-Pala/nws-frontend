@@ -35,8 +35,8 @@ export class GptComponent implements OnInit {
     
   }
 
-  generateGPTContent(title: string, article: string) {
-    this.gpt.getGptContent(title).then((parsed) => {
+  async generateGPTContent(title: string, article: string) {
+    await this.gpt.getGptContent(title).then((parsed) => {
       if(parsed){
         this.dummyData = parsed
       }

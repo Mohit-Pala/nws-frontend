@@ -17,7 +17,8 @@ export class VertexAiService {
     DONT SAY SOMETHING IS FAKE, ONLY PROVIDE FACTS AND LET THE USER DECIDE
     Only provide 3 realted sources 
     keep ALL lists to 3 items ONLY
-    Make sure to format as JSON, only reply with answer, no """json answer"""
+    Make sure to format as JSON, only reply with the Answer as the json object, do not include code blocks or any thing else which will fail JSSON parsing
+    DO NOT WRAP IN backtick backtick backtick JSON
     Reply in the following format
     facts:{LIST OF FACTS, YES USE square braces}
     source: {LIST OF sources, YES USE square braces, No urls}
@@ -25,7 +26,7 @@ export class VertexAiService {
   `
 
   geminiModelParams: ModelParams = {
-    model: 'gemini-1.5-flash',
+    model: 'gemini-2.0-flash',
     systemInstruction: this.systemIns
   }
 
