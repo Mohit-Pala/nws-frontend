@@ -1,9 +1,9 @@
 <p>help works!</p>
 <h1>Cosine Similarity</h1>
 <p> Cosine Similarity is a way to measure the angle between the title's vector and the article's vector.
-	These vectors represent the text in a high dimensional space. A score closer to 100% means that the title and 
-	the article are considered very similar in terms of topic or meaning. A score closer to 0% means that the title and article 
-	are considered very different and unrelated, potentially identifying clickbait.
+	These vectors represent the text in a high dimensional space. The similarity of two vectors is measured by the cosine of the angle between them. 
+	A score closer to 100% means that the title and the article are considered very similar in terms of topic or meaning. A score closer to 0% means that the title and article 
+	are considered different and unrelated, potentially identifying clickbait.
 </p>
 
 <h1>Jaccard Similarity (Bigrams)</h1>
@@ -16,6 +16,41 @@
 
 <h1>Jaccard Similarity (Words)</h1>
 <p>
-	Similar to the bigram version, this measures the overlap between two sets, but the sets are made up of the unique individual words 
-	found in the 
+	Similar to the bigram version, this measures the overlap between two sets, but the sets are made up of the unique individual words. 
+	A score closer to 1 indicates a larger overlap of unique words between the title and article and implies they are about the same or 
+	similar topics. A score closer to 0 indicates a lack of overlap.
+</p>
+<h1>Length Difference</h1>
+<p>
+    Length Difference measures the absolute difference in the number of characters between the title and the article text.
+    It is calculated by subtracting the length of one from the other and taking the absolute value of the difference.
+    A large length difference indicates that the title is significantly shorter than the article. This could mean that the title is a very brief summary, or potentially clickbait.
+    A small length difference means that the title is relatively close in length to the article, potentially suggesting that the title is more descriptive and comprehensive or that the article is concise.
+</p>
+
+<h1>Length Ratio</h1>
+<p>
+    Length Ratio is calculated by dividing the length of the title by the length of the article.
+    A small length ratio indicates that the title is much shorter than the article. This could mean that the title is a very brief summary, or that it's clickbait and omits information.
+    A large length ratio means that the title is relatively close in length to the article, possibly suggesting that the title is more descriptive and comprehensiv or that the article is concise.
+    If the length ratio is greater than one, it means that the title is longer than the article, which is not very common.
+</p>
+
+<h1>Normalized Edit Distance</h1>
+<p>
+    Normalized Edit Distance, also known as the Normalized Levenshtein Distance, measures the similarity between the title and the article by calculating the minimum number of edits required to change one string into another. Edits would include insertions, deletions, or substitutions of characters.
+    The raw edit distance is then normalized by dividing it by the length of the longer string. This ensures that the edit distance is scaled to a range between 0 and 1, where 
+    0 indicates that the title and the article are completely different and 
+    1 indicates that the title and the article are identical.
+    A score closer to 1 suggests a higher degree of similarity between the title and the article, meaning they are very similar in terms of wording and structure. A score closer to 0 suggests significant differences between the title and the article.
+</p>
+
+<h1>TF-IDF Similarity</h1>
+<p>
+    TF-IDF (Term Frequency-Inverse Document Frequency) Similarity is a measure used to determine how relevant a word is to a document within a collection of documents.
+    In our case, we use it to measure the similarity between the title and the article.
+    Term Frequency (TF) counts how often a word appears in the document. A higher count means that the word is more relevant to that specific document.
+    Inverse Document Frequency (IDF) calculates how common or rare a word is across all documents. A higher score means the word is more rare and specific, and a lower score means the word is more widely used.
+    Each word gets a TF-IDF score that is calculated by multiplying its TF score by its IDF score. This gives you a measure of how important a word is to the title and article.
+    To calculate the similarity, we transform both the title and the article into TF-IDF vectors. Then, we calculate the cosine similarity between these vectors. A higher score (closer to 100%) indicates that the title and article share many important words. A score closer to 0% means they share fewer important words.
 </p>
