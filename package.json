@@ -21,6 +21,7 @@
     "@angular/router": "^19.1.0",
     "@swimlane/ngx-charts": "^22.0.0-alpha.0",
     "@tailwindcss/postcss": "^4.0.15",
+    "@types/stopword": "^2.0.3",
     "angular-plotly.js": "^6.0.0",
     "openai": "^4.86.2",
     "plotly.js-dist": "^3.0.1",
