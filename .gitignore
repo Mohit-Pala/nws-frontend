@@ -46,4 +46,5 @@ Thumbs.db
 *-debug.log
 .runtimeconfig.json
 api_key.ts
-deepseek.py
+backend/data/final_merge.csv
+backend/data/True.csv
