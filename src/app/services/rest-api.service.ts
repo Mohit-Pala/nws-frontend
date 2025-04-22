@@ -8,8 +8,8 @@ import { BackendOutput } from '../models/backedn-output.model';
   providedIn: 'root',
 })
 export class RestApiService {
-  private apiUrl = 'https://150.136.15.83/5001/submit';
-  private baseUrl = 'https://150.136.15.83/5001';
+  private apiUrl = 'http://150.136.15.83/5001/submit';
+  private baseUrl = 'http://150.136.15.83/5001';
 
   constructor(private http: HttpClient) { }
 
