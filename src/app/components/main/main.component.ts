@@ -9,11 +9,12 @@ import { BackendOutput } from "../../models/backedn-output.model";
 import { Search } from "../../models/search.model";
 import { FirestoreService } from "../../services/firestore.service";
 import { removeStopwords } from "stopword";
+import { LoadingComponent } from "../loading/loading.component";
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [ModelComponent, CommonModule, FormsModule, GptComponent, SentimentModelComponent],
+  imports: [ModelComponent, CommonModule, FormsModule, GptComponent, SentimentModelComponent, LoadingComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
@@ -31,6 +32,12 @@ export class MainComponent {
   article!: string;
 
   wordCloudSource = `https://quickchart.io/wordcloud?text=${this.article}`
+
+  submitted = false
+  currentlyLoading = {
+    model: true,
+    gpt: true
+  }
 
   sendToDb: Search = {
     title: [],
@@ -67,25 +74,31 @@ export class MainComponent {
 
   async onSubmit(form: NgForm) {
 
+    this.submitted = true
+
     const newArticle = removeStopwords(this.article.split(' ')).join(' ')
     console.log(newArticle)
 
     this.wordCloudSource = `https://quickchart.io/wordcloud?text=${newArticle}`
 
-
-    const searchbox = document.getElementById('gsc-i-id1') as HTMLInputElement
-
-    searchbox.value = this.title
     await this.modelComponent.onSubmit(this.title, this.article).then(() => {
       console.log('Model content generated')
+      this.currentlyLoading.model = false
     }).catch((err) => {
       console.error(err)
+      this.currentlyLoading.model = false
+    }).finally(() => {
+      this.currentlyLoading.model = false
     })
 
     await this.gptComponent.generateGPTContent(this.title, this.article).then(() => {
       console.log('GPT content generated')
+      this.currentlyLoading.gpt = false
     }).catch((err) => {
       console.error(err)
+      this.currentlyLoading.gpt = false
+    }).finally(() => {
+      this.currentlyLoading.gpt = false
     })
 
     console.log('after everything, hopefully')
@@ -104,5 +117,9 @@ export class MainComponent {
     }).catch(() => {
       console.error()
     })
+  }
+
+  reload() {
+    window.location.reload()
   }
 }
