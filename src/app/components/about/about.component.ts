@@ -1,13 +1,24 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-about',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
+  selectedType: string = 'All'
+  types: string[] = ['All', 'API', 'Dataset', 'Docs']
+
+  getSortedSources() {
+    if (this.selectedType === 'All') {
+      return this.sourcesUsed
+    }
+    return this.sourcesUsed.filter(source => source.type === this.selectedType)
+  }
+
 
   // version by weeks i think 
 
