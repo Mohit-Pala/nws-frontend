@@ -8,8 +8,8 @@ import { BackendOutput } from '../models/backedn-output.model';
   providedIn: 'root',
 })
 export class RestApiService {
-  private apiUrl = 'http://150.136.15.83/5001/submit';
-  private baseUrl = 'http://150.136.15.83/5001';
+  private apiUrl = 'http://127.0.0.1:5001/submit';
+  private baseUrl = 'http://127.0.0.1:5001';
 
   constructor(private http: HttpClient) { }
 
@@ -29,7 +29,7 @@ export class RestApiService {
   }
 
   async predictNew(title: string, article: string): Promise<BackendOutput> {
-    return firstValueFrom(this.http.post<BackendOutput>('https://150.136.15.83/5001/predict', { title, article }));
+    return firstValueFrom(this.http.post<BackendOutput>(`${this.baseUrl}/predict`, { title, article }));
   }
 
   async getWordCloud(title: string, article: string) {

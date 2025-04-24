@@ -33,12 +33,19 @@
 
   <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
     <h2 class="text-xl font-semibold text-blue-400 text-center mb-4">Model Output</h2>
-    <div *ngIf="!apiData" class="text-center text-catppuccinLatteSubtext">No data available yet. Please submit an article.</div>
+    <div *ngIf="!submitted" class="text-center text-catppuccinLatteSubtext">No data available yet. Please submit an
+      article.</div>
+  </div>
 
+  <app-model [hidden]="currentlyLoading.model" [apiData]="apiData"></app-model>
+
+  <div class="bg-catppuccinLatteSurface p-6 mt-6 rounded-lg">
     <app-loading [hidden]="!submitted || (!currentlyLoading.gpt && !currentlyLoading.model)"></app-loading>
-    <app-model [hidden]="currentlyLoading.model" [apiData]="apiData"></app-model>
     <app-gpt [hidden]="currentlyLoading.gpt"></app-gpt>
   </div>
+
+
+
 
   <div class="flex justify-center space-x-4">
     <button (click)="putInDatabase()"
