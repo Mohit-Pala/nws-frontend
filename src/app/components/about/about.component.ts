@@ -73,13 +73,13 @@ export class AboutComponent {
   }
 
   sourcesUsed = [
-    {name: 'ISOT Fake News dataset', link: 'https://onlineacademiccommunity.uvic.ca/isot/2022/11/27/fake-news-detection-datasets/', type: 'Dataset'},
-    {name: 'Firestore Docs', link: 'https://firebase.google.com/docs/firestore/', type: 'Docs'},
-    {name: 'Free Tier: Install Flask on an Ubuntu VM', link: 'https://docs.oracle.com/en-us/iaas/developer-tutorials/tutorials/flask-on-ubuntu/01oci-ubuntu-flask-summary.htm', type: 'Docs'},
-    {name: '5-Day Gen AI Intensive Course with Google Learn Guide', link: 'https://www.kaggle.com/learn-guide/5-day-genai', type: 'Docs'},
-    {name: 'Open AI API', link: 'https://openai.com/api/', type: 'API'},
-    {name: 'Google Cloud Vertex AI', link: 'https://cloud.google.com/vertex-ai/docs/generative-ai/overview', type: 'API'},
-    {name: 'Flask Quickstart', link: 'https://flask.palletsprojects.com/en/stable/quickstart/', type: 'Docs'},
-    {name: 'Angular Docs', link: 'https://angular.dev/overview', type: 'Docs'},
+    { name: 'ISOT Fake News dataset', link: 'https://onlineacademiccommunity.uvic.ca/isot/2022/11/27/fake-news-detection-datasets/', type: 'Dataset' },
+    { name: 'Firestore Docs', link: 'https://firebase.google.com/docs/firestore/', type: 'Docs' },
+    { name: 'Free Tier: Install Flask on an Ubuntu VM', link: 'https://docs.oracle.com/en-us/iaas/developer-tutorials/tutorials/flask-on-ubuntu/01oci-ubuntu-flask-summary.htm', type: 'Docs' },
+    { name: '5-Day Gen AI Intensive Course with Google Learn Guide', link: 'https://www.kaggle.com/learn-guide/5-day-genai', type: 'Docs' },
+    { name: 'Open AI API', link: 'https://openai.com/api/', type: 'API' },
+    { name: 'Google Cloud Vertex AI', link: 'https://cloud.google.com/vertex-ai/docs/generative-ai/overview', type: 'API' },
+    { name: 'Flask Quickstart', link: 'https://flask.palletsprojects.com/en/stable/quickstart/', type: 'Docs' },
+    { name: 'Angular Docs', link: 'https://angular.dev/overview', type: 'Docs' },
   ]
 }
