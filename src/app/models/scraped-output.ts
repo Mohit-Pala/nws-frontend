@@ -1,4 +1,6 @@
 export interface ScrapedOutput {
-    title: string
-    article: string
+    content: {
+        title: string
+        article: string
+    }
 }
