@@ -1,0 +1,20 @@
+<div class="form-container">
+    <form (ngSubmit)="onSubmit(urlForm)" #urlForm="ngForm">
+        <div class="form-group">
+            <label for="url">URL</label>
+            <input type="text" class="form-control" id="url" name="url" [(ngModel)]="url" required
+                placeholder="Enter URL">
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!urlForm.form.valid">
+            Submit
+        </button>
+    </form>
+</div>
+
+<title>
+    {{title}}
+</title>
+
+<p>
+    {{article}}
+</p>

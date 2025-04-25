@@ -14,7 +14,7 @@ import { LoadingComponent } from "../loading/loading.component";
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [ModelComponent, CommonModule, FormsModule, GptComponent, SentimentModelComponent, LoadingComponent],
+  imports: [ModelComponent, CommonModule, FormsModule, GptComponent, LoadingComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })

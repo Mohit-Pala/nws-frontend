@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
 import { BackendOutput } from '../models/backedn-output.model';
+import { ScrapedOutput } from '../models/scraped-output';
 
 
 @Injectable({
@@ -30,6 +31,10 @@ export class RestApiService {
 
   async predictNew(title: string, article: string): Promise<BackendOutput> {
     return firstValueFrom(this.http.post<BackendOutput>(`${this.baseUrl}/predict`, { title, article }));
+  }
+
+  async scrapeArticle(url: string): Promise<ScrapedOutput> {
+    return firstValueFrom(this.http.post<ScrapedOutput>(`${this.baseUrl}/scrape`, { url }));
   }
 
   async getWordCloud(title: string, article: string) {
