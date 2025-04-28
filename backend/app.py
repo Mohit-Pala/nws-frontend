@@ -2,17 +2,13 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from transformers import pipeline, AutoTokenizer, AutoModel
 import torch
-import nltk
-from nltk.translate.bleu_score import sentence_bleu
-from nltk.corpus import wordnet as wn
-from nltk.corpus import wordnet_ic
-brown_ic = wordnet_ic.ic('ic-brown.dat')
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import Levenshtein
+import os
 
 app = Flask(__name__)
-#CORS(app, resources={r"/*": {"origins": "*"}})
+# CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 # Load the sentiment analysis model
@@ -21,12 +17,15 @@ sentiment_analyzer = pipeline('sentiment-analysis', model=sentiment_model_name)
 
 # Load the emotion analysis model
 emotion_model_name = 'j-hartmann/emotion-english-distilroberta-base'
-emotion_classifier = pipeline('text-classification', model=emotion_model_name, return_all_scores=True)
+emotion_classifier = pipeline(
+    'text-classification', model=emotion_model_name, return_all_scores=True)
 
 # Load the deepseek model
 try:
-    tokenizer = AutoTokenizer.from_pretrained("deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B")
-    model = AutoModel.from_pretrained("deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B")
+    tokenizer = AutoTokenizer.from_pretrained(
+        "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B")
+    model = AutoModel.from_pretrained(
+        "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B")
 except Exception as e:
     print(f"Error loading DeepSeek model: {e}")
 
@@ -36,6 +35,7 @@ label_map = {
     'LABEL_2': 'positive'
 }
 
+
 def analyze_sentiment(text):
     sentiment = sentiment_analyzer(text)[0]
     sentiment_label = label_map.get(sentiment['label'], sentiment['label'])
@@ -44,6 +44,7 @@ def analyze_sentiment(text):
         'score': sentiment['score']
     }
 
+
 def analyze_emotions(text):
     emotions = emotion_classifier(text)[0]
     emotion_results = {}
@@ -51,11 +52,13 @@ def analyze_emotions(text):
         emotion_results[emotion['label']] = emotion['score']
     return emotion_results
 
+
 def similarity(title, text, model):
     with torch.no_grad():
         title_embedding = model(**title).last_hidden_state.mean(dim=1)
         article_embedding = model(**text).last_hidden_state.mean(dim=1)
     return torch.nn.functional.cosine_similarity(title_embedding, article_embedding)
+
 
 def get_ngrams(text, n):
     text = text.lower()
@@ -90,10 +93,12 @@ def predict():
 
         print("Calculating... ")
         # Cosine similarity
-        inputs_title = tokenizer(title, return_tensors="pt", truncation=True, max_length=512)
-        inputs_article = tokenizer(article, return_tensors="pt", truncation=True, max_length=512)
-        similarity_score = similarity(inputs_title, inputs_article, model).item()
-        print("Cosine similarity calculated:", similarity_score) 
+        inputs_title = tokenizer(title, return_tensors="pt", truncation=True)
+        inputs_article = tokenizer(
+            article, return_tensors="pt", truncation=True)
+        similarity_score = similarity(
+            inputs_title, inputs_article, model).item()
+        print("Cosine similarity calculated:", similarity_score)
 
         # Jaccard words
         title_words = set(title.split())
@@ -111,39 +116,41 @@ def predict():
         corpus = [title, article]
         vectorizer = TfidfVectorizer()
         tfidf_matrix = vectorizer.fit_transform(corpus)
-        tfidf_similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])[0][0]
+        tfidf_similarity = cosine_similarity(
+            tfidf_matrix[0:1], tfidf_matrix[1:2])[0][0]
         print("TF-IDF similarity calculated:", tfidf_similarity)
 
         # Edit distance
         edit_distance = Levenshtein.distance(title, article)
         max_possible_edit_distance = max(len(title), len(article))
-        normalized_edit_distance = 1 - (edit_distance / max_possible_edit_distance)
+        normalized_edit_distance = 1 - \
+            (edit_distance / max_possible_edit_distance)
         print("Edit distance calculated:", normalized_edit_distance)
 
         # Length difference and ratio
         len_diff = abs(len(title) - len(article))
-        len_ratio = len(title) / len(article) if len(article) != 0 else float('inf')
+        len_ratio = len(title) / \
+            len(article) if len(article) != 0 else float('inf')
 
         result = {
-                'title': title,
-                'article': article,
-                'message': 'Data received successfully',
-                'metrics': {
-                    'cosineSim': similarity_score,
-                    'jaccardWords': jaccard_words,
-                    'jaccardBigrams': jaccard_bigrams,
-                    'tfIdfSim': tfidf_similarity,
-                    'normEditDist': normalized_edit_distance,
-                    'lenDif': len_diff,
-                    'lenRatio': len_ratio
-                }
+            'title': title,
+            'article': article,
+            'message': 'Data received successfully',
+            'metrics': {
+                'cosineSim': similarity_score,
+                'jaccardWords': jaccard_words,
+                'jaccardBigrams': jaccard_bigrams,
+                'tfIdfSim': tfidf_similarity,
+                'normEditDist': normalized_edit_distance,
+                'lenDif': len_diff,
+                'lenRatio': len_ratio
             }
-        print("Returning result:", result) 
+        }
+        print("Returning result:", result)
         return jsonify(result)
     except Exception as e:
         print(f"Error in /predict: {e}")
         return jsonify({'error': 'Internal server error'}), 500
-
 
 
 @app.route('/submit', methods=['POST'])
@@ -154,6 +161,8 @@ def submit_data():
             return jsonify({'error': 'No data provided'}), 400
         title = data.get('title')
         article = data.get('article')
+        # clamp to 480 words to not exceed 514 tokens
+        article = article[:480]
 
         if not title or not article:
             return jsonify({'error': 'Title and article are required'}), 400
@@ -179,16 +188,22 @@ def submit_data():
 
         if sentiment_result['sentiment'] == 'positive':
             sentiment_plot_data['positive'] = sentiment_result['score']
-            sentiment_plot_data['negative'] = (1 - sentiment_result['score']) / 2
-            sentiment_plot_data['neutral'] = (1 - sentiment_result['score']) / 2
+            sentiment_plot_data['negative'] = (
+                1 - sentiment_result['score']) / 2
+            sentiment_plot_data['neutral'] = (
+                1 - sentiment_result['score']) / 2
         elif sentiment_result['sentiment'] == 'negative':
             sentiment_plot_data['negative'] = sentiment_result['score']
-            sentiment_plot_data['positive'] = (1 - sentiment_result['score']) / 2
-            sentiment_plot_data['neutral'] = (1 - sentiment_result['score']) / 2
+            sentiment_plot_data['positive'] = (
+                1 - sentiment_result['score']) / 2
+            sentiment_plot_data['neutral'] = (
+                1 - sentiment_result['score']) / 2
         elif sentiment_result['sentiment'] == 'neutral':
             sentiment_plot_data['neutral'] = sentiment_result['score']
-            sentiment_plot_data['positive'] = (1 - sentiment_result['score']) / 2
-            sentiment_plot_data['negative'] = (1 - sentiment_result['score']) / 2
+            sentiment_plot_data['positive'] = (
+                1 - sentiment_result['score']) / 2
+            sentiment_plot_data['negative'] = (
+                1 - sentiment_result['score']) / 2
 
         result = {
             'title': title,
@@ -197,7 +212,7 @@ def submit_data():
             'emotion': emotion_plot_data,
             'sentiment': sentiment_plot_data
         }
-        print("Result being returned:", result) # Print the result
+        print("Result being returned:", result)  # Print the result
         return jsonify(result)
     except Exception as e:
         print(f"Error in /submit: {e}")
@@ -205,4 +220,5 @@ def submit_data():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    # app.run(debug=True, port=5001)
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))

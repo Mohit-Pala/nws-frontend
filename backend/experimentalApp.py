@@ -111,9 +111,9 @@ def predict():
         print("Calculating... ")
         # Cosine similarity
         inputs_title = tokenizer(
-            title, return_tensors="pt", truncation=True, max_length=512)
+            title, return_tensors="pt", truncation=True)
         inputs_article = tokenizer(
-            article, return_tensors="pt", truncation=True, max_length=512)
+            article, return_tensors="pt", truncation=True)
         similarity_score = similarity(
             inputs_title, inputs_article, model).item()
         print("Cosine similarity calculated:", similarity_score)
@@ -179,6 +179,9 @@ def submit_data():
             return jsonify({'error': 'No data provided'}), 400
         title = data.get('title')
         article = data.get('article')
+        article = article[:480]
+        
+
 
         if not title or not article:
             return jsonify({'error': 'Title and article are required'}), 400
@@ -245,7 +248,7 @@ def scrapeFromUrl():
     # Create the SmartScraperGraph instance
     smart_scraper_graph = SmartScraperGraph(
         prompt="You are provided a URL to most likely a news site. Format in form of title, and article. Only extract the article title and the article body. Do not include any other information. Clean up any special characters, if you see escaped characters, remove them. Do not include any HTML tags. Do not include any links. Do not include any images. Do not include any videos. Do not include any audio. Do not include any tables. Do not include any lists. Do not include any quotes. Do not include any references.",
-        source="https://www.npr.org/2025/04/25/nx-s1-5374984/pope-francis-funeral-how-to-watch",
+        source=url,
         config=graph_config
     )
 
