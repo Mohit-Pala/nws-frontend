@@ -10,8 +10,8 @@ import Levenshtein
 dataset_file = 'data/True.csv' 
 output_file = 'data/baselines.json' 
 model_name = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
-start_row = 4100
-num_rows = 300
+start_row = 8000
+num_rows = 500
 
 # Load models
 print(f"Loading tokenizer and model: {model_name}")
