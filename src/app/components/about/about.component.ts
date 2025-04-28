@@ -81,5 +81,10 @@ export class AboutComponent {
     { name: 'Google Cloud Vertex AI', link: 'https://cloud.google.com/vertex-ai/docs/generative-ai/overview', type: 'API' },
     { name: 'Flask Quickstart', link: 'https://flask.palletsprojects.com/en/stable/quickstart/', type: 'Docs' },
     { name: 'Angular Docs', link: 'https://angular.dev/overview', type: 'Docs' },
+	{ name: 'Flask-CORS Docs', link: 'https://flask-cors.readthedocs.io/en/latest/', type: 'Docs' },
+	{ name: 'Scikit-learn Docs', link: 'https://scikit-learn.org/stable/user_guide.html', type: 'Docs' },
+	{ name: 'PyTorch Docs', link: 'https://pytorch.org/docs/stable/index.html', type: 'Docs' },
+	{ name: 'NLTK Docs', link: 'https://www.nltk.org/', type: 'Docs' },
+	{ name: 'Plotly Docs', link: 'https://plotly.com/python/', type: 'Docs' },
   ]
 }
