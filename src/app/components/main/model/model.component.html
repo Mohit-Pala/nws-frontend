@@ -69,9 +69,9 @@
               Cosine Similarity
             </th>
             <td class="px-6 py-4">
-              {{retrivedOutput.metrics.cosineSim | percent}}
+              {{retrivedOutput.metrics.cosineSim}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.cosineSim}}</td>
           </tr>
           <tr (click)="show(help.getJaccardSimilarityBigrams())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
@@ -80,7 +80,7 @@
             <td class="px-6 py-4">
               {{retrivedOutput.metrics.jaccardBigrams}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.jaccardBigrams}}</td>
           </tr>
           <tr (click)="show(help.getJaccardSimilarity())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
@@ -89,7 +89,7 @@
             <td class="px-6 py-4">
               {{retrivedOutput.metrics.jaccardWords}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.jaccardWords}}</td>
           </tr>
           <tr (click)="show(help.getLengthDifference())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
@@ -98,7 +98,7 @@
             <td class="px-6 py-4">
               {{retrivedOutput.metrics.lenDif}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.lenDif}}</td>
           </tr>
           <tr (click)="show(help.getLengthRatio())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
@@ -107,7 +107,7 @@
             <td class="px-6 py-4">
               {{retrivedOutput.metrics.lenRatio}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.lenRatio}}</td>
           </tr>
           <tr (click)="show(help.getNormalizedEditDistance())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
@@ -116,16 +116,16 @@
             <td class="px-6 py-4">
               {{retrivedOutput.metrics.normEditDist}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.normEditDist}}</td>
           </tr>
           <tr (click)="show(help.getTFIDFSimilarity())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
               TF-IDF Similarity
             </th>
             <td class="px-6 py-4">
-              {{retrivedOutput.metrics.tfIdfSim | percent}}
+              {{retrivedOutput.metrics.tfIdfSim}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.tfIdfSim}}</td>
           </tr>
         </tbody>
       </table>
