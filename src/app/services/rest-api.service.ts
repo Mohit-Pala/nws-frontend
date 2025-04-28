@@ -12,6 +12,10 @@ export class RestApiService {
   private apiUrl = 'http://127.0.0.1:5001/submit';
   private baseUrl = 'http://127.0.0.1:5001';
 
+
+  //   private apiUrl = 'https://150.136.15.83/5001/submit';
+  //   private baseUrl = 'https://150.136.15.83/5001';
+
   constructor(private http: HttpClient) { }
 
   predict(title: string, text: string): Observable<any> {

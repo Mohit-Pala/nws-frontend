@@ -87,4 +87,10 @@ export class AboutComponent {
 	{ name: 'NLTK Docs', link: 'https://www.nltk.org/', type: 'Docs' },
 	{ name: 'Plotly Docs', link: 'https://plotly.com/python/', type: 'Docs' },
   ]
+
+  llmPrompts = [
+    { llm: 'Claude Sonet', roughPrompt: 'Copy about page CSS to all components under main page', task: 'css', platform: 'Cline' },
+    { llm: 'Claude Sonet', roughPrompt: 'Copy about page CSS to help page', task: 'css', platform: 'Cline' },
+    { llm: 'Copilot', roughPrompt: 'Debug firewall issued and SELinux on Oracle Linux Server', task: 'cloud', platform: 'MS Copilot' },
+  ]
 }

@@ -12,7 +12,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import Levenshtein
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:4200", "https://fake-news-capstone.web.app/"]}})
+#CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 # Load the sentiment analysis model
