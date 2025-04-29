@@ -15,8 +15,8 @@ from nltk.corpus import wordnet_ic
 brown_ic = wordnet_ic.ic('ic-brown.dat')
 
 app = Flask(__name__)
-CORS(app, resources={
-     r"/*": {"origins": ["http://localhost:4200", "https://fake-news-capstone.web.app/"]}})
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 graph_config = {
     "llm": {
@@ -180,8 +180,6 @@ def submit_data():
         title = data.get('title')
         article = data.get('article')
         article = article[:480]
-        
-
 
         if not title or not article:
             return jsonify({'error': 'Title and article are required'}), 400
