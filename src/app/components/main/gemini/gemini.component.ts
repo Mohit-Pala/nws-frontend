@@ -41,8 +41,8 @@ export class GeminiComponent implements OnInit {
     })
   }
 
-  generateGeminiContent(title: string, article: string) {
-    this.gemini.getGeminiContent(title).then((parsed) => {
+  async generateGeminiContent(title: string, article: string) {
+    await this.gemini.getGeminiContent(title).then((parsed) => {
       if(parsed){
         this.dummyData = parsed
       }

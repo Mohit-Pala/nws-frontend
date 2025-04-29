@@ -1,35 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
+import { BackendOutput } from '../models/backedn-output.model';
+import { ScrapedOutput } from '../models/scraped-output';
 
-export interface BackendOutput {
-  title: string;
-  article: string;
-  message: string;
-  emotion: {
-    anger: number;
-    disgust: number;
-    fear: number;
-    joy: number;
-    sadness: number;
-    surprise: number;
-    neutral: number;
-  };
-  sentiment: {
-    positive: number;
-    negative: number;
-    neutral: number;
-  };
-  metrics: {
-    cosineSim: number;
-    jaccardBigrams: number;
-    jaccardWords: number;
-    lenDif: number;
-    lenRatio: number;
-    normEditDist: number;
-    tfIdfSim: number;
-  };
-}
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +12,11 @@ export class RestApiService {
   private apiUrl = 'http://127.0.0.1:5001/submit';
   private baseUrl = 'http://127.0.0.1:5001';
 
-  constructor(private http: HttpClient) {}
+
+  //   private apiUrl = 'https://150.136.15.83/5001/submit';
+  //   private baseUrl = 'https://150.136.15.83/5001';
+
+  constructor(private http: HttpClient) { }
 
   predict(title: string, text: string): Observable<any> {
     const url = `${this.baseUrl}/predict`;
@@ -53,5 +31,18 @@ export class RestApiService {
 
   async getOutput(title: string, article: string): Promise<BackendOutput> {
     return firstValueFrom(this.http.post<BackendOutput>(this.apiUrl, { title, article }));
+  }
+
+  async predictNew(title: string, article: string): Promise<BackendOutput> {
+    return firstValueFrom(this.http.post<BackendOutput>(`${this.baseUrl}/predict`, { title, article }));
+  }
+
+  async scrapeArticle(url: string): Promise<ScrapedOutput> {
+    return firstValueFrom(this.http.post<ScrapedOutput>(`${this.baseUrl}/scrape`, { url }));
+  }
+
+  async getWordCloud(title: string, article: string) {
+    const url = `https://quickchart.io/wordcloud?text=${article}`
+    return firstValueFrom(this.http.get(url))
   }
 }

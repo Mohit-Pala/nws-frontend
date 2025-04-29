@@ -1,42 +1,134 @@
-<main>
-  <div id="bar-graph"></div>
-  <div id="sentiment-pie"></div>
-  <div id="similarity-radar"></div>
-  <div id="gauge-cosine-similarity"></div>
-  <div id="gauge-tfidf-similarity"></div>
-  <div id="gauge-jaccard-words"></div>
-  <div id="gauge-jaccard-bigrams"></div>
-  <div id="gauge-edit-distance"></div>
+<main class="space-y-8 bg-catppuccinLatteBg text-catppuccinLatteText">
+  <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Emotion Breakdown</h2>
+    <div id="bar-graph"></div>
+  </div>
 
+  <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Sentiment Analysis</h2>
+    <div id="sentiment-pie"></div>
+  </div>
 
-  <div class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          <th scope="col" class="px-6 py-3">
-            Metric
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Your News Article
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Baseline
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let metric of comparision_metrics"  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {{metric.name}}
-          </th>
-          <td class="px-6 py-4">
-            {{metric.your | percent}}
-          </td>
-          <td class="px-6 py-4">
-            {{metric.baseline | percent}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Metrics Bubble Chart</h2>
+    <div id="metrics-bubble"></div>
+  </div>
+
+  <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Metrics Distribution</h2>
+    <div id="metrics-box"></div>
+  </div> -->
+
+  <!-- <div class="grid grid-cols-2 gap-8">
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Cosine Similarity</h2>
+      <div id="gauge-cosine-similarity"></div>
+    </div>
+
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">TF-IDF Similarity</h2>
+      <div id="gauge-tfidf-similarity"></div>
+    </div>
+
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Jaccard Words</h2>
+      <div id="gauge-jaccard-words"></div>
+    </div>
+
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Jaccard Bigrams</h2>
+      <div id="gauge-jaccard-bigrams"></div>
+    </div>
+
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Edit Distance</h2>
+      <div id="gauge-edit-distance"></div>
+    </div>
+  </div> -->
+
+  <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Metric Comparison</h2>
+    <div class="relative overflow-x-auto">
+      <table class="w-full text-sm text-left rtl:text-right">
+        <thead class="text-xs uppercase bg-catppuccinLatteSurface1">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
+              Metric
+            </th>
+            <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
+              Your News Article
+            </th>
+            <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
+              Baseline
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr (click)="show(help.getCosineSimilarity())" class="border-b border-catppuccinLatteFlamingo">
+            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+              Cosine Similarity
+            </th>
+            <td class="px-6 py-4">
+              {{retrivedOutput.metrics.cosineSim | percent}}
+            </td>
+            <td class="px-6 py-4">{{baseline.cosineSim | percent}}</td>
+          </tr>
+          <tr (click)="show(help.getJaccardSimilarityBigrams())" class="border-b border-catppuccinLatteFlamingo">
+            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+              Jaccard Bigrams
+            </th>
+            <td class="px-6 py-4">
+              {{retrivedOutput.metrics.jaccardBigrams | number}}
+            </td>
+            <td class="px-6 py-4">{{baseline.jaccardBigrams | number}}</td>
+          </tr>
+          <tr (click)="show(help.getJaccardSimilarity())" class="border-b border-catppuccinLatteFlamingo">
+            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+              Jaccard Words
+            </th>
+            <td class="px-6 py-4">
+              {{retrivedOutput.metrics.jaccardWords | number}}
+            </td>
+            <td class="px-6 py-4">{{baseline.jaccardWords | number}}</td>
+          </tr>
+          <tr (click)="show(help.getLengthDifference())" class="border-b border-catppuccinLatteFlamingo">
+            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+              Length Difference
+            </th>
+            <td class="px-6 py-4">
+              {{retrivedOutput.metrics.lenDif | number}}
+            </td>
+            <td class="px-6 py-4">{{baseline.lenDif | number}}</td>
+          </tr>
+          <tr (click)="show(help.getLengthRatio())" class="border-b border-catppuccinLatteFlamingo">
+            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+              Length Ratio
+            </th>
+            <td class="px-6 py-4">
+              {{retrivedOutput.metrics.lenRatio | number}}
+            </td>
+            <td class="px-6 py-4">{{baseline.lenRatio | number}}</td>
+          </tr>
+          <tr (click)="show(help.getNormalizedEditDistance())" class="border-b border-catppuccinLatteFlamingo">
+            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+              Normalized Edit Distance
+            </th>
+            <td class="px-6 py-4">
+              {{retrivedOutput.metrics.normEditDist | number}}
+            </td>
+            <td class="px-6 py-4">{{baseline.normEditDist | number}}</td>
+          </tr>
+          <tr (click)="show(help.getTFIDFSimilarity())" class="border-b border-catppuccinLatteFlamingo">
+            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+              TF-IDF Similarity
+            </th>
+            <td class="px-6 py-4">
+              {{retrivedOutput.metrics.tfIdfSim | percent}}
+            </td>
+            <td class="px-6 py-4">{{baseline.tfIdfSim | percent}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </main>
