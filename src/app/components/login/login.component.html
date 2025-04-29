@@ -1,30 +1,30 @@
-<section class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
-  <div class="w-256 space-y-8 bg-white p-8 rounded-lg shadow-md">
+<section class="min-h-screen flex items-center justify-center bg-catppuccinLatteBg py-12 px-4">
+  <div class="w-256 space-y-8 bg-catppuccinLatteSurface p-8 rounded-lg shadow-md border border-catppuccinLatteFlamingo">
     <!-- Create account -->
     <div *ngIf="createAccountShown">
-      <h2 class="mt-6 text-center text-3xl font-extrabold">Create Account</h2>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-catppuccinLatteText">Create Account</h2>
       <form #createAccForm="ngForm" (ngSubmit)="createAccount()" class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm space-y-4">
           <div>
-            <label for="crAccEmail" class="block text-sm font-medium ">Email</label>
+            <label for="crAccEmail" class="block text-sm font-medium text-catppuccinLatteText">Email</label>
             <input id="crAccEmail" name="crAccEmail" type="email" required [(ngModel)]="createAccountDetails.email"
-              class="mt-1 relative block w-full px-3 py-2 border rounded-md">
+              class="mt-1 relative block w-full px-3 py-2 border border-catppuccinLatteFlamingo rounded-lg bg-catppuccinLatteBg text-catppuccinLatteText focus:border-catppuccinLatteBlue focus:outline-none">
           </div>
           <div>
-            <label for="crAccPass" class="block text-sm font-medium ">Password</label>
+            <label for="crAccPass" class="block text-sm font-medium text-catppuccinLatteText">Password</label>
             <input id="crAccPass" name="crAccPass" type="password" required [(ngModel)]="createAccountDetails.password"
-              class="mt-1 relative block w-full px-3 py-2 border rounded-md">
+              class="mt-1 relative block w-full px-3 py-2 border border-catppuccinLatteFlamingo rounded-lg bg-catppuccinLatteBg text-catppuccinLatteText focus:border-catppuccinLatteBlue focus:outline-none">
           </div>
         </div>
-        <div *ngIf="createAccountErrorMessage">Error: {{createAccountErrorMessage}}</div>
+        <div *ngIf="createAccountErrorMessage" class="text-red-500">Error: {{createAccountErrorMessage}}</div>
         <div class="flex items-center justify-between">
           <button type="submit"
-            class="bg-blue-500 cursor-pointer group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md">
+            class="bg-catppuccinLatteBlue cursor-pointer group relative w-full flex justify-center py-2 px-4 text-white text-sm font-medium rounded-lg hover:bg-catppuccinLatteBlue/80 transition-colors">
             Create Account
           </button>
         </div>
         <div class="text-center">
-          <a (click)="createAccountShown = !createAccountShown; createAccForm.reset()" class="text-sm cursor-pointer">
+          <a (click)="createAccountShown = !createAccountShown; createAccForm.reset()" class="text-sm cursor-pointer text-catppuccinLatteBlue hover:underline">
             Already have an account? Login
           </a>
         </div>
@@ -33,30 +33,30 @@
 
     <!-- Login -->
     <div *ngIf="!createAccountShown">
-      <h2 class="mt-6 text-center text-3xl font-extrabold">Sign in to your account</h2>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-catppuccinLatteText">Sign in to your account</h2>
       <form #loginForm="ngForm" (ngSubmit)="signIn()" class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm space-y-4">
           <div>
-            <label for="loginEmail" class="block text-sm font-medium">Email</label>
+            <label for="loginEmail" class="block text-sm font-medium text-catppuccinLatteText">Email</label>
             <input id="loginEmail" name="loginEmail" type="email" required [(ngModel)]="loginDetails.email"
-              class="mt-1 appearance-none relative block w-full px-3 py-2 border rounded-md">
+              class="mt-1 relative block w-full px-3 py-2 border border-catppuccinLatteFlamingo rounded-lg bg-catppuccinLatteBg text-catppuccinLatteText focus:border-catppuccinLatteBlue focus:outline-none">
           </div>
           <div>
-            <label for="loginPass" class="block text-sm font-medium ">Password</label>
+            <label for="loginPass" class="block text-sm font-medium text-catppuccinLatteText">Password</label>
             <input id="loginPass" name="loginPass" type="password" required [(ngModel)]="loginDetails.password"
-              class="mt-1 appearance-none relative block w-full px-3 py-2 border rounded-md">
+              class="mt-1 relative block w-full px-3 py-2 border border-catppuccinLatteFlamingo rounded-lg bg-catppuccinLatteBg text-catppuccinLatteText focus:border-catppuccinLatteBlue focus:outline-none">
           </div>
         </div>
-        <div *ngIf="signInErrorMessage">Error: {{signInErrorMessage}}</div>
+        <div *ngIf="signInErrorMessage" class="text-red-500">Error: {{signInErrorMessage}}</div>
         <div>
           <button type="submit"
-            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md bg-blue-500 cursor-pointer">
+            class="bg-catppuccinLatteBlue cursor-pointer group relative w-full flex justify-center py-2 px-4 text-white text-sm font-medium rounded-lg hover:bg-catppuccinLatteBlue/80 transition-colors">
             Sign in
           </button>
         </div>
         <div class="text-center">
           <a (click)="createAccountShown = !createAccountShown; loginForm.reset()"
-            class="text-sm cursor-pointer">
+            class="text-sm cursor-pointer text-catppuccinLatteBlue hover:underline">
             Dont have an account? Sign Up
           </a>
         </div>

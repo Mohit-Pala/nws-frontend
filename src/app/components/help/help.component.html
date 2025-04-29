@@ -1,6 +1,6 @@
-<main class="rounded-4xl bg-catppuccinLatteBg p-2 mt-2">
-    <h1 class="text-blue-400 font-bold text-4xl text-center mb-8">Understanding Your News Article</h1>
-    <p class="mb-8">
+<main class="rounded-4xl bg-catppuccinLatteBg p-2 mt-2 border-2 border-catppuccinLatteFlamingo">
+    <h1 class="text-catppuccinLatteBlue font-bold text-4xl text-center mb-8">Understanding Your News Article</h1>
+    <p class="text-catppuccinLatteText mb-8">
         Our news article analysis tool uses a variety of metrics to help you understand how well a news article's title
         reflects its content.
         By examining these metrics together, you can gain insights into the relationship between the title and the
@@ -10,8 +10,8 @@
         By gaining these insights from our metrics you can make a well-informed judgement about the quality and accuracy
         of the article.
     </p>
-    <h1 class="text-blue-400 font-bold text-2xl mb-4">Cosine Similarity</h1>
-    <p class="mb-8"> Cosine Similarity is a way to measure the angle between the title's vector and the article's
+    <h1 class="text-catppuccinLatteBlue font-bold text-2xl mb-4">Cosine Similarity</h1>
+    <p class="text-catppuccinLatteText mb-8"> Cosine Similarity is a way to measure the angle between the title's vector and the article's
         vector.
         These vectors represent the text in a high dimensional space. The similarity of two vectors is measured by the
         cosine of the angle between them.
@@ -20,8 +20,8 @@
         are considered different and unrelated, potentially identifying clickbait.
     </p>
 
-    <h1 class="text-blue-400 font-bold text-2xl mb-4">Jaccard Similarity (Bigrams)</h1>
-    <p class="mb-8">
+    <h1 class="text-catppuccinLatteBlue font-bold text-2xl mb-4">Jaccard Similarity (Bigrams)</h1>
+    <p class="text-catppuccinLatteText mb-8">
         This compares the set of bigrams found in the title with the set of bigrams found in the article text. Bigrams
         are pairs of two
         adjacent words in a text. For example, in "the quick brown fox", the bigrams are "the quick", "quick brown", and
@@ -32,16 +32,16 @@
         they share very few common two-word phrases.
     </p>
 
-    <h1 class="text-blue-400 font-bold text-2xl mb-4">Jaccard Similarity (Words)</h1>
-    <p class="mb-8">
+    <h1 class="text-catppuccinLatteBlue font-bold text-2xl mb-4">Jaccard Similarity (Words)</h1>
+    <p class="text-catppuccinLatteText mb-8">
         Similar to the bigram version, this measures the overlap between two sets, but the sets are made up of the
         unique individual words.
         A score closer to 1 indicates a larger overlap of unique words between the title and article and implies they
         are about the same or
         similar topics. A score closer to 0 indicates a lack of overlap.
     </p>
-    <h1 class="text-blue-400 font-bold text-2xl mb-4">Length Difference</h1>
-    <p class="mb-8">
+    <h1 class="text-catppuccinLatteBlue font-bold text-2xl mb-4">Length Difference</h1>
+    <p class="text-catppuccinLatteText mb-8">
         Length Difference measures the absolute difference in the number of characters between the title and the article
         text.
         It is calculated by subtracting the length of one from the other and taking the absolute value of the
@@ -52,8 +52,8 @@
         suggesting that the title is more descriptive and comprehensive or that the article is concise.
     </p>
 
-    <h1 class="text-blue-400 font-bold text-2xl mb-4">Length Ratio</h1>
-    <p class="mb-8">
+    <h1 class="text-catppuccinLatteBlue font-bold text-2xl mb-4">Length Ratio</h1>
+    <p class="text-catppuccinLatteText mb-8">
         Length Ratio is calculated by dividing the length of the title by the length of the article.
         A small length ratio indicates that the title is much shorter than the article. This could mean that the title
         is a very brief summary, or that it's clickbait and omits information.
@@ -63,8 +63,8 @@
         common.
     </p>
 
-    <h1 class="text-blue-400 font-bold text-2xl mb-4">Normalized Edit Distance</h1>
-    <p class="mb-8">
+    <h1 class="text-catppuccinLatteBlue font-bold text-2xl mb-4">Normalized Edit Distance</h1>
+    <p class="text-catppuccinLatteText mb-8">
         Normalized Edit Distance, also known as the Normalized Levenshtein Distance, measures the similarity between the
         title and the article by calculating the minimum number of edits required to change one string into another.
         Edits would include insertions, deletions, or substitutions of characters.
@@ -77,8 +77,8 @@
         title and the article.
     </p>
 
-    <h1 class="text-blue-400 font-bold text-2xl mb-4">TF-IDF Similarity</h1>
-    <p class="mb-8">
+    <h1 class="text-catppuccinLatteBlue font-bold text-2xl mb-4">TF-IDF Similarity</h1>
+    <p class="text-catppuccinLatteText mb-8">
         TF-IDF (Term Frequency-Inverse Document Frequency) Similarity is a measure used to determine how relevant a word
         is to a document within a collection of documents.
         In our case, we use it to measure the similarity between the title and the article.
