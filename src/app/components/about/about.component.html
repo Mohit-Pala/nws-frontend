@@ -1,6 +1,6 @@
-<div class="px-24 space-y-8 bg-catppuccinLatteBg text-catppuccinLatteText">
+<div class="px-24 space-y-8 bg-catppuccinLatteBg text-catppuccinLatteText p-2 mt-2 rounded-4xl border-2 border-catppuccinLatteFlamingo">
 
-  <div class="text-center mb-8">
+  <div class="text-center mb-8 pt-8">
     <h1 class="text-3xl font-bold mb-2">{{projectName}}</h1>
     <p class="text-catppuccinLatteSubtext">Version {{version}}</p>
     <a [href]="githubPage" class="text-catppuccinLatteBlue hover:underline">GitHub Repository</a>
@@ -21,6 +21,21 @@
         <a [href]="contributor.github" class="text-catppuccinLatteBlue hover:underline">{{contributor.github}}</a>
       </div>
     </div>
+  </div>
+
+  <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold">Sources & References</h2>
+      <select [(ngModel)]="selectedType" class="bg-catppuccinLatteCrust text-catppuccinLatteText px-3 py-1 rounded">
+        <option *ngFor="let type of types" [value]="type">{{type}}</option>
+      </select>
+    </div>
+    <ul class="list-disc list-inside space-y-2">
+      <li *ngFor="let source of getSortedSources()">
+        <a [href]="source.link" class="text-catppuccinLatteBlue hover:underline">{{source.name}}</a>
+        <span class="text-catppuccinLatteSubtext ml-2">({{source.type}})</span>
+      </li>
+    </ul>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

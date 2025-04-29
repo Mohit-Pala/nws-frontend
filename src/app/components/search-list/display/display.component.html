@@ -1,55 +1,107 @@
-<main class="px-24 space-y-8 bg-catppuccinLatteBg text-catppuccinLatteText">
-    <div id="loading" class="space-y-6">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold mb-2">{{retrivedSearch.title.join(' ')}}</h1>
-        </div>
+<main
+  class="px-24 space-y-8 bg-catppuccinLatteBg text-catppuccinLatteText p-2 mt-2 rounded-4xl border-2 border-catppuccinLatteFlamingo">
+  <div id="loading" class="space-y-6">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold mb-2">{{retrivedSearch.title.join(' ')}}</h1>
+    </div>
 
-        <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
-            <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Emotion Breakdown</h2>
-            <div id="emotions"></div>
-        </div>
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Emotion Breakdown</h2>
+      <div id="emotions"></div>
+    </div>
 
-        <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
-            <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Sentiment Breakdown</h2>
-            <div id="sentiments"></div>
-        </div>
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Sentiment Breakdown</h2>
+      <div id="sentiments"></div>
+    </div>
 
-        <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
-            <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Metric Comparison</h2>
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left rtl:text-right">
-                    <thead class="text-xs uppercase bg-catppuccinLatteSurface1">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
-                                Metric
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
-                                Your News Article
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
-                                Baseline
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let metric of comparisionMetris"
-                            class="border-b border-catppuccinLatteFlamingo">
-                            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer" (click)="show(metric.explanation)">
-                                {{metric.name}}
-                            </th>
-                            <td class="px-6 py-4">
-                                {{metric.your | percent}}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{metric.baseline | percent}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Metric Comparison</h2>
+      <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left rtl:text-right">
+          <thead class="text-xs uppercase bg-catppuccinLatteSurface1">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
+                Metric
+              </th>
+              <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
+                Your News Article
+              </th>
+              <th scope="col" class="px-6 py-3 text-catppuccinLatteSubtext">
+                Baseline
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr (click)="show(help.getCosineSimilarity())" class="border-b border-catppuccinLatteFlamingo">
+              <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+                Cosine Similarity
+              </th>
+              <td class="px-6 py-4">
+                {{retrivedSearch.model.cosineSim | percent}}
+              </td>
+              <td class="px-6 py-4">{{0.7919469343423844| percent}}</td>
+            </tr>
+            <tr (click)="show(help.getJaccardSimilarityBigrams())" class="border-b border-catppuccinLatteFlamingo">
+              <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+                Jaccard Bigrams
+              </th>
+              <td class="px-6 py-4">
+                {{retrivedSearch.model.jaccardBigrams | number}}
+              </td>
+              <td class="px-6 py-4">{{0.007854583366040075 | number}}</td>
+            </tr>
+            <tr (click)="show(help.getJaccardSimilarity())" class="border-b border-catppuccinLatteFlamingo">
+              <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+                Jaccard Words
+              </th>
+              <td class="px-6 py-4">
+                {{retrivedSearch.model.jaccardWords | number}}
+              </td>
+              <td class="px-6 py-4">{{0.035230973085365005 | number}}</td>
+            </tr>
+            <tr (click)="show(help.getLengthDifference())" class="border-b border-catppuccinLatteFlamingo">
+              <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+                Length Difference
+              </th>
+              <td class="px-6 py-4">
+                {{retrivedSearch.model.lenDif | number}}
+              </td>
+              <td class="px-6 py-4">{{2736.66 | number}}</td>
+            </tr>
+            <tr (click)="show(help.getLengthRatio())" class="border-b border-catppuccinLatteFlamingo">
+              <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+                Length Ratio
+              </th>
+              <td class="px-6 py-4">
+                {{retrivedSearch.model.lenRatio | number}}
+              </td>
+              <td class="px-6 py-4">{{ 0.03778615810327395| number}}</td>
+            </tr>
+            <tr (click)="show(help.getNormalizedEditDistance())" class="border-b border-catppuccinLatteFlamingo">
+              <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+                Normalized Edit Distance
+              </th>
+              <td class="px-6 py-4">
+                {{retrivedSearch.model.normEditDist | number}}
+              </td>
+              <td class="px-6 py-4">{{0.03616429257168752 | number}}</td>
+            </tr>
+            <tr (click)="show(help.getTFIDFSimilarity())" class="border-b border-catppuccinLatteFlamingo">
+              <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
+                TF-IDF Similarity
+              </th>
+              <td class="px-6 py-4">
+                {{retrivedSearch.model.tfIdfSim | percent}}
+              </td>
+              <td class="px-6 py-4">{{0.19162804064123354 | percent}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-        <!-- <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+    <!-- <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
             <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Gemini Output</h2>
             <ul class="space-y-4 list-disc list-inside">
                 <li class="text-catppuccinLatteText">
@@ -76,39 +128,35 @@
             </ul>
         </div> -->
 
-        <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
-            <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">GPT Output</h2>
-            <ul class="space-y-4 list-disc list-inside">
-                <li class="text-catppuccinLatteText">
-                    <span class="font-semibold">Facts</span>
-                    <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside" 
-                        *ngFor="let fact of retrivedSearch.gpt.facts">
-                        <li>{{fact}}</li>
-                    </ol>
-                </li>
-                <li class="text-catppuccinLatteText">
-                    <span class="font-semibold">Sources</span>
-                    <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside"
-                        *ngFor="let source of retrivedSearch.gpt.source">
-                        <li>{{source}}</li>
-                    </ul>
-                </li>
-                <li class="text-catppuccinLatteText">
-                    <span class="font-semibold">Keywords</span>
-                    <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside"
-                        *ngFor="let keyword of retrivedSearch.gpt.words">
-                        <li>{{keyword}}</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+    <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
+      <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">GPT Output</h2>
+      <ul class="space-y-4 list-disc list-inside">
+        <li class="text-catppuccinLatteText">
+          <span class="font-semibold">Facts</span>
+          <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside" *ngFor="let fact of retrivedSearch.gpt.facts">
+            <li>{{fact}}</li>
+          </ol>
+        </li>
+        <li class="text-catppuccinLatteText">
+          <span class="font-semibold">Sources</span>
+          <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside" *ngFor="let source of retrivedSearch.gpt.source">
+            <li>{{source}}</li>
+          </ul>
+        </li>
+        <li class="text-catppuccinLatteText">
+          <span class="font-semibold">Keywords</span>
+          <ul class="ps-5 mt-2 space-y-1 list-decimal list-inside" *ngFor="let keyword of retrivedSearch.gpt.words">
+            <li>{{keyword}}</li>
+          </ul>
+        </li>
+      </ul>
     </div>
+  </div>
 
-    <div class="text-center mt-4">
-        <button 
-            (click)="test()"
+  <!-- <div class="text-center mt-4">
+        <button (click)="test()"
             class="bg-catppuccinLatteSurface1 text-catppuccinLatteText px-4 py-2 rounded hover:bg-catppuccinLatteSurface transition-colors">
             Update Data
         </button>
-    </div>
+    </div> -->
 </main>

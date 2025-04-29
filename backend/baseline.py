@@ -10,8 +10,8 @@ import Levenshtein
 dataset_file = 'data/True.csv' 
 output_file = 'data/baselines.json' 
 model_name = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
-sample_size = 500
-random_state = 42
+start_row = 8000
+num_rows = 500
 
 # Load models
 print(f"Loading tokenizer and model: {model_name}")
@@ -25,7 +25,6 @@ except Exception as e:
     models_loaded = False
     tokenizer = None
     model = None
-
 
 def get_ngrams(text, n):
     text = text.lower()
@@ -101,18 +100,19 @@ def calculate_metrics_for_pair(title, article, tokenizer, model):
 # Main Calculation Logic
 print(f"Loading dataset from {dataset_file}...")
 try:
-    df_full = pd.read_csv(dataset_file)
-    if 'title' not in df_full.columns or 'text' not in df_full.columns:
+    df = pd.read_csv(dataset_file, skiprows=range(1, start_row+1), nrows=num_rows)
+    if 'title' not in df.columns or 'text' not in df.columns:
         raise ValueError("Dataset must contain 'title' and 'text' columns.")
-    print(f"Dataset loaded with {len(df_full)} entries.")
-    print(f"Taking a simple random sample of {sample_size} entries...")
-    df = df_full.sample(n=sample_size, random_state=random_state)
-    print(f"Sampled {len(df)} entries.")
+    print(f"Dataset loaded with {len(df)} entries.")
 except Exception as e:
     print(f"Error loading dataset: {e}")
     exit()
 
-all_metrics = []
+# Initialize running totals and counts for each metric
+metric_sums = {}
+metric_counts = {}
+processed_count = 0
+
 print("Calculating metrics for each entry...")
 for index, row in df.iterrows():
     title = str(row['title'])
@@ -124,44 +124,32 @@ for index, row in df.iterrows():
         continue
 
     calculated = calculate_metrics_for_pair(title, text, tokenizer, model)
-    all_metrics.append(calculated)
+    
+    # Update running totals and counts
+    for key, value in calculated.items():
+        if value is not None and np.isfinite(value):
+            metric_sums[key] = metric_sums.get(key, 0) + value
+            metric_counts[key] = metric_counts.get(key, 0) + 1
 
+    processed_count += 1
+    
+    # Calculate and save current averages
+    baseline_averages = {}
+    for key in metric_sums.keys():
+        if metric_counts[key] > 0:
+            baseline_averages[key] = metric_sums[key] / metric_counts[key]
+        else:
+            baseline_averages[key] = 0
+    
+    # Save after each iteration
+    print(f"\rProcessed {processed_count}/{len(df)} entries...", end="")
+    try:
+        with open(output_file, 'w') as f:
+            json.dump(baseline_averages, f, indent=4)
+    except Exception as e:
+        print(f"\nError saving baselines: {e}")
+        continue
 
-print(f"Finished calculating metrics for {len(all_metrics)} entries.")
-
-# Aggregate and Average
-print("Calculating average baselines...")
-if not all_metrics:
-    print("No metrics.")
-    exit()
-
-baseline_averages = {}
-# Get metric keys
-metric_keys = []
-first_valid_result = next((m for m in all_metrics if m is not None), None)
-if first_valid_result:
-    metric_keys = [k for k, v in first_valid_result.items() if v is not None]
-else:
-    print("No results.")
-    # metric_keys = ['cosineSim', 'jaccardWords', 'jaccardBigrams', 'tfIdfSim', 'normEditDist', 'lenDif', 'lenRatio']
-
-
-for key in metric_keys:
-    valid_values = [m[key] for m in all_metrics if m is not None and key in m and m[key] is not None and np.isfinite(m[key])] # Filter None and non-finite values like inf
-    if valid_values:
-        baseline_averages[key] = np.mean(valid_values)
-    else:
-        baseline_averages[key] = 0
-
-
-print("Calculated Baselines:")
+print("\nFinished processing all entries.")
+print("Final Calculated Baselines:")
 print(json.dumps(baseline_averages, indent=4))
-
-# Save baseline
-print(f"Saving baselines to {output_file}...")
-try:
-    with open(output_file, 'w') as f:
-        json.dump(baseline_averages, f, indent=4)
-    print("Baselines saved.")
-except Exception as e:
-    print(f"Error saving baselines.")

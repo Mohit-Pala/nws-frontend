@@ -1,4 +1,4 @@
-<main class="px-24 space-y-8 bg-catppuccinLatteBg text-catppuccinLatteText">
+<main class="space-y-8 bg-catppuccinLatteBg text-catppuccinLatteText">
   <div class="bg-catppuccinLatteSurface p-6 rounded-lg">
     <h2 class="text-xl text-catppuccinLatteSubtext font-semibold mb-4">Emotion Breakdown</h2>
     <div id="bar-graph"></div>
@@ -71,52 +71,52 @@
             <td class="px-6 py-4">
               {{retrivedOutput.metrics.cosineSim | percent}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.cosineSim | percent}}</td>
           </tr>
           <tr (click)="show(help.getJaccardSimilarityBigrams())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
               Jaccard Bigrams
             </th>
             <td class="px-6 py-4">
-              {{retrivedOutput.metrics.jaccardBigrams}}
+              {{retrivedOutput.metrics.jaccardBigrams | number}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.jaccardBigrams | number}}</td>
           </tr>
           <tr (click)="show(help.getJaccardSimilarity())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
               Jaccard Words
             </th>
             <td class="px-6 py-4">
-              {{retrivedOutput.metrics.jaccardWords}}
+              {{retrivedOutput.metrics.jaccardWords | number}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.jaccardWords | number}}</td>
           </tr>
           <tr (click)="show(help.getLengthDifference())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
               Length Difference
             </th>
             <td class="px-6 py-4">
-              {{retrivedOutput.metrics.lenDif}}
+              {{retrivedOutput.metrics.lenDif | number}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.lenDif | number}}</td>
           </tr>
           <tr (click)="show(help.getLengthRatio())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
               Length Ratio
             </th>
             <td class="px-6 py-4">
-              {{retrivedOutput.metrics.lenRatio}}
+              {{retrivedOutput.metrics.lenRatio | number}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.lenRatio | number}}</td>
           </tr>
           <tr (click)="show(help.getNormalizedEditDistance())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
               Normalized Edit Distance
             </th>
             <td class="px-6 py-4">
-              {{retrivedOutput.metrics.normEditDist}}
+              {{retrivedOutput.metrics.normEditDist | number}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.normEditDist | number}}</td>
           </tr>
           <tr (click)="show(help.getTFIDFSimilarity())" class="border-b border-catppuccinLatteFlamingo">
             <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap hover:cursor-pointer">
@@ -125,7 +125,7 @@
             <td class="px-6 py-4">
               {{retrivedOutput.metrics.tfIdfSim | percent}}
             </td>
-            <td class="px-6 py-4"></td>
+            <td class="px-6 py-4">{{baseline.tfIdfSim | percent}}</td>
           </tr>
         </tbody>
       </table>

@@ -1,25 +1,25 @@
-import { ModelComponent } from "./model/model.component";
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
 import { Component, inject, ViewChild } from '@angular/core';
-import { GptComponent } from "./gpt/gpt.component";
-import { SentimentModelComponent } from './sentiment-model/sentiment-model.component';
+import { FormsModule, NgForm } from '@angular/forms';
 import { RestApiService } from '../../services/rest-api.service';
-import { BackendOutput } from "../../models/backedn-output.model";
-import { Search } from "../../models/search.model";
-import { FirestoreService } from "../../services/firestore.service";
-import { removeStopwords } from "stopword";
+import { removeStopwords } from 'stopword';
+import { BackendOutput } from '../../models/backedn-output.model';
+import { Search } from '../../models/search.model';
+import { FirestoreService } from '../../services/firestore.service';
+import { GptComponent } from '../main/gpt/gpt.component';
+import { ModelComponent } from '../main/model/model.component';
 import { LoadingComponent } from "../loading/loading.component";
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-main',
-  standalone: true,
-  imports: [ModelComponent, CommonModule, FormsModule, GptComponent, LoadingComponent],
-  templateUrl: './main.component.html',
-  styleUrl: './main.component.css'
+  selector: 'app-experimental',
+  imports: [CommonModule, FormsModule, GptComponent, ModelComponent, LoadingComponent],
+  templateUrl: './experimental.component.html',
+  styleUrl: './experimental.component.css'
 })
-export class MainComponent {
+export class ExperimentalComponent {
+
+
   restApi = inject(RestApiService);
   apiData: BackendOutput | null = null; // Data to be passed to ModelComponent
   showSentimentModel: boolean = false;
@@ -32,6 +32,7 @@ export class MainComponent {
 
   title!: string;
   article!: string;
+  url = ''
 
   wordCloudSource = `https://quickchart.io/wordcloud?text=${this.article}`
 
@@ -78,6 +79,14 @@ export class MainComponent {
 
     this.submitted = true
 
+    await this.restApi.scrapeArticle(this.url).then((res) => {
+      console.log(res)
+      this.title = res.content.title
+      this.article = res.content.article
+    }).catch((err) => {
+      console.log(err)
+    })
+
     const newArticle = removeStopwords(this.article.split(' ')).join(' ')
     console.log(newArticle)
 
@@ -115,8 +124,7 @@ export class MainComponent {
 
   putInDatabase() {
 
-
-    if (this.title === '' || this.article === '' || this.title === undefined || this.article === undefined) {
+    if(this.title === '' || this.article === '' || this.title === undefined || this.article === undefined) {
       alert('Title or article is empty')
       return
     }

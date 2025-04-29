@@ -1,14 +1,31 @@
+import json
+import Levenshtein
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
+from apiKeys import openAiKey
+from scrapegraphai.graphs import SmartScraperGraph
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from transformers import pipeline, AutoTokenizer, AutoModel
 import torch
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-import Levenshtein
-import os
+import nltk
+from nltk.translate.bleu_score import sentence_bleu
+from nltk.corpus import wordnet as wn
+from nltk.corpus import wordnet_ic
+brown_ic = wordnet_ic.ic('ic-brown.dat')
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+
+graph_config = {
+    "llm": {
+        "api_key": openAiKey,
+        "model": "openai/gpt-4o-mini",
+    },
+    "verbose": True,
+    "headless": False,
+}
 
 
 # Load the sentiment analysis model
@@ -93,7 +110,8 @@ def predict():
 
         print("Calculating... ")
         # Cosine similarity
-        inputs_title = tokenizer(title, return_tensors="pt", truncation=True)
+        inputs_title = tokenizer(
+            title, return_tensors="pt", truncation=True)
         inputs_article = tokenizer(
             article, return_tensors="pt", truncation=True)
         similarity_score = similarity(
@@ -161,7 +179,6 @@ def submit_data():
             return jsonify({'error': 'No data provided'}), 400
         title = data.get('title')
         article = data.get('article')
-        # clamp to 480 words to not exceed 514 tokens
         article = article[:480]
 
         if not title or not article:
@@ -219,6 +236,60 @@ def submit_data():
         return jsonify({'error': 'Internal server error'}), 500
 
 
+@app.route('/scrape', methods=['POST'])
+def scrapeFromUrl():
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'No data provided'}), 400
+    url = data.get('url')
+
+    # Create the SmartScraperGraph instance
+    smart_scraper_graph = SmartScraperGraph(
+        prompt="You are provided a URL to most likely a news site. Format in form of title, and article",
+        source=url,
+        config=graph_config
+    )
+
+    result = smart_scraper_graph.run()
+    print(json.dumps(result, indent=4))
+    
+    # If result is a string containing JSON, parse it first
+    if isinstance(result.get('content'), str):
+        try:
+            content = json.loads(result['content'])
+            result['content'] = content
+        except json.JSONDecodeError:
+            pass  # Keep original content if it's not JSON
+    
+    return jsonify(result)
+
+
 if __name__ == '__main__':
-    # app.run(debug=True, port=5001)
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5001)))
+    app.run(debug=True, port=5001, use_reloader=False)
+
+
+# from apiKeys import openAiKey
+
+# from scrapegraphai.graphs import SmartScraperGraph
+
+# graph_config = {
+#    "llm": {
+#        "api_key": openAiKey,
+#        "model": "openai/gpt-4o-mini",
+#    },
+#    "verbose": True,
+#    "headless": False,
+# }
+
+# # Create the SmartScraperGraph instance
+# smart_scraper_graph = SmartScraperGraph(
+#     prompt="You are provided a URL to most likely a news site. Format in form of title, and article. Only extract the article title and the article body. Do not include any other information. Clean up any special characters, if you see escaped characters, remove them. Do not include any HTML tags. Do not include any links. Do not include any images. Do not include any videos. Do not include any audio. Do not include any tables. Do not include any lists. Do not include any quotes. Do not include any references.",
+#     source="https://www.npr.org/2025/04/25/nx-s1-5374984/pope-francis-funeral-how-to-watch",
+#     config=graph_config
+# )
+
+# # Run the pipeline
+# result = smart_scraper_graph.run()
+
+# import json
+# print(json.dumps(result))

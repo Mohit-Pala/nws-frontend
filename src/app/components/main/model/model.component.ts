@@ -7,7 +7,9 @@ import { RestApiService } from '../../../services/rest-api.service';
 import { ConverterService } from '../../../services/converter.service';
 import { BackendOutput } from '../../../models/backedn-output.model';
 import { HelpService } from '../../../services/help.service';
+import { BaselineOutput } from '../../../models/baseline.model';
 
+const baselines = new BaselineOutput();
 @Component({
   selector: 'app-model',
   standalone: true,
@@ -62,15 +64,17 @@ export class ModelComponent {
     }
   }
 
-  comparisionMetris: ComparisonMetric[] = [
-    { name: 'Cosine Similarity', your: this.retrivedOutput.metrics.cosineSim, baseline: 0.9, explanation: this.help.getCosineSimilarity() },
-    { name: 'Jaccard Bigrams', your: this.retrivedOutput.metrics.jaccardBigrams, baseline: 0.8, explanation: this.help.getJaccardSimilarityBigrams() },
-    { name: 'Jaccard Words', your: this.retrivedOutput.metrics.jaccardWords, baseline: 0.7, explanation: this.help.getJaccardSimilarity() },
-    { name: 'Length Difference', your: this.retrivedOutput.metrics.lenDif, baseline: 10, explanation: this.help.getLengthDifference() },
-    { name: 'Length Ratio', your: this.retrivedOutput.metrics.lenRatio, baseline: 1.5, explanation: this.help.getLengthRatio() },
-    { name: 'Normalized Edit Distance', your: this.retrivedOutput.metrics.normEditDist, baseline: 2, explanation: this.help.getNormalizedEditDistance() },
-    { name: 'TF-IDF Similarity', your: this.retrivedOutput.metrics.tfIdfSim, baseline: 0.9, explanation: this.help.getTFIDFSimilarity() }
-  ]
+  baseline: any = {
+    cosineSim: 0.7919469343423844,
+    jaccardWords: 0.035230973085365005,
+    jaccardBigrams: 0.007854583366040075,
+    tfIdfSim: 0.19162804064123354,
+    normEditDist: 0.03616429257168752,
+    lenDif: 2736.466,
+    lenRatio: 0.03778615810327395
+  };
+
+  comparisionMetris: ComparisonMetric[] = []
 
   show(message: string) {
     alert(message)
@@ -108,13 +112,13 @@ export class ModelComponent {
     console.log("retrivedOutput:", this.retrivedOutput)
 
     this.comparisionMetris = [
-      { name: 'Cosine Similarity', your: this.retrivedOutput.metrics.cosineSim, baseline: 0.9, explanation: this.help.getCosineSimilarity() },
-      { name: 'Jaccard Bigrams', your: this.retrivedOutput.metrics.jaccardBigrams, baseline: 0.8, explanation: this.help.getJaccardSimilarityBigrams() },
-      { name: 'Jaccard Words', your: this.retrivedOutput.metrics.jaccardWords, baseline: 0.7, explanation: this.help.getJaccardSimilarity() },
-      { name: 'Length Difference', your: this.retrivedOutput.metrics.lenDif, baseline: 10, explanation: this.help.getLengthDifference() },
-      { name: 'Length Ratio', your: this.retrivedOutput.metrics.lenRatio, baseline: 1.5, explanation: this.help.getLengthRatio() },
-      { name: 'Normalized Edit Distance', your: this.retrivedOutput.metrics.normEditDist, baseline: 2, explanation: this.help.getNormalizedEditDistance() },
-      { name: 'TF-IDF Similarity', your: this.retrivedOutput.metrics.tfIdfSim, baseline: 0.9, explanation: this.help.getTFIDFSimilarity() }
+      { name: 'Cosine Similarity', your: this.retrivedOutput.metrics.cosineSim, baseline: baselines.cosineSim, explanation: this.help.getCosineSimilarity() },
+      { name: 'Jaccard Bigrams', your: this.retrivedOutput.metrics.jaccardBigrams, baseline: baselines.jaccardBigrams, explanation: this.help.getJaccardSimilarityBigrams() },
+      { name: 'Jaccard Words', your: this.retrivedOutput.metrics.jaccardWords, baseline: baselines.jaccardWords, explanation: this.help.getJaccardSimilarity() },
+      { name: 'Length Difference', your: this.retrivedOutput.metrics.lenDif, baseline: baselines.lenDif, explanation: this.help.getLengthDifference() },
+      { name: 'Length Ratio', your: this.retrivedOutput.metrics.lenRatio, baseline: baselines.lenRatio, explanation: this.help.getLengthRatio() },
+      { name: 'Normalized Edit Distance', your: this.retrivedOutput.metrics.normEditDist, baseline: baselines.normEditDist, explanation: this.help.getNormalizedEditDistance() },
+      { name: 'TF-IDF Similarity', your: this.retrivedOutput.metrics.tfIdfSim, baseline: baselines.tfIdfSim, explanation: this.help.getTFIDFSimilarity() }
     ]
 
     this.plotGraphs()
