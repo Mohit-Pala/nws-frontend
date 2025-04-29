@@ -69,7 +69,10 @@ export class SearchListComponent implements OnInit {
       alert('Please enter at least 3 characters')
       return
     }
-    this.searches = this.items.filter(item => {item.item.title.includes(this.searchTerm.toLowerCase())})
+    this.searches = this.items.filter(item => 
+      item.item.title.some(titleItem => titleItem.toLowerCase().includes(this.searchTerm.toLowerCase()))
+    )
+    this.items = this.searches;
     if(this.searches.length == 0) {
       alert('No results found')
       this.getAllData()

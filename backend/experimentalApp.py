@@ -245,18 +245,27 @@ def scrapeFromUrl():
 
     # Create the SmartScraperGraph instance
     smart_scraper_graph = SmartScraperGraph(
-        prompt="You are provided a URL to most likely a news site. Format in form of title, and article. Only extract the article title and the article body. Do not include any other information. Clean up any special characters, if you see escaped characters, remove them. Do not include any HTML tags. Do not include any links. Do not include any images. Do not include any videos. Do not include any audio. Do not include any tables. Do not include any lists. Do not include any quotes. Do not include any references.",
+        prompt="You are provided a URL to most likely a news site. Format in form of title, and article",
         source=url,
         config=graph_config
     )
 
     result = smart_scraper_graph.run()
     print(json.dumps(result, indent=4))
+    
+    # If result is a string containing JSON, parse it first
+    if isinstance(result.get('content'), str):
+        try:
+            content = json.loads(result['content'])
+            result['content'] = content
+        except json.JSONDecodeError:
+            pass  # Keep original content if it's not JSON
+    
     return jsonify(result)
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5001, use_reloader=False)
 
 
 # from apiKeys import openAiKey
