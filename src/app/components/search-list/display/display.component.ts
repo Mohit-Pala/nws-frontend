@@ -7,7 +7,9 @@ import { ConverterService } from '../../../services/converter.service';
 import { HelpService } from '../../../services/help.service';
 import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from '../../../services/firestore.service';
+import { BaselineOutput } from '../../../models/baseline.model';
 
+const baseline = new BaselineOutput();
 @Component({
   selector: 'app-display',
   imports: [CommonModule],
