@@ -9,6 +9,7 @@ import { FirestoreService } from '../../services/firestore.service';
 import { GptComponent } from '../main/gpt/gpt.component';
 import { ModelComponent } from '../main/model/model.component';
 import { LoadingComponent } from "../loading/loading.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-experimental',
@@ -23,6 +24,7 @@ export class ExperimentalComponent {
   apiData: BackendOutput | null = null; // Data to be passed to ModelComponent
   showSentimentModel: boolean = false;
   firestoreService = inject(FirestoreService)
+  router = inject(Router)
 
 
   @ViewChild(GptComponent) gptComponent!: GptComponent
@@ -121,8 +123,15 @@ export class ExperimentalComponent {
   }
 
   putInDatabase() {
+
+    if(this.title === '' || this.article === '' || this.title === undefined || this.article === undefined) {
+      alert('Title or article is empty')
+      return
+    }
+
     this.firestoreService.putData(this.sendToDb).then(() => {
       console.log('Data sent to Firestore')
+      this.router.navigate(['/search'])
     }).catch(() => {
       console.error()
     })

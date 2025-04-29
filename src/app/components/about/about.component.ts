@@ -24,7 +24,7 @@ export class AboutComponent {
 
   projectName: string = 'News Analyzer'
 
-  version = '0.7.0'
+  version = 'FINAL'
 
   githubPage = 'https://github.com/Mohit-Pala/nws-frontend'
 

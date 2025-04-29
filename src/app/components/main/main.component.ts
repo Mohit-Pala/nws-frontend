@@ -10,6 +10,7 @@ import { Search } from "../../models/search.model";
 import { FirestoreService } from "../../services/firestore.service";
 import { removeStopwords } from "stopword";
 import { LoadingComponent } from "../loading/loading.component";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-main',
@@ -23,6 +24,7 @@ export class MainComponent {
   apiData: BackendOutput | null = null; // Data to be passed to ModelComponent
   showSentimentModel: boolean = false;
   firestoreService = inject(FirestoreService)
+  router = inject(Router)
 
 
   @ViewChild(GptComponent) gptComponent!: GptComponent
@@ -112,8 +114,16 @@ export class MainComponent {
   }
 
   putInDatabase() {
+
+
+    if (this.title === '' || this.article === '' || this.title === undefined || this.article === undefined) {
+      alert('Title or article is empty')
+      return
+    }
+
     this.firestoreService.putData(this.sendToDb).then(() => {
       console.log('Data sent to Firestore')
+      this.router.navigate(['/search'])
     }).catch(() => {
       console.error()
     })
